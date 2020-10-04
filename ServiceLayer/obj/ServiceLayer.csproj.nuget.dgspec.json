@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\ServiceLayer\\ServiceLayer.csproj": {}
+    "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\ServiceLayer\\ServiceLayer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\ServiceLayer\\ServiceLayer.csproj": {
+    "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\ServiceLayer\\ServiceLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\ServiceLayer\\ServiceLayer.csproj",
+        "projectUniqueName": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\ServiceLayer\\ServiceLayer.csproj",
         "projectName": "ServiceLayer",
-        "projectPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\ServiceLayer\\ServiceLayer.csproj",
+        "projectPath": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\ServiceLayer\\ServiceLayer.csproj",
         "packagesPath": "C:\\Users\\elgav\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\ServiceLayer\\obj\\",
+        "outputPath": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\ServiceLayer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"

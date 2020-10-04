@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xU83/04KC8MsGrvxrc5JqUKDH/t5KTqWCUsmE9UVwkcgfL8eU+v0rVMJeAP1JVLPvy16xqSntZdXEaEDudkBZg==",
+  "dgSpecHash": "XxH3rISgBxcvFQJLPZ2smpFNbhHpqE4ameQw9RpWeNW6CAzuho7ymtw5OXeiaJiYEmX00YcPCiID5DlaQGu+1g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\EntregaIndividual\\UdelarOnlineApi.csproj",
+  "projectFilePath": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\EntregaIndividual\\UdelarOnlineApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\elgav\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\elgav\\.nuget\\packages\\microsoft.bcl.hashcode\\1.1.0\\microsoft.bcl.hashcode.1.1.0.nupkg.sha512",

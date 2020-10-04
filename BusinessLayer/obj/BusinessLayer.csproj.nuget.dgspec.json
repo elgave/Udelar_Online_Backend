@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\BusinessLayer\\BusinessLayer.csproj": {}
+    "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\BusinessLayer\\BusinessLayer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\BusinessLayer\\BusinessLayer.csproj": {
+    "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\BusinessLayer\\BusinessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\BusinessLayer\\BusinessLayer.csproj",
+        "projectUniqueName": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\BusinessLayer\\BusinessLayer.csproj",
         "projectName": "BusinessLayer",
-        "projectPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\BusinessLayer\\BusinessLayer.csproj",
+        "projectPath": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\BusinessLayer\\BusinessLayer.csproj",
         "packagesPath": "C:\\Users\\elgav\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\BusinessLayer\\obj\\",
+        "outputPath": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\BusinessLayer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -31,11 +31,11 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\DataAccessLayer\\DataAccessLayer.csproj": {
-                "projectPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\DataAccessLayer\\DataAccessLayer.csproj"
+              "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\DataAccessLayer\\DataAccessLayer.csproj": {
+                "projectPath": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\DataAccessLayer\\DataAccessLayer.csproj"
               },
-              "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\Utilidades\\Utilidades.csproj": {
-                "projectPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\Utilidades\\Utilidades.csproj"
+              "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\Utilidades\\Utilidades.csproj": {
+                "projectPath": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\Utilidades\\Utilidades.csproj"
               }
             }
           }
@@ -67,14 +67,14 @@
         }
       }
     },
-    "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\DataAccessLayer\\DataAccessLayer.csproj": {
+    "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\DataAccessLayer\\DataAccessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\DataAccessLayer\\DataAccessLayer.csproj",
+        "projectUniqueName": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\DataAccessLayer\\DataAccessLayer.csproj",
         "projectName": "DataAccessLayer",
-        "projectPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\DataAccessLayer\\DataAccessLayer.csproj",
+        "projectPath": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\DataAccessLayer\\DataAccessLayer.csproj",
         "packagesPath": "C:\\Users\\elgav\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\DataAccessLayer\\obj\\",
+        "outputPath": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\DataAccessLayer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -94,8 +94,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\Utilidades\\Utilidades.csproj": {
-                "projectPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\Utilidades\\Utilidades.csproj"
+              "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\Utilidades\\Utilidades.csproj": {
+                "projectPath": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\Utilidades\\Utilidades.csproj"
               }
             }
           }
@@ -143,14 +143,14 @@
         }
       }
     },
-    "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\Utilidades\\Utilidades.csproj": {
+    "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\Utilidades\\Utilidades.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\Utilidades\\Utilidades.csproj",
+        "projectUniqueName": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\Utilidades\\Utilidades.csproj",
         "projectName": "Utilidades",
-        "projectPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\Utilidades\\Utilidades.csproj",
+        "projectPath": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\Utilidades\\Utilidades.csproj",
         "packagesPath": "C:\\Users\\elgav\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\Utilidades\\obj\\",
+        "outputPath": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\Utilidades\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"

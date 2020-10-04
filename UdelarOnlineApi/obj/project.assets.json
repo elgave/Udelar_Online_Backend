@@ -5711,11 +5711,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\EntregaIndividual\\UdelarOnlineApi.csproj",
+      "projectUniqueName": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\EntregaIndividual\\UdelarOnlineApi.csproj",
       "projectName": "UdelarOnlineApi",
-      "projectPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\EntregaIndividual\\UdelarOnlineApi.csproj",
+      "projectPath": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\EntregaIndividual\\UdelarOnlineApi.csproj",
       "packagesPath": "C:\\Users\\elgav\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\EntregaIndividual\\obj\\",
+      "outputPath": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\EntregaIndividual\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -5735,11 +5735,11 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\BusinessLayer\\BusinessLayer.csproj": {
-              "projectPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\BusinessLayer\\BusinessLayer.csproj"
+            "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\BusinessLayer\\BusinessLayer.csproj": {
+              "projectPath": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\BusinessLayer\\BusinessLayer.csproj"
             },
-            "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\Utilidades\\Utilidades.csproj": {
-              "projectPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\Utilidades\\Utilidades.csproj"
+            "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\Utilidades\\Utilidades.csproj": {
+              "projectPath": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\Utilidades\\Utilidades.csproj"
             }
           }
         }

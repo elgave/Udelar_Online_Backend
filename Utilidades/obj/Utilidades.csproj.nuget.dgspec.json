@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\Utilidades\\Utilidades.csproj": {}
+    "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\Utilidades\\Utilidades.csproj": {}
   },
   "projects": {
-    "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\Utilidades\\Utilidades.csproj": {
+    "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\Utilidades\\Utilidades.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\Utilidades\\Utilidades.csproj",
+        "projectUniqueName": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\Utilidades\\Utilidades.csproj",
         "projectName": "Utilidades",
-        "projectPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\Utilidades\\Utilidades.csproj",
+        "projectPath": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\Utilidades\\Utilidades.csproj",
         "packagesPath": "C:\\Users\\elgav\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\Utilidades\\obj\\",
+        "outputPath": "C:\\Users\\elgav\\source\\repos\\UdelarOnline\\Utilidades\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
