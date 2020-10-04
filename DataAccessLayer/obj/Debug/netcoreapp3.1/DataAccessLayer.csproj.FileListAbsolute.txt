@@ -10,3 +10,6 @@ C:\Users\elgav\source\repos\EntregaIndividual\DataAccessLayer\obj\Debug\netcorea
 C:\Users\elgav\source\repos\EntregaIndividual\DataAccessLayer\obj\Debug\netcoreapp3.1\DataAccessLayer.dll
 C:\Users\elgav\source\repos\EntregaIndividual\DataAccessLayer\obj\Debug\netcoreapp3.1\DataAccessLayer.pdb
 C:\Users\elgav\source\repos\EntregaIndividual\DataAccessLayer\obj\Debug\netcoreapp3.1\DataAccessLayer.csprojAssemblyReference.cache
+C:\Users\elgav\source\repos\EntregaIndividual\DataAccessLayer\bin\Debug\netcoreapp3.1\Utilidades.dll
+C:\Users\elgav\source\repos\EntregaIndividual\DataAccessLayer\bin\Debug\netcoreapp3.1\Utilidades.pdb
+C:\Users\elgav\source\repos\EntregaIndividual\DataAccessLayer\obj\Debug\netcoreapp3.1\DataAccessLayer.csproj.CopyComplete

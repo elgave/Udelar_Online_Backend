@@ -1472,7 +1472,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
-          "DataAccessLayer": "1.0.0"
+          "DataAccessLayer": "1.0.0",
+          "Utilidades": "1.0.0"
         },
         "compile": {
           "bin/placeholder/BusinessLayer.dll": {}
@@ -1486,13 +1487,24 @@
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "3.1.7",
-          "Microsoft.EntityFrameworkCore.SqlServer": "3.1.7"
+          "Microsoft.EntityFrameworkCore.SqlServer": "3.1.7",
+          "Utilidades": "1.0.0"
         },
         "compile": {
           "bin/placeholder/DataAccessLayer.dll": {}
         },
         "runtime": {
           "bin/placeholder/DataAccessLayer.dll": {}
+        }
+      },
+      "Utilidades/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/Utilidades.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Utilidades.dll": {}
         }
       }
     }
@@ -5679,11 +5691,17 @@
       "type": "project",
       "path": "../DataAccessLayer/DataAccessLayer.csproj",
       "msbuildProject": "../DataAccessLayer/DataAccessLayer.csproj"
+    },
+    "Utilidades/1.0.0": {
+      "type": "project",
+      "path": "../Utilidades/Utilidades.csproj",
+      "msbuildProject": "../Utilidades/Utilidades.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "BusinessLayer >= 1.0.0"
+      "BusinessLayer >= 1.0.0",
+      "Utilidades >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -5693,9 +5711,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\EntregaIndividual\\EntregaIndividual.csproj",
-      "projectName": "EntregaIndividual",
-      "projectPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\EntregaIndividual\\EntregaIndividual.csproj",
+      "projectUniqueName": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\EntregaIndividual\\UdelarOnlineApi.csproj",
+      "projectName": "UdelarOnlineApi",
+      "projectPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\EntregaIndividual\\UdelarOnlineApi.csproj",
       "packagesPath": "C:\\Users\\elgav\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\EntregaIndividual\\obj\\",
       "projectStyle": "PackageReference",
@@ -5719,6 +5737,9 @@
           "projectReferences": {
             "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\BusinessLayer\\BusinessLayer.csproj": {
               "projectPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\BusinessLayer\\BusinessLayer.csproj"
+            },
+            "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\Utilidades\\Utilidades.csproj": {
+              "projectPath": "C:\\Users\\elgav\\source\\repos\\EntregaIndividual\\Utilidades\\Utilidades.csproj"
             }
           }
         }

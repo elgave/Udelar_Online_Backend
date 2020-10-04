@@ -1,4 +1,4 @@
-﻿using DataAccessLayer;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,7 +12,6 @@ namespace BusinessLayer
         public int IdFacultad { get; set; }
         public string Nombre { get; set; }
 
-        public List<Curso> Cursos { get; set; }
 
         public DTCarrera() { }
 
@@ -21,7 +20,6 @@ namespace BusinessLayer
             Id = id;
             IdFacultad = idFacultad;
             Nombre = nombre;
-            Cursos = new List<Curso>();
         }
     }
 }
