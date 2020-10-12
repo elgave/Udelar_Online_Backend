@@ -1,13 +1,16 @@
 ﻿using DataAccessLayer;
+using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Utilidades;
 
 namespace BusinessLayer
 {
     public class CursoManager
     {
+       
         public List<DTCurso> lists()
         {
             using (var ctx = new MyContext())
@@ -77,6 +80,12 @@ namespace BusinessLayer
                 ctx.SaveChanges();
             }
 
+        }
+
+        public bool matricularse(DTMatricula matricula)
+        {
+            IBedeliasApi _bedeliasApi = new BedeliasApi();
+            return _bedeliasApi.MatricularseACurso(matricula);
         }
     }
 }

@@ -1,0 +1,13 @@
+﻿BusinessLayer/bin
+DataAccessLayer/bin
+BusinessLayer/obj
+ServiceLayer/bin
+Utilidades/obj
+Utilidades/bin
+ServiceLayer/obj
+EntregaIndividual/obj
+*.csproj
+EntregaIndividual/bin
+DataAccessLayer/obj
+.vs/UdelarOnline/DesignTimeBuild
+.vs/UdelarOnline/v16
