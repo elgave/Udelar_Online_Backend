@@ -17,7 +17,7 @@ namespace BusinessLayer
                 List<DTUsuario> dtUsuarios = new List<DTUsuario>();
                 foreach (Usuario u in usuarios)
                 {
-                    DTUsuario usu = new DTUsuario(u.Cedula, u.IdFacultad, u.Tipo,u.Nombre,u.Apellido,u.Correo, u.Contrasena);
+                    DTUsuario usu = new DTUsuario(u.Cedula, u.IdFacultad,u.Nombre,u.Apellido,u.Correo, u.Contrasena);
                     dtUsuarios.Add(usu);
                 }
 
@@ -30,7 +30,7 @@ namespace BusinessLayer
             {
                 using (var ctx = new MyContext())
                 {
-                    Usuario u = new Usuario(usuario.Cedula,usuario.IdFacultad, usuario.Tipo, usuario.Nombre,usuario.Apellido,usuario.Correo,usuario.Contrasena);
+                    Usuario u = new Usuario(usuario.Cedula,usuario.IdFacultad, usuario.Nombre,usuario.Apellido,usuario.Correo,usuario.Contrasena);
                     ctx.Usuarios.Add(u);
                     ctx.SaveChanges();
                 }
@@ -41,24 +41,24 @@ namespace BusinessLayer
             }
         }
 
-        public void delete(string cedula, int idFacultad, string tipoUsuario)
+        public void delete(string cedula, int idFacultad)
         {
             using (var ctx = new MyContext())
             {
-                var usuario = ctx.Usuarios.SingleOrDefault(u => u.Cedula == cedula &&  u.IdFacultad == idFacultad && u.Tipo == tipoUsuario) ;
+                var usuario = ctx.Usuarios.SingleOrDefault(u => u.Cedula == cedula &&  u.IdFacultad == idFacultad) ;
                 ctx.Usuarios.Remove(usuario);
                 ctx.SaveChanges();
             }
         }
 
-        public DTUsuario get(string cedula, int idFacultad, string tipoUsuario)
+        public DTUsuario get(string cedula, int idFacultad)
         {
             using (var ctx = new MyContext())
             {
-                var usuario = ctx.Usuarios.SingleOrDefault(u => u.Cedula == cedula && u.IdFacultad == idFacultad && u.Tipo == tipoUsuario);
+                var usuario = ctx.Usuarios.SingleOrDefault(u => u.Cedula == cedula && u.IdFacultad == idFacultad);
                 if (usuario != null)
                 {
-                    DTUsuario usu = new DTUsuario(usuario.Cedula, usuario.IdFacultad, usuario.Tipo, usuario.Nombre, usuario.Apellido, usuario.Correo,usuario.Contrasena);
+                    DTUsuario usu = new DTUsuario(usuario.Cedula, usuario.IdFacultad, usuario.Nombre, usuario.Apellido, usuario.Correo,usuario.Contrasena);
                     return usu;
                 }
                 else
@@ -71,7 +71,7 @@ namespace BusinessLayer
             using (var ctx = new MyContext())
             {
                 //Usuario usu = new Usuario(usuario.Cedula,usuario.IdFacultad, usuario.Nombre, usuario.Apellido, usuario.Tipo);
-                var usuario_update = ctx.Usuarios.SingleOrDefault(u => u.Cedula == usuario.Cedula && u.IdFacultad == usuario.IdFacultad && u.Tipo == usuario.Tipo);
+                var usuario_update = ctx.Usuarios.SingleOrDefault(u => u.Cedula == usuario.Cedula && u.IdFacultad == usuario.IdFacultad);
                 usuario_update.Nombre = usuario.Nombre;
                 usuario_update.Apellido = usuario.Apellido;
                 usuario_update.Contrasena = usuario.Contrasena;

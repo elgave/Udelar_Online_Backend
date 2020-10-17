@@ -30,10 +30,10 @@ namespace EntregaIndividual.Controllers
         }
 
         // GET api/<UsuarioController>/5
-        [HttpGet("{cedula}/{idFacultad}/{tipo}")]
-        public DTUsuario Get(string cedula, int idFacultad, string tipo)
+        [HttpGet("{cedula}/{idFacultad}")]
+        public DTUsuario Get(string cedula, int idFacultad)
         {
-            var usuario = _usuarioManager.get(cedula,idFacultad,tipo);
+            var usuario = _usuarioManager.get(cedula,idFacultad);
 
             return usuario;
         }
@@ -44,7 +44,7 @@ namespace EntregaIndividual.Controllers
         {
             try
             {
-                var usu = _usuarioManager.get(usuario.Cedula,usuario.IdFacultad, usuario.Tipo);
+                var usu = _usuarioManager.get(usuario.Cedula,usuario.IdFacultad);
 
                 if (usu == null)
                 {
@@ -76,12 +76,12 @@ namespace EntregaIndividual.Controllers
         }
 
         // DELETE api/<UsuarioController>/5
-        [HttpDelete("{cedula}/{idFacultad}/{tipo}")]
-        public ActionResult Delete(string cedula,int idFacultad,string tipo)
+        [HttpDelete("{cedula}/{idFacultad}")]
+        public ActionResult Delete(string cedula,int idFacultad)
         {
             try
             {
-                _usuarioManager.delete(cedula, idFacultad,tipo);
+                _usuarioManager.delete(cedula, idFacultad);
                 return Ok();
             }
             catch

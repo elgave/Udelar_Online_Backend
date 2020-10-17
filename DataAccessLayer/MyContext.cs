@@ -26,8 +26,8 @@ namespace DataAccessLayer
             modelBuilder.Entity<Usuario>()
                 .HasKey(e => new { e.Cedula, e.IdFacultad});
 
-            //modelBuilder.Entity<UsuarioRol>()
-            //    .HasKey(e => new { e.IdRol,e.IdFacultad, e.IdUsuario });
+            modelBuilder.Entity<UsuarioRol>()
+                .HasKey(e => new { e.IdUsuario, e.IdFacultad, e.IdRol});
         }
     }
 }

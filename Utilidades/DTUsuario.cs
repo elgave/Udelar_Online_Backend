@@ -8,8 +8,6 @@ namespace Utilidades
     {
         public string Cedula { get; set; }
         public int IdFacultad { get; set; }
-
-        public string Tipo { get; set; }
         public string Nombre { get; set; }
 
         public string Apellido { get; set; }
@@ -19,11 +17,10 @@ namespace Utilidades
 
         public DTUsuario() { }
 
-        public DTUsuario(string cedula, int idFacultad, string tipo, string nombre, string apellido, string correo, string contrasena )
+        public DTUsuario(string cedula, int idFacultad, string nombre, string apellido, string correo, string contrasena )
         {
             Cedula = cedula;
             IdFacultad = idFacultad;
-            Tipo = tipo;
             Nombre = nombre;
             Apellido = apellido;
             Correo = correo;
