@@ -6,7 +6,6 @@ Utilidades/obj
 Utilidades/bin
 ServiceLayer/obj
 EntregaIndividual/obj
-*.csproj
 EntregaIndividual/bin
 DataAccessLayer/obj
 .vs/UdelarOnline/DesignTimeBuild

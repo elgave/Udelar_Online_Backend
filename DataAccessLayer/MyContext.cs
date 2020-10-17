@@ -13,6 +13,8 @@ namespace DataAccessLayer
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Carrera> Carreras { get; set; }
 
+        public DbSet<Roles> Roles { get; set; }
+        public DbSet<UsuarioRol> UsuarioRol { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(
@@ -22,7 +24,10 @@ namespace DataAccessLayer
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Usuario>()
-                .HasKey(e => new { e.Cedula, e.IdFacultad, e.Tipo });
+                .HasKey(e => new { e.Cedula, e.IdFacultad});
+
+            //modelBuilder.Entity<UsuarioRol>()
+            //    .HasKey(e => new { e.IdRol,e.IdFacultad, e.IdUsuario });
         }
     }
 }

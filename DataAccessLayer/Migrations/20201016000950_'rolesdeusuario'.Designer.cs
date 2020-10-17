@@ -4,14 +4,16 @@ using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20201016000950_'rolesdeusuario'")]
+    partial class rolesdeusuario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,25 +127,24 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.UsuarioRol", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("RolIdRol")
+                    b.Property<int>("IdRol")
                         .HasColumnType("int");
 
-                    b.Property<string>("usuarioCedula")
+                    b.Property<int>("IdFacultad")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsuarioCedula")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("usuarioIdFacultad")
+                    b.Property<int?>("UsuarioIdFacultad")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("IdRol", "IdFacultad", "IdUsuario");
 
-                    b.HasIndex("RolIdRol");
-
-                    b.HasIndex("usuarioCedula", "usuarioIdFacultad");
+                    b.HasIndex("UsuarioCedula", "UsuarioIdFacultad");
 
                     b.ToTable("UsuarioRol");
                 });
@@ -164,13 +165,9 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.UsuarioRol", b =>
                 {
-                    b.HasOne("DataAccessLayer.Roles", "Rol")
-                        .WithMany()
-                        .HasForeignKey("RolIdRol");
-
-                    b.HasOne("DataAccessLayer.Usuario", "usuario")
+                    b.HasOne("DataAccessLayer.Usuario", null)
                         .WithMany("Roles")
-                        .HasForeignKey("usuarioCedula", "usuarioIdFacultad");
+                        .HasForeignKey("UsuarioCedula", "UsuarioIdFacultad");
                 });
 #pragma warning restore 612, 618
         }
