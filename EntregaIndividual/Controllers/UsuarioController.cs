@@ -5,89 +5,56 @@ using System.Threading.Tasks;
 using BusinessLayer;
 using Microsoft.AspNetCore.Mvc;
 using Utilidades;
+using Utilidades.DTOs.Usuario;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace EntregaIndividual.Controllers
 {
-    [Route("EntregaIndividualApi/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class UsuarioController : ControllerBase
     {
 
-        private UsuarioManager _usuarioManager;
+        private readonly IUsuarioManager _usuarioManager;
 
-        public UsuarioController()
+        public UsuarioController(IUsuarioManager usuariomanager)
         {
-            _usuarioManager = new UsuarioManager();
+            _usuarioManager = usuariomanager;
         }
-        // GET: api/<UsuarioController>
+
         [HttpGet]
-        public IEnumerable<DTUsuario> Get()
+        public IActionResult Get()
         {
-            var usuarios = _usuarioManager.lists();
-            return usuarios;
+            return Ok(_usuarioManager.lists());
         }
 
-        // GET api/<UsuarioController>/5
         [HttpGet("{cedula}/{idFacultad}")]
-        public DTUsuario Get(string cedula, int idFacultad)
+        public async Task<IActionResult> Get(string cedula, int idFacultad)
         {
-            var usuario = _usuarioManager.get(cedula,idFacultad);
-
-            return usuario;
+            return Ok(await _usuarioManager.get(cedula, idFacultad));
         }
 
-        // POST api/<UsuarioController>
         [HttpPost]
-        public ActionResult Post([FromBody] DTUsuario usuario)
+        public async Task<IActionResult> Post([FromBody] AddUsuarioDTO usuario)
         {
-            try
-            {
-                var usu = _usuarioManager.get(usuario.Cedula,usuario.FacultadId);
-
-                if (usu == null)
-                {
-                    _usuarioManager.add(usuario);
-                    return Ok();
-                }
-                else
-                    return BadRequest();
-            }
-            catch
-            {
-                return BadRequest();
-            }
+            return Ok(await _usuarioManager.add(usuario));
         }
 
         // PUT api/<UsuarioController>/5
         [HttpPut("")]
-        public ActionResult Put([FromBody] DTUsuario usuario)
+        public async Task<IActionResult> Put([FromBody] AddUsuarioDTO usuario)
         {
-            try
-            {
-                _usuarioManager.edit(usuario);
-                return Ok();
-            }
-            catch
-            {
-                return BadRequest();
-            }
+            return Ok(await _usuarioManager.edit(usuario));
         }
 
         // DELETE api/<UsuarioController>/5
         [HttpDelete("{cedula}/{idFacultad}")]
-        public ActionResult Delete(string cedula,int idFacultad)
+        public async Task<IActionResult> Delete(string cedula, int idFacultad)
         {
-            try
-            {
-                _usuarioManager.delete(cedula, idFacultad);
-                return Ok();
-            }
-            catch
-            {
-                return BadRequest();
-            }
+            ApiResponse<List<GetUsuarioDTO>> response = await _usuarioManager.delete(cedula, idFacultad);
+            if (!response.Success) return NotFound(response);
+            return Ok(response);
         }
     }
 }

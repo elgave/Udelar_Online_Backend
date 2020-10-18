@@ -5,98 +5,55 @@ using System.Threading.Tasks;
 using BusinessLayer;
 using Microsoft.AspNetCore.Mvc;
 using Utilidades;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Utilidades.DTOs.Curso;
 
 namespace EntregaIndividual.Controllers
 {
-    [Route("EntregaIndividualApi/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class CursoController : ControllerBase
     {
-        private CursoManager _cursoManager;
+        private readonly ICursoManager _cursoManager;
 
-        public CursoController()
+        public CursoController(ICursoManager cursomanager)
         {
-            _cursoManager = new CursoManager();
+            _cursoManager = cursomanager;
         }
 
-        // GET: api/<FacultadController>
         [HttpGet]
-        public IEnumerable<DTCurso> Get()
+        public IActionResult Get()
         {
-            var cursos = _cursoManager.lists();
-            return cursos;
+            return Ok(_cursoManager.lists());
         }
 
-        // GET api/<FacultadController>/5
         [HttpGet("{id}")]
-        public DTCurso Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var curso = _cursoManager.get(id);
-
-            return curso;
-
+            return Ok(await _cursoManager.get(id));
         }
 
-        // POST api/<FacultadController>
         [HttpPost]
-        public ActionResult Post([FromBody] DTCurso curso)
+        public async Task<IActionResult> Post([FromBody] AddCursoDTO curso)
         {
-            try
-            {
-                var c = _cursoManager.get(curso.Id);
-
-                if (c == null)
-                {
-                    _cursoManager.add(curso);
-                    return Ok();
-                }
-                else
-                    return BadRequest();
-            }
-            catch
-            {
-                return BadRequest();
-            }
-
+            return Ok(await _cursoManager.add(curso));
         }
+
         [HttpPost("matricularse")]
-        public bool Post([FromBody] DTMatricula matricula)
+        public IActionResult Post([FromBody] DTMatricula matricula)
         {
-            
-             return _cursoManager.matricularse(matricula);
-  
+            return Ok(_cursoManager.matricularse(matricula));
         }
 
-        // PUT api/<FacultadController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] DTCurso  curso)
+        public async Task<IActionResult> Put(int id, [FromBody] AddCursoDTO curso)
         {
-            try
-            {
-                _cursoManager.edit(curso);
-                return Ok();
-            }
-            catch
-            {
-                return BadRequest();
-            }
+            return Ok(await _cursoManager.edit(id, curso));
         }
 
-        // DELETE api/<FacultadController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            try
-            {
-                _cursoManager.delete(id);
-                return Ok();
-            }
-            catch
-            {
-                return BadRequest();
-            }
+            return Ok(await _cursoManager.delete(id));
         }
     }
 }

@@ -5,91 +5,62 @@ using System.Threading.Tasks;
 using BusinessLayer;
 using Microsoft.AspNetCore.Mvc;
 using Utilidades;
+using Utilidades.DTOs.Facultad;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace EntregaIndividual.Controllers
 {
-    [Route("EntregaIndividualApi/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class FacultadController : ControllerBase
     {
-        private FacultadManager _facultadManager;
+        private readonly IFacultadManager _facultadManager;
 
-        public FacultadController()
+        public FacultadController(IFacultadManager facultadmanager)
         {
-            _facultadManager = new FacultadManager();
+            _facultadManager = facultadmanager;
         }
 
         // GET: api/<FacultadController>
         [HttpGet]
-        public IEnumerable<DTFacultad> Get()
+        public IActionResult Get()
         {
-            var facultades = _facultadManager.lists();
-            return facultades;
+            return Ok(_facultadManager.lists());
         }
 
         [HttpGet("usuariosXfacultad")]
-        public IEnumerable<DTUsuariosXFacultad> GetUsuariosXFacultad()
+        public IActionResult GetUsuariosXFacultad()
         {
-            var resultado = _facultadManager.UsuariosXFacultad();
-            return resultado;
+            return Ok(_facultadManager.UsuariosXFacultad());
         }
 
         // GET api/<FacultadController>/5
         [HttpGet("{id}")]
-        public DTFacultad Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var facultad = _facultadManager.get(id);
-            
-            return facultad;
-            
+            return Ok(await _facultadManager.get(id));
         }
 
         // POST api/<FacultadController>
         [HttpPost]
-        public ActionResult Post([FromBody] DTFacultad facultad)
+        public async Task<IActionResult> Post([FromBody] AddFacultadDTO facultad)
         {
-            try
-            {
-                _facultadManager.add(facultad);
-                return Ok();
-            }
-            catch
-            {
-                return BadRequest();
-            }
-            
+            return Ok(await _facultadManager.add(facultad));
         }
 
         // PUT api/<FacultadController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] DTFacultad facultad)
+        public async Task<IActionResult> Put(int id, [FromBody] AddFacultadDTO facultad)
         {
-            try
-            {
-                _facultadManager.edit(facultad);
-                return Ok();
-            }
-            catch
-            {
-                return BadRequest();
-            }
+            return Ok(await _facultadManager.edit(id, facultad));
         }
 
         // DELETE api/<FacultadController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            try
-            {
-                _facultadManager.delete(id);
-                return Ok();
-            }
-            catch
-            {
-                return BadRequest();
-            }
+            return Ok(await _facultadManager.delete(id));
         }
     }
 }
