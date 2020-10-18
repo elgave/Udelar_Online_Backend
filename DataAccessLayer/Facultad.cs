@@ -9,11 +9,9 @@ namespace DataAccessLayer
     {
         [Key]
         public int Id { get; set; }
-
         public string Nombre { get; set; }
-
-        public virtual List<Usuario> Usuarios { get; set; }
-
+        public virtual ICollection<Curso> Cursos { get; set; }
+        public virtual ICollection<Usuario> Usuarios { get; set; }
         public Facultad() { }
         public Facultad(string nombre)
         {
