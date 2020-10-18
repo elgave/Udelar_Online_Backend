@@ -6,15 +6,15 @@ namespace Utilidades
 {
     public class DTUsuariosXFacultad
     {
-        public int IdFacultad { get; set; }
+        public int FacultadId { get; set; }
         public string NombreFacultad { get; set; }
         public int CantUsuarios { get; set; }
 
         public DTUsuariosXFacultad() { }
         
-        public DTUsuariosXFacultad(int idFacultad,string nombreFacultad, int cantUsuarios)
+        public DTUsuariosXFacultad(int facultadId,string nombreFacultad, int cantUsuarios)
         {
-            IdFacultad = idFacultad;
+            FacultadId = facultadId;
             NombreFacultad = nombreFacultad;
             CantUsuarios = cantUsuarios;
         }

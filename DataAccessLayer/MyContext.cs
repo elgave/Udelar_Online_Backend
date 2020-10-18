@@ -24,10 +24,18 @@ namespace DataAccessLayer
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Usuario>()
-                .HasKey(e => new { e.Cedula, e.IdFacultad});
+                .HasKey(e => new { e.Cedula, e.FacultadId});
+
+            /*modelBuilder.Entity<Usuario>()
+                .HasOne(f => f.Facultad)
+                .WithMany(u => u.Usuarios)
+                .IsRequired();
+            */
+            modelBuilder.Entity<Usuario>()
+                .HasMany(u => u.Roles).WithOne().HasForeignKey(ur => new {ur.IdUsuario, ur.IdFacultad});
 
             modelBuilder.Entity<UsuarioRol>()
-                .HasKey(e => new { e.IdUsuario, e.IdFacultad, e.IdRol});
+                .HasKey(e => new { e.IdUsuario, e.IdFacultad, e.IdRol });
         }
     }
 }

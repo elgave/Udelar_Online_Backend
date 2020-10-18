@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20201016014155_'rolesdeusuario2'")]
-    partial class rolesdeusuario2
+    [Migration("20201018192115_primeramigracion")]
+    partial class primeramigracion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -79,7 +79,7 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Roles", b =>
                 {
-                    b.Property<int>("IdRol")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -87,7 +87,7 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Descripcion")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("IdRol");
+                    b.HasKey("Id");
 
                     b.ToTable("Roles");
                 });
@@ -97,7 +97,7 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Cedula")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("IdFacultad")
+                    b.Property<int>("FacultadId")
                         .HasColumnType("int");
 
                     b.Property<string>("Apellido")
@@ -109,16 +109,13 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Correo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("FacultadId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Nombre")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Cedula", "IdFacultad");
+                    b.HasKey("Cedula", "FacultadId");
 
                     b.HasIndex("FacultadId");
 
@@ -127,25 +124,18 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.UsuarioRol", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("RolIdRol")
-                        .HasColumnType("int");
-
-                    b.Property<string>("usuarioCedula")
+                    b.Property<string>("IdUsuario")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("usuarioIdFacultad")
+                    b.Property<int>("IdFacultad")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("IdRol")
+                        .HasColumnType("int");
 
-                    b.HasIndex("RolIdRol");
+                    b.HasKey("IdUsuario", "IdFacultad", "IdRol");
 
-                    b.HasIndex("usuarioCedula", "usuarioIdFacultad");
+                    b.HasIndex("IdRol");
 
                     b.ToTable("UsuarioRol");
                 });
@@ -160,19 +150,25 @@ namespace DataAccessLayer.Migrations
             modelBuilder.Entity("DataAccessLayer.Usuario", b =>
                 {
                     b.HasOne("DataAccessLayer.Facultad", "Facultad")
-                        .WithMany()
-                        .HasForeignKey("FacultadId");
+                        .WithMany("Usuarios")
+                        .HasForeignKey("FacultadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataAccessLayer.UsuarioRol", b =>
                 {
                     b.HasOne("DataAccessLayer.Roles", "Rol")
                         .WithMany()
-                        .HasForeignKey("RolIdRol");
+                        .HasForeignKey("IdRol")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("DataAccessLayer.Usuario", "usuario")
+                    b.HasOne("DataAccessLayer.Usuario", null)
                         .WithMany("Roles")
-                        .HasForeignKey("usuarioCedula", "usuarioIdFacultad");
+                        .HasForeignKey("IdUsuario", "IdFacultad")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

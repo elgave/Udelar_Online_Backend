@@ -12,6 +12,8 @@ namespace DataAccessLayer
 
         public string Nombre { get; set; }
 
+        public virtual List<Usuario> Usuarios { get; set; }
+
         public Facultad() { }
         public Facultad(string nombre)
         {

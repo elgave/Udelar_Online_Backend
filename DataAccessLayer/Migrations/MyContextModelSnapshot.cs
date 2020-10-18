@@ -95,7 +95,7 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Cedula")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("IdFacultad")
+                    b.Property<int>("FacultadId")
                         .HasColumnType("int");
 
                     b.Property<string>("Apellido")
@@ -107,16 +107,13 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Correo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("FacultadId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Nombre")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Cedula", "IdFacultad");
+                    b.HasKey("Cedula", "FacultadId");
 
                     b.HasIndex("FacultadId");
 
@@ -125,8 +122,8 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.UsuarioRol", b =>
                 {
-                    b.Property<int>("IdUsuario")
-                        .HasColumnType("int");
+                    b.Property<string>("IdUsuario")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("IdFacultad")
                         .HasColumnType("int");
@@ -134,15 +131,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("IdRol")
                         .HasColumnType("int");
 
-                    b.Property<string>("UsuarioCedula")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("UsuarioIdFacultad")
-                        .HasColumnType("int");
-
                     b.HasKey("IdUsuario", "IdFacultad", "IdRol");
 
-                    b.HasIndex("UsuarioCedula", "UsuarioIdFacultad");
+                    b.HasIndex("IdRol");
 
                     b.ToTable("UsuarioRol");
                 });
@@ -157,15 +148,25 @@ namespace DataAccessLayer.Migrations
             modelBuilder.Entity("DataAccessLayer.Usuario", b =>
                 {
                     b.HasOne("DataAccessLayer.Facultad", "Facultad")
-                        .WithMany()
-                        .HasForeignKey("FacultadId");
+                        .WithMany("Usuarios")
+                        .HasForeignKey("FacultadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataAccessLayer.UsuarioRol", b =>
                 {
+                    b.HasOne("DataAccessLayer.Roles", "Rol")
+                        .WithMany()
+                        .HasForeignKey("IdRol")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DataAccessLayer.Usuario", null)
                         .WithMany("Roles")
-                        .HasForeignKey("UsuarioCedula", "UsuarioIdFacultad");
+                        .HasForeignKey("IdUsuario", "IdFacultad")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -44,7 +44,7 @@ namespace EntregaIndividual.Controllers
         {
             try
             {
-                var usu = _usuarioManager.get(usuario.Cedula,usuario.IdFacultad);
+                var usu = _usuarioManager.get(usuario.Cedula,usuario.FacultadId);
 
                 if (usu == null)
                 {

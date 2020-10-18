@@ -100,7 +100,7 @@ namespace BusinessLayer
                 {
                     foreach(DTUsuariosXFacultad r in resultado)
                     {
-                        if(u.IdFacultad == r.IdFacultad)
+                        if(u.FacultadId == r.FacultadId)
                         {
                             r.CantUsuarios += 1;
                         }

@@ -9,10 +9,10 @@ namespace DataAccessLayer
 {
     public class Usuario
     {
-        [Key]
+        
         public string Cedula { get; set; }
-        [Key]
-        public int IdFacultad { get; set; }
+        
+        public int FacultadId { get; set; }
         
         public string Nombre { get; set; }
 
@@ -23,17 +23,18 @@ namespace DataAccessLayer
 
         public DateTime FechaCreacion { get; set;}
 
+        [ForeignKey("FacultadId")]
         public virtual Facultad Facultad { get; set; }
-
+    
         public virtual List<UsuarioRol> Roles { get; set; }
         
 
         public Usuario() { }
 
-        public Usuario(string cedula, int idFacultad, string nombre, string apellido,string correo, string contrasena)
+        public Usuario(string cedula, int facultadId, string nombre, string apellido,string correo, string contrasena)
         {
             Cedula = cedula;
-            IdFacultad = idFacultad;
+            FacultadId = facultadId;
             Nombre = nombre;
             Apellido = apellido;
             Correo = correo;
