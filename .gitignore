@@ -10,3 +10,5 @@ EntregaIndividual/bin
 DataAccessLayer/obj
 .vs/UdelarOnline/DesignTimeBuild
 .vs/UdelarOnline/v16
+applicationhost.config
+appsettings.Development.json
