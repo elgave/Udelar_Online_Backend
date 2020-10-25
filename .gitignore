@@ -1,4 +1,4 @@
-﻿BusinessLayer/bin
+BusinessLayer/bin
 DataAccessLayer/bin
 BusinessLayer/obj
 ServiceLayer/bin
@@ -13,3 +13,8 @@ DataAccessLayer/obj
 applicationhost.config
 appsettings.Development.json
 EntregaIndividual/appsettings.json
+*.suo
+DataAccessLayer/Migrations/20201025195214_1.cs
+DataAccessLayer/Migrations/20201025195214_1.Designer.cs
+DataAccessLayer/Migrations/20201025195942_3.cs
+DataAccessLayer/Migrations/20201025195942_3.Designer.cs
