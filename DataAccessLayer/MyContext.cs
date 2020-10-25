@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LiteDB;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,9 @@ namespace DataAccessLayer
         public DbSet<UsuarioCurso> UsuarioCurso { get; set; }
         public DbSet<Roles> Roles { get; set; }
         public DbSet<UsuarioRol> UsuarioRol { get; set; }
+        public DbSet<Encuesta> Encuestas { get; set; }
+        public DbSet<Respuesta> Respuestas { get; set; }
+        public LiteDatabase NoSql { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,6 +34,9 @@ namespace DataAccessLayer
 
             modelBuilder.Entity<UsuarioCurso>()
                .HasKey(uc => new { uc.UsuarioId, uc.CursoId });
+
+            modelBuilder.Entity<Respuesta>()
+                .HasKey(e => new { e.Id, e.EncuestaId });
         }
         public override int SaveChanges()
         {
@@ -47,6 +54,7 @@ namespace DataAccessLayer
         }
         public MyContext(DbContextOptions options) : base(options)
         {
+            NoSql = new LiteDatabase("Filename=./nosql.db;Connection=shared");
         }
     }
 }

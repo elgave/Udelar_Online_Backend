@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BusinessLayer;
+using BusinessLayer.Managers;
 using DataAccessLayer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +34,7 @@ namespace EntregaIndividual
             services.AddScoped<IUsuarioManager, UsuarioManager>();
             services.AddScoped<IFacultadManager, FacultadManager>();
             services.AddScoped<ICursoManager, CursoManager>();
+            services.AddScoped<IUdelarAdminManager, UdelarAdminManager>();
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<MyContext>(opt =>
