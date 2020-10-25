@@ -12,3 +12,4 @@ DataAccessLayer/obj
 .vs/UdelarOnline/v16
 applicationhost.config
 appsettings.Development.json
+EntregaIndividual/appsettings.json

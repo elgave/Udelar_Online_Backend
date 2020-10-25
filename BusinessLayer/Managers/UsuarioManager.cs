@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BCrypt.Net;
 using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -45,6 +46,7 @@ namespace BusinessLayer
             ApiResponse<List<GetUsuarioDTO>> response = new ApiResponse<List<GetUsuarioDTO>>();
             try
             {
+                usuario.Contrasena = BCrypt.Net.BCrypt.HashPassword(usuario.Contrasena);
                 _context.Usuarios.Add(_mapper.Map<Usuario>(usuario));
                 await _context.SaveChangesAsync();
                 response.Data = _context.Usuarios.Select(u => _mapper.Map<GetUsuarioDTO>(u)).ToList();
@@ -106,6 +108,33 @@ namespace BusinessLayer
                 usuarioUpdate.Correo = usuario.Correo;
                 await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<GetUsuarioDTO>(usuarioUpdate);
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 404;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
+        public async Task<ApiResponse<GetUsuarioDTO>> login(LoginUser usuario)
+        {
+            ApiResponse<GetUsuarioDTO> response = new ApiResponse<GetUsuarioDTO>();
+
+            try
+            {
+                Usuario user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Cedula == usuario.Cedula);
+
+                bool isValidPassword = BCrypt.Net.BCrypt.Verify(usuario.Password, user.Contrasena);
+
+                if (isValidPassword)
+                {
+                    response.Data = _mapper.Map<GetUsuarioDTO>(await _context.Usuarios.Include(u => u.UsuariosCursos).ThenInclude(uc => uc.Curso).FirstOrDefaultAsync(u => u.Cedula == user.Cedula && u.FacultadId == user.FacultadId));
+                }
+                else
+                    response.Data = null;
+
             }
             catch (Exception e)
             {

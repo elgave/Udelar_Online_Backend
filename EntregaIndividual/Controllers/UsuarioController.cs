@@ -29,6 +29,12 @@ namespace EntregaIndividual.Controllers
             return Ok(_usuarioManager.lists());
         }
 
+        [HttpGet("Login")]
+        public async Task<IActionResult> Login([FromBody] LoginUser usuario)
+        {
+            return Ok(await _usuarioManager.login(usuario));
+        }
+
         [HttpGet("{cedula}/{idFacultad}")]
         public async Task<IActionResult> Get(string cedula, int idFacultad)
         {

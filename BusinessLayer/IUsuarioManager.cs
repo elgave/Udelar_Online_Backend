@@ -14,5 +14,6 @@ namespace BusinessLayer
         Task<ApiResponse<List<GetUsuarioDTO>>> delete(string cedula, int idFacultad);
         Task<ApiResponse<GetUsuarioDTO>> get(string cedula, int idFacultad);
         Task<ApiResponse<GetUsuarioDTO>> edit(AddUsuarioDTO usuario);
+        Task<ApiResponse<GetUsuarioDTO>> login(LoginUser usuario);
     }
 }
