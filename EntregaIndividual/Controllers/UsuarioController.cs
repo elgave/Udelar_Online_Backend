@@ -41,18 +41,22 @@ namespace EntregaIndividual.Controllers
         public async Task<IActionResult> Login([FromBody] LoginUser usuario)
         {
             Task <ApiResponse < GetUsuarioDTO >> usu =  _usuarioManager.login(usuario);
+            ApiResponse<string> response = new ApiResponse<string>();
             if (usu.Result.Data != null)
             {
                 var token = GenerarToken(usuario);
-                return Ok(new
-                {
-                    response = new JwtSecurityTokenHandler().WriteToken(token)
-                });
-                //return Ok(await _usuarioManager.login(usuario));
+                response.Data = new JwtSecurityTokenHandler().WriteToken(token);
+
             }
             else
-                return BadRequest("Usuario y/o contrasena incorrectos");
-            
+            {
+                response.Success = false;
+                response.Status = 204;
+                response.Message = "Usuario y/o contrasena incorrectos";
+            }
+
+            return Ok(response);
+
         }
 
         [HttpGet("{cedula}/{idFacultad}")]
