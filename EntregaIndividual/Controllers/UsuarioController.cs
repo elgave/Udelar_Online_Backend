@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using BusinessLayer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Utilidades;
 using Utilidades.DTOs.Usuario;
 
@@ -15,11 +20,12 @@ namespace EntregaIndividual.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-
+        private readonly IConfiguration _configuration;
         private readonly IUsuarioManager _usuarioManager;
 
-        public UsuarioController(IUsuarioManager usuariomanager)
+        public UsuarioController(IConfiguration configuration,IUsuarioManager usuariomanager)
         {
+            _configuration = configuration;
             _usuarioManager = usuariomanager;
         }
 
@@ -29,10 +35,22 @@ namespace EntregaIndividual.Controllers
             return Ok(_usuarioManager.lists());
         }
 
-        [HttpGet("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginUser usuario)
         {
-            return Ok(await _usuarioManager.login(usuario));
+            Task <ApiResponse < GetUsuarioDTO >> usu =  _usuarioManager.login(usuario);
+            if (usu.Result.Data != null)
+            {
+                var token = GenerarToken(usuario);
+                return Ok(new
+                {
+                    response = new JwtSecurityTokenHandler().WriteToken(token)
+                });
+                //return Ok(await _usuarioManager.login(usuario));
+            }
+            else
+                return BadRequest("Usuario y/o contrasena incorrectos");
+            
         }
 
         [HttpGet("{cedula}/{idFacultad}")]
@@ -61,6 +79,34 @@ namespace EntregaIndividual.Controllers
             ApiResponse<List<GetUsuarioDTO>> response = await _usuarioManager.delete(cedula, idFacultad);
             if (!response.Success) return NotFound(response);
             return Ok(response);
+        }
+
+        private JwtSecurityToken GenerarToken(LoginUser login)
+        {
+            string ValidIssuer = _configuration["ApiAuth:Issuer"];
+            string ValidAudience = _configuration["ApiAuth:Audience"];
+            SymmetricSecurityKey IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["ApiAuth:SecretKey"]));
+
+            //La fecha de expiracion sera el mismo dia a las 12 de la noche
+            DateTime dtFechaExpiraToken;
+            DateTime now = DateTime.Now;
+            dtFechaExpiraToken = new DateTime(now.Year, now.Month, now.Day, 23, 59, 59, 999);
+
+            //Agregamos los claim nuestros
+            var claims = new[]
+            {
+                new Claim(Constantes.JWT_CLAIM_USUARIO, login.Cedula)
+            };
+
+            return new JwtSecurityToken
+            (
+                issuer: ValidIssuer,
+                audience: ValidAudience,
+                claims: claims,
+                expires: dtFechaExpiraToken,
+                notBefore: now,
+                signingCredentials: new SigningCredentials(IssuerSigningKey, SecurityAlgorithms.HmacSha256)
+            );
         }
     }
 }
