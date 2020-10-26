@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using BusinessLayer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -29,6 +30,7 @@ namespace EntregaIndividual.Controllers
             _usuarioManager = usuariomanager;
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Get()
         {

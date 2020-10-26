@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BCrypt.Net;
 using DataAccessLayer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace BusinessLayer
             _mapper = mapper;
             _context = context;
         }
+
+        
 
         public ApiResponse<List<GetUsuarioDTO>> lists()
         {
