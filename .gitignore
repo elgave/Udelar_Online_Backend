@@ -12,7 +12,6 @@ DataAccessLayer/obj
 .vs/UdelarOnline/v16
 applicationhost.config
 appsettings.Development.json
-EntregaIndividual/appsettings.json
 *.suo
 DataAccessLayer/Migrations/20201025195214_1.cs
 DataAccessLayer/Migrations/20201025195214_1.Designer.cs
