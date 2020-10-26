@@ -20,3 +20,4 @@ DataAccessLayer/Migrations/20201025195942_3.cs
 DataAccessLayer/Migrations/20201025195942_3.Designer.cs
 .vs/UdelarOnline/config/applicationhost.config
 EntregaIndividual/appsettings.Development.json
+*.cache
