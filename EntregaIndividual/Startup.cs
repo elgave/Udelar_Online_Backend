@@ -19,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Utilidades;
 
 namespace EntregaIndividual
@@ -44,6 +45,8 @@ namespace EntregaIndividual
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<MyContext>(opt =>
                opt.UseSqlServer(Configuration.GetConnectionString("TSIDB")));
+            //Swagger
+            AddSwagger(services);
 
             services.AddCors(c =>
             {
@@ -88,6 +91,8 @@ namespace EntregaIndividual
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["ApiAuth:SecretKey"]))
                 };
             });
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -98,6 +103,13 @@ namespace EntregaIndividual
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseHttpsRedirection();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Foo API V1");
+            });
 
             app.UseHttpsRedirection();
 
@@ -113,5 +125,29 @@ namespace EntregaIndividual
 
             
         }
+
+        private void AddSwagger(IServiceCollection services)
+        {
+            services.AddSwaggerGen(options =>
+            {
+                var groupName = "v1";
+
+                options.SwaggerDoc(groupName, new OpenApiInfo
+                {
+                    Title = $"Foo {groupName}",
+                    Version = groupName,
+                    Description = "Foo API",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Foo Company",
+                        Email = string.Empty,
+                        Url = new Uri("https://foo.com/"),
+                    }
+                });
+            });
+        }
+
+
+      
     }
 }
