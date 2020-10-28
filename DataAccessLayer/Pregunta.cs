@@ -5,17 +5,14 @@ using System.Text;
 
 namespace DataAccessLayer
 {
-    public class Respuesta
+    public class Pregunta
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Texto { get; set; }
         public int EncuestaId { get; set; }
-        public int PreguntaId { get; set; }
-
-        
+        [ForeignKey("EncuestaId")]
         public virtual Encuesta Encuesta { get; set; }
-        public virtual Pregunta Pregunta { get; set; }
-
     }
 }
+    
