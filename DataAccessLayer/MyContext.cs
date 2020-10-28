@@ -15,7 +15,7 @@ namespace DataAccessLayer
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Carrera> Carreras { get; set; }
         public DbSet<UsuarioCurso> UsuarioCurso { get; set; }
-        public DbSet<Roles> Roles { get; set; }
+        public DbSet<Rol> Roles { get; set; }
         public DbSet<UsuarioRol> UsuarioRol { get; set; }
         public DbSet<Encuesta> Encuestas { get; set; }
         public DbSet<Respuesta> Respuestas { get; set; }
@@ -27,10 +27,10 @@ namespace DataAccessLayer
                 .HasKey(e => new { e.Cedula, e.FacultadId});
 
             modelBuilder.Entity<Usuario>()
-                .HasMany(u => u.Roles).WithOne().HasForeignKey(ur => new {ur.IdUsuario, ur.IdFacultad});
+                .HasMany(u => u.Roles).WithOne().HasForeignKey(ur => new {ur.UsuarioCedula, ur.UsuarioFacultadId });
 
             modelBuilder.Entity<UsuarioRol>()
-                .HasKey(e => new { e.IdUsuario, e.IdFacultad, e.IdRol });
+                .HasKey(e => new { e.UsuarioCedula, e.UsuarioFacultadId, e.RolId });
 
             modelBuilder.Entity<UsuarioCurso>()
                .HasKey(uc => new { uc.UsuarioId, uc.CursoId });

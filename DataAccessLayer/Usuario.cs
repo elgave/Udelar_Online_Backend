@@ -9,7 +9,6 @@ namespace DataAccessLayer
 {
     public class Usuario
     {
-        
         public string Cedula { get; set; }
         public int FacultadId { get; set; }
         public string Nombre { get; set; }

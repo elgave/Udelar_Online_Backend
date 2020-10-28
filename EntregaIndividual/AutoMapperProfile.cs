@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using DataAccessLayer;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Utilidades.DTOs.Curso;
 using Utilidades.DTOs.Usuario;
 using Utilidades.DTOs.Facultad;
 using Utilidades.DTOs.Carrera;
+using Utilidades.DTOs;
 
 namespace TSI
 {
@@ -16,7 +14,8 @@ namespace TSI
         public AutoMapperProfile()
         {
             CreateMap<Usuario, GetUsuarioDTO>()
-                .ForMember(dto => dto.Cursos, u => u.MapFrom(u => u.UsuariosCursos.Select(uc => uc.Curso)));
+                .ForMember(dto => dto.Cursos, u => u.MapFrom(u => u.UsuariosCursos.Select(uc => uc.Curso)))
+                .ForMember(dto => dto.Roles, u => u.MapFrom(u => u.Roles.Select(r => r.Rol)));
             CreateMap<AddUsuarioDTO, Usuario>();
 
             CreateMap<Curso, GetCursoDTO>();
@@ -27,6 +26,8 @@ namespace TSI
 
             CreateMap<Carrera, GetCarreraDTO>();
             CreateMap<AddCarreraDTO, Carrera>();
+
+            CreateMap<Rol, GetRolDTO>();
         }
     }
 }

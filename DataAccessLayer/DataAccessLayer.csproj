@@ -5,6 +5,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Migrations\20201028190717_roles5.cs" />
+	  <Compile Remove="Migrations\20201028190717_roles5.Designer.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
 		<PackageReference Include="LiteDB" Version="4.1.4" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />

@@ -4,14 +4,16 @@ using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20201028185912_roles4")]
+    partial class roles4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,9 +205,17 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("RolId")
                         .HasColumnType("int");
 
+                    b.Property<string>("UsuarioCedula1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("UsuarioFacultadId1")
+                        .HasColumnType("int");
+
                     b.HasKey("UsuarioCedula", "UsuarioFacultadId", "RolId");
 
                     b.HasIndex("RolId");
+
+                    b.HasIndex("UsuarioCedula1", "UsuarioFacultadId1");
 
                     b.ToTable("UsuarioRol");
                 });
@@ -287,6 +297,10 @@ namespace DataAccessLayer.Migrations
                         .HasForeignKey("UsuarioCedula", "UsuarioFacultadId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioCedula1", "UsuarioFacultadId1");
                 });
 #pragma warning restore 612, 618
         }

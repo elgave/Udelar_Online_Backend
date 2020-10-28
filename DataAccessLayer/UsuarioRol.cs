@@ -7,13 +7,10 @@ namespace DataAccessLayer
 {
     public class UsuarioRol
     {
-        public string IdUsuario { get; set; }
-
-        public int IdFacultad { get; set; }
-        public int IdRol { get; set; }
-
-        [ForeignKey("IdRol")]
-        public virtual Roles Rol { get; set; }
+        public string UsuarioCedula { get; set; }
+        public int UsuarioFacultadId { get; set; }
+        public int RolId { get; set; }
+        [ForeignKey("RolId")]
+        public virtual Rol Rol { get; set; }
     }
-
 }

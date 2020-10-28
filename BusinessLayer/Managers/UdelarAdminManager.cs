@@ -47,12 +47,9 @@ namespace BusinessLayer.Managers
                 Console.WriteLine(usuario.Id);
                 Console.WriteLine(usuario.Password);
                 LiteCollection<IdPassword> collection = _context.NoSql.GetCollection<IdPassword>("usuarios");
-                collection.Insert(new IdPassword(usuario.Id, usuario.Password));
-                Console.WriteLine("ESTOY AQUI2");
+                collection.Insert(new IdPassword(usuario.Id, BCrypt.Net.BCrypt.HashPassword(usuario.Password)));
                 collection.EnsureIndex(x => x.Id);
-                Console.WriteLine("ESTOY AQUI3");
                 response.Data = collection.FindAll().ToList();
-                Console.WriteLine("ESTOY AQUI4");
             }
             catch (Exception e)
             {

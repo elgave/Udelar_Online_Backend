@@ -4,14 +4,16 @@ using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20201028184855_roles")]
+    partial class roles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -194,18 +196,26 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.UsuarioRol", b =>
                 {
-                    b.Property<string>("UsuarioCedula")
+                    b.Property<string>("UsuarioId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("UsuarioFacultadId")
+                    b.Property<int>("FacultadId")
                         .HasColumnType("int");
 
                     b.Property<int>("RolId")
                         .HasColumnType("int");
 
-                    b.HasKey("UsuarioCedula", "UsuarioFacultadId", "RolId");
+                    b.Property<string>("UsuarioCedula1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("UsuarioFacultadId1")
+                        .HasColumnType("int");
+
+                    b.HasKey("UsuarioId", "FacultadId", "RolId");
 
                     b.HasIndex("RolId");
+
+                    b.HasIndex("UsuarioCedula1", "UsuarioFacultadId1");
 
                     b.ToTable("UsuarioRol");
                 });
@@ -282,9 +292,13 @@ namespace DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DataAccessLayer.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioCedula1", "UsuarioFacultadId1");
+
                     b.HasOne("DataAccessLayer.Usuario", null)
                         .WithMany("Roles")
-                        .HasForeignKey("UsuarioCedula", "UsuarioFacultadId")
+                        .HasForeignKey("UsuarioId", "FacultadId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
