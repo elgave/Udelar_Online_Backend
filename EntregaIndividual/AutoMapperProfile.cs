@@ -25,8 +25,7 @@ namespace TSI
             CreateMap<Facultad, GetFacultadDTO>();
             CreateMap<AddFacultadDTO, Facultad>();
 
-            CreateMap<Carrera, GetCarreraDTO>();
-            CreateMap<AddCarreraDTO, Carrera>();
+           
         }
     }
 }
