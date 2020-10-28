@@ -35,22 +35,14 @@ namespace DataAccessLayer
             modelBuilder.Entity<Usuario>()
                 .HasKey(e => new { e.Cedula, e.FacultadId});
 
-            modelBuilder.Entity<Usuario>()
-                .HasMany(u => u.Roles).WithOne().HasForeignKey(ur => new {ur.UsuarioCedula, ur.UsuarioFacultadId });
-
             modelBuilder.Entity<UsuarioRol>()
-                .HasKey(e => new { e.UsuarioCedula, e.UsuarioFacultadId, e.RolId });
+                .HasKey(e => new { e.UsuarioId, e.FacultadId, e.RolId });
 
             modelBuilder.Entity<UsuarioCurso>()
-               .HasKey(uc => new { uc.UsuarioId, uc.CursoId });
+               .HasKey(uc => new { uc.UsuarioId, uc.FacultadId, uc.CursoId });
 
             modelBuilder.Entity<Respuesta>()
               .HasOne(e => e.Pregunta).WithMany().HasForeignKey(e => e.PreguntaId).OnDelete(DeleteBehavior.Cascade);
-
-           
-
-
-
         }
         public override int SaveChanges()
         {

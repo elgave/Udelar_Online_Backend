@@ -5,8 +5,38 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Migrations\20201018192115_primeramigracion.cs" />
+	  <Compile Remove="Migrations\20201018192115_primeramigracion.Designer.cs" />
+	  <Compile Remove="Migrations\20201018213003_2020-10-18-1-gonzalo.cs" />
+	  <Compile Remove="Migrations\20201018213003_2020-10-18-1-gonzalo.Designer.cs" />
+	  <Compile Remove="Migrations\20201024214018_encuestas.cs" />
+	  <Compile Remove="Migrations\20201024214018_encuestas.Designer.cs" />
+	  <Compile Remove="Migrations\20201028184855_roles.cs" />
+	  <Compile Remove="Migrations\20201028184855_roles.Designer.cs" />
+	  <Compile Remove="Migrations\20201028185432_roles2.cs" />
+	  <Compile Remove="Migrations\20201028185432_roles2.Designer.cs" />
+	  <Compile Remove="Migrations\20201028185646_roles3.cs" />
+	  <Compile Remove="Migrations\20201028185646_roles3.Designer.cs" />
+	  <Compile Remove="Migrations\20201028185912_roles4.cs" />
+	  <Compile Remove="Migrations\20201028185912_roles4.Designer.cs" />
 	  <Compile Remove="Migrations\20201028190717_roles5.cs" />
 	  <Compile Remove="Migrations\20201028190717_roles5.Designer.cs" />
+	  <Compile Remove="Migrations\20201028190809_roles5.cs" />
+	  <Compile Remove="Migrations\20201028190809_roles5.Designer.cs" />
+	  <Compile Remove="Migrations\20201028192743_eliminar-carreras.cs" />
+	  <Compile Remove="Migrations\20201028192743_eliminar-carreras.Designer.cs" />
+	  <Compile Remove="Migrations\20201028194026_migracion2.cs" />
+	  <Compile Remove="Migrations\20201028194026_migracion2.Designer.cs" />
+	  <Compile Remove="Migrations\20201028194204_primeramigracion.cs" />
+	  <Compile Remove="Migrations\20201028194204_primeramigracion.Designer.cs" />
+	  <Compile Remove="Migrations\20201028200922_cursos.cs" />
+	  <Compile Remove="Migrations\20201028200922_cursos.Designer.cs" />
+	  <Compile Remove="Migrations\20201028201104_cursos.cs" />
+	  <Compile Remove="Migrations\20201028201104_cursos.Designer.cs" />
+	  <Compile Remove="Migrations\20201028203109_roles.cs" />
+	  <Compile Remove="Migrations\20201028203109_roles.Designer.cs" />
+	  <Compile Remove="Migrations\20201028203542_roles.cs" />
+	  <Compile Remove="Migrations\20201028203542_roles.Designer.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -38,7 +38,7 @@ namespace EntregaIndividual.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginUser usuario)
+        public IActionResult Login([FromBody] LoginUser usuario)
         {
             Task <ApiResponse < GetUsuarioDTO >> usu =  _usuarioManager.login(usuario);
             ApiResponse<string> response = new ApiResponse<string>();
