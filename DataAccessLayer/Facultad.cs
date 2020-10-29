@@ -10,6 +10,8 @@ namespace DataAccessLayer
         [Key]
         public int Id { get; set; }
         public string Nombre { get; set; }
+        public string Color { get; set; }
+        public string Url { get; set; }
         public virtual ICollection<Curso> Cursos { get; set; }
         public virtual ICollection<Usuario> Usuarios { get; set; }
         public Facultad() { }

@@ -32,7 +32,10 @@ namespace BusinessLayer
             ApiResponse<List<GetUsuarioDTO>> response = new ApiResponse<List<GetUsuarioDTO>>();
             try
             {
-                response.Data = _context.Usuarios.Include(u => u.UsuariosCursos).ThenInclude(uc => uc.Curso).Include(u => u.UsuariosRoles).ThenInclude(ur => ur.Rol).Select(u => _mapper.Map<GetUsuarioDTO>(u)).ToList();
+                response.Data = _context.Usuarios
+                    .Include(u => u.UsuariosCursos).ThenInclude(uc => uc.Curso)
+                    .Include(u => u.UsuariosRoles).ThenInclude(ur => ur.Rol)
+                    .Select(u => _mapper.Map<GetUsuarioDTO>(u)).ToList();
             }
             catch (Exception e)
             {
@@ -88,7 +91,11 @@ namespace BusinessLayer
 
             try
             {
-                response.Data = _mapper.Map<GetUsuarioDTO>(await _context.Usuarios.Include(u => u.UsuariosCursos).ThenInclude(uc => uc.Curso).Include(u => u.UsuariosRoles).ThenInclude(ur => ur.Rol).FirstOrDefaultAsync(u => u.Cedula == cedula && u.FacultadId == idFacultad));
+                response.Data = _mapper.Map<GetUsuarioDTO>(await _context.Usuarios
+                    .Include(u => u.UsuariosCursos).ThenInclude(uc => uc.Curso)
+                    .Include(u => u.UsuariosRoles).ThenInclude(ur => ur.Rol)
+                    .FirstAsync(u => u.Cedula == cedula && u.FacultadId == idFacultad
+                ));
             }
             catch (Exception e)
             {
@@ -127,7 +134,7 @@ namespace BusinessLayer
 
             try
             {
-                Usuario user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Cedula == usuario.Cedula);
+                Usuario user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Cedula == usuario.Cedula && u.FacultadId == usuario.FacultadId);
 
                 bool isValidPassword = BCrypt.Net.BCrypt.Verify(usuario.Password, user.Contrasena);
 
