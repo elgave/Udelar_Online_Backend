@@ -30,7 +30,6 @@ namespace EntregaIndividual.Controllers
             _usuarioManager = usuariomanager;
         }
 
-        [Authorize]
         [HttpGet]
         public IActionResult Get()
         {
@@ -56,7 +55,6 @@ namespace EntregaIndividual.Controllers
             }
 
             return Ok(response);
-
         }
 
         [HttpGet("{cedula}/{idFacultad}")]
@@ -65,20 +63,21 @@ namespace EntregaIndividual.Controllers
             return Ok(await _usuarioManager.get(cedula, idFacultad));
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddUsuarioDTO usuario)
         {
             return Ok(await _usuarioManager.add(usuario));
         }
 
-        // PUT api/<UsuarioController>/5
+        [Authorize(Roles = "admin")]
         [HttpPut("")]
         public async Task<IActionResult> Put([FromBody] AddUsuarioDTO usuario)
         {
             return Ok(await _usuarioManager.edit(usuario));
         }
 
-        // DELETE api/<UsuarioController>/5
+        [Authorize(Roles = "admin")]
         [HttpDelete("{cedula}/{idFacultad}")]
         public async Task<IActionResult> Delete(string cedula, int idFacultad)
         {
@@ -93,15 +92,16 @@ namespace EntregaIndividual.Controllers
             string ValidAudience = _configuration["ApiAuth:Audience"];
             SymmetricSecurityKey IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["ApiAuth:SecretKey"]));
 
-            //La fecha de expiracion sera el mismo dia a las 12 de la noche
+            // Expira en 24 horas. tiene mas sentido así
             DateTime dtFechaExpiraToken;
             DateTime now = DateTime.Now;
-            dtFechaExpiraToken = new DateTime(now.Year, now.Month, now.Day, 23, 59, 59, 999);
+            dtFechaExpiraToken = DateTime.UtcNow.AddHours(24);
 
             //Agregamos los claim nuestros
             var claims = new[]
             {
-                new Claim(Constantes.JWT_CLAIM_USUARIO, login.Cedula)
+                new Claim(Constantes.JWT_CLAIM_USUARIO, login.Cedula),
+                new Claim(ClaimTypes.Role, "usuario")
             };
 
             return new JwtSecurityToken

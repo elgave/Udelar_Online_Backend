@@ -80,14 +80,25 @@ namespace BusinessLayer.Managers
             return response;
         }
 
-        public ApiResponse<bool> Check(IdPassword usuario)
+        public ApiResponse<bool> Login(IdPassword usuario)
         {
             ApiResponse<bool> response = new ApiResponse<bool>();
             try
             {
                 LiteCollection<IdPassword> collection = _context.NoSql.GetCollection<IdPassword>("usuarios");
                 IdPassword user = collection.FindOne(x => x.Id == usuario.Id);
-                response.Data = user.Password == usuario.Password;
+                if (user != null)
+                {
+                    response.Data = BCrypt.Net.BCrypt.Verify(usuario.Password, user.Password);
+                }
+                else
+                {
+                    response.Data = false;
+                    response.Status = 500;
+                    response.Success = false;
+                    response.Message = "Usuario no encontrado";
+                }
+                
             }
             catch (Exception e)
             {

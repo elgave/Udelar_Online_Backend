@@ -66,6 +66,7 @@ namespace EntregaIndividual
                     OnTokenValidated = context =>
                     {
                         List<Claim> cl = new List<Claim>(((ClaimsIdentity)context.Principal.Identity).Claims);
+                        // ver que pasa con varios usuarios simultaneos. probablemente se rompa
                         string strUsuario = cl.Where(c => c.Type == Constantes.JWT_CLAIM_USUARIO).First().Value;
 
                         if (string.IsNullOrWhiteSpace(strUsuario))
