@@ -41,13 +41,14 @@ namespace EntregaIndividual
             services.AddScoped<IFacultadManager, FacultadManager>();
             services.AddScoped<ICursoManager, CursoManager>();
             services.AddScoped<IUdelarAdminManager, UdelarAdminManager>();
+            services.AddScoped<IArchivoManager, ArchivoManager>();
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<MyContext>(opt =>
                opt.UseSqlServer(Configuration.GetConnectionString("TSIDB")));
             //Swagger
             AddSwagger(services);
-
+            
             services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());

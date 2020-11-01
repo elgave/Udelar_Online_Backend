@@ -20,6 +20,7 @@ namespace DataAccessLayer
         public DbSet<Respuesta> Respuestas { get; set; }
         public LiteDatabase NoSql { get; set; }
         public DbSet<Pregunta> Preguntas { get; set; }
+        public DbSet<Archivo> Archivos { get; set; }
 
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
