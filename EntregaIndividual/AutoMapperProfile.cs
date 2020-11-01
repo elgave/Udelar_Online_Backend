@@ -4,8 +4,8 @@ using System.Linq;
 using Utilidades.DTOs.Curso;
 using Utilidades.DTOs.Usuario;
 using Utilidades.DTOs.Facultad;
-using Utilidades.DTOs.Carrera;
 using Utilidades.DTOs;
+using Utilidades.DTOs.Archivo;
 
 namespace TSI
 {
@@ -25,6 +25,9 @@ namespace TSI
 
             CreateMap<Facultad, GetFacultadDTO>();
             CreateMap<AddFacultadDTO, Facultad>();
+
+            CreateMap<Archivo, GetArchivoDTO>();
+            CreateMap<AddArchivoDTO, Archivo>();
         }
     }
 }
