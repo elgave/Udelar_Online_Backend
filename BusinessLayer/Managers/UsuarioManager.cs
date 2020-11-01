@@ -10,6 +10,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using Utilidades;
+using Utilidades.DTOs;
 using Utilidades.DTOs.Usuario;
 
 namespace BusinessLayer
@@ -55,6 +56,28 @@ namespace BusinessLayer
                 usuario.Contrasena = BCrypt.Net.BCrypt.HashPassword(usuario.Contrasena);
                 _context.Usuarios.Add(_mapper.Map<Usuario>(usuario));
                 await _context.SaveChangesAsync();
+                // añadir roles a usuario
+                foreach(GetRolDTO rol in usuario.Roles)
+                {
+                    UsuarioRol ur = new UsuarioRol();
+                    ur.FacultadId = usuario.FacultadId;
+                    ur.UsuarioId = usuario.Cedula;
+                    switch (rol.Descripcion)
+                    {
+                        case "administrador": 
+                            ur.RolId = 1;
+                            break;
+                        case "docente":
+                            ur.RolId = 2;
+                            break;
+                        case "estudiante":
+                            ur.RolId = 3;
+                            break;
+                    }
+                    _context.UsuarioRol.Add(ur);
+                }
+                await _context.SaveChangesAsync();
+
                 response.Data = _context.Usuarios.Select(u => _mapper.Map<GetUsuarioDTO>(u)).ToList();
             }
             catch (Exception e)
@@ -114,7 +137,7 @@ namespace BusinessLayer
                 Usuario usuarioUpdate = _context.Usuarios.First(u => u.Cedula == usuario.Cedula && u.FacultadId == usuario.FacultadId);
                 usuarioUpdate.Nombre = usuario.Nombre;
                 usuarioUpdate.Apellido = usuario.Apellido;
-                usuarioUpdate.Contrasena = usuario.Contrasena;
+                usuarioUpdate.Contrasena = BCrypt.Net.BCrypt.HashPassword(usuario.Contrasena);
                 usuarioUpdate.Correo = usuario.Correo;
                 await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<GetUsuarioDTO>(usuarioUpdate);
