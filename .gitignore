@@ -8,6 +8,7 @@ ServiceLayer/obj
 EntregaIndividual/obj
 EntregaIndividual/bin
 DataAccessLayer/obj
+.vs/
 .vs/UdelarOnline/DesignTimeBuild
 .vs/UdelarOnline/v16
 applicationhost.config
