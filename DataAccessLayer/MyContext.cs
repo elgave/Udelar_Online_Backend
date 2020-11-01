@@ -12,14 +12,17 @@ using System.IO;
 using System.Threading.Tasks;
 using Amazon.S3.Model;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+
 
 namespace DataAccessLayer
 {
     public class MyContext : DbContext
     {
-        private const string S3Access = "AKIASPQ5ILFXYOAHDQPC";
-        private const string S3Secret = "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";
-        private const string S3Bucket = "dotnet-storage";
+        private IConfiguration _configuration;
+        private string S3Access { get; set; }
+        private string S3Secret { get; set; }
+        private string S3Bucket { get; set; }
         private static readonly RegionEndpoint region = RegionEndpoint.USEast1;
         private static IAmazonS3 s3Client;
         public MyContext(): base() { }
@@ -70,9 +73,14 @@ namespace DataAccessLayer
 
             return base.SaveChanges();
         }
-        public MyContext(DbContextOptions options) : base(options)
+        public MyContext(IConfiguration configuration, DbContextOptions options) : base(options)
         {
             NoSql = new LiteDatabase("Filename=./nosql.db;Connection=shared");
+            _configuration = configuration;
+            S3Access = _configuration["S3Keys:S3Access"];
+            S3Secret = _configuration["S3Keys:S3Secret"];
+            S3Bucket = _configuration["S3Keys:S3Bucket"];
+            Console.WriteLine(S3Access, S3Bucket, S3Secret);
         }
  
         public void UploadS3(IFormFile file, string folder, string name)
