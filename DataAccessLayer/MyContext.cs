@@ -20,8 +20,10 @@ namespace DataAccessLayer
         public DbSet<Respuesta> Respuestas { get; set; }
         public LiteDatabase NoSql { get; set; }
         public DbSet<Pregunta> Preguntas { get; set; }
+        public DbSet<EncuestaCurso> EncuestaCursos { get; set; }
 
-        
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
@@ -44,10 +46,16 @@ namespace DataAccessLayer
             modelBuilder.Entity<UsuarioCurso>()
                .HasKey(uc => new { uc.UsuarioId, uc.CursoId });
 
-            modelBuilder.Entity<Respuesta>()
-              .HasOne(e => e.Pregunta).WithMany().HasForeignKey(e => e.PreguntaId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<EncuestaCurso>()
+                .HasKey(e => new { e.IdCurso, e.IdEncuesta });
 
-           
+            modelBuilder.Entity<Encuesta>()
+                .HasMany(e => e.Preguntas).WithOne(e => e.Encuesta).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Pregunta>()
+               .HasMany(e => e.Respuestas).WithOne(e => e.Pregunta).OnDelete(DeleteBehavior.Cascade);
+
+
 
 
 
