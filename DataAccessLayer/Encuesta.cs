@@ -5,13 +5,12 @@ using System.Text;
 
 namespace DataAccessLayer
 {
-    public class Encuesta 
+    public class Encuesta : Componente
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
         public string Titulo { get; set; }
         public string Fecha { get; set; }
         public virtual ICollection<Pregunta> Preguntas { get; set; }
-        
+        public virtual ICollection<Respuesta> Respuestas { get; set; }
     }
 }

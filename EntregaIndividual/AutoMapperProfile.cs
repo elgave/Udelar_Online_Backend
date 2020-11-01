@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Utilidades.DTOs.Curso;
 using Utilidades.DTOs.Usuario;
 using Utilidades.DTOs.Facultad;
-using Utilidades.DTOs.Encuesta;
+using Utilidades.DTOs.Carrera;
 
 namespace TSI
 {
@@ -25,20 +25,7 @@ namespace TSI
             CreateMap<Facultad, GetFacultadDTO>();
             CreateMap<AddFacultadDTO, Facultad>();
 
-            CreateMap<Encuesta, GetEncuestaDTO>()
-                /*.ForMember(dto => dto.Preguntas, u => u.MapFrom(u => u.Preguntas.Select(uc => uc.Respuestas)))*/;
-            CreateMap<AddEncuestaDTO, Encuesta>();
-
-            CreateMap<Pregunta, GetPreguntaDTO>();
-            CreateMap<AddPreguntaDTO, Pregunta>();
-
-            CreateMap<Respuesta, GetRespuestaDTO>();
-            CreateMap<AddRespuestaDTO, Respuesta>();
-
-            CreateMap<EncuestaCurso, GetEncuestaCursoDTO>();
-            CreateMap<AddEncuestaCursoDTO, EncuestaCurso>();
-
-
+           
         }
     }
 }

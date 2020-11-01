@@ -41,7 +41,6 @@ namespace EntregaIndividual
             services.AddScoped<IFacultadManager, FacultadManager>();
             services.AddScoped<ICursoManager, CursoManager>();
             services.AddScoped<IUdelarAdminManager, UdelarAdminManager>();
-            services.AddScoped<IEncuestaManager, EncuestaManager>();
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<MyContext>(opt =>
