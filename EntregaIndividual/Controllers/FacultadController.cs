@@ -45,9 +45,9 @@ namespace EntregaIndividual.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] AddFacultadDTO facultad)
+        public async Task<IActionResult> Post([FromForm] AddFacultadDTO facultad)
         {
-            return Ok(await _facultadManager.add(facultad));
+            return Ok(await _facultadManager.add(facultad, Request.Form.Files[0]));
         }
 
         [Authorize(Roles = "admin")]

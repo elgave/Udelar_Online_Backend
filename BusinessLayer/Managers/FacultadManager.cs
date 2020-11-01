@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DataAccessLayer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -38,12 +39,13 @@ namespace BusinessLayer
             return response;
         }
 
-        public async Task<ApiResponse<List<GetFacultadDTO>>> add(AddFacultadDTO facultad)
+        public async Task<ApiResponse<List<GetFacultadDTO>>> add(AddFacultadDTO facultad, IFormFile icono)
         {
             ApiResponse<List<GetFacultadDTO>> response = new ApiResponse<List<GetFacultadDTO>>();
             try
             {
                 _context.Facultades.Add(_mapper.Map<Facultad>(facultad));
+                _context.UploadS3(icono, "facultadIcon", facultad.Url+".png");
                 await _context.SaveChangesAsync();
                 response.Data = _context.Facultades.Select(f => _mapper.Map<GetFacultadDTO>(f)).ToList();
             }
@@ -96,7 +98,8 @@ namespace BusinessLayer
             {
                 Facultad facultadUpdate = _context.Facultades.First(f => f.Id == id);
                 facultadUpdate.Nombre = facultad.Nombre;
-                //! agregar mas datos al expandir Facultad.cs
+                facultadUpdate.Color = facultad.Color;
+                facultadUpdate.Url = facultad.Url;
                 await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<GetFacultadDTO>(facultadUpdate);
             }
