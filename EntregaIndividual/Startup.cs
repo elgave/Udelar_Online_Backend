@@ -11,6 +11,7 @@ using DataAccessLayer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -48,7 +49,14 @@ namespace EntregaIndividual
                opt.UseSqlServer(Configuration.GetConnectionString("TSIDB")));
             //Swagger
             AddSwagger(services);
-            
+
+            services.Configure<FormOptions>(o =>
+            {
+                o.ValueLengthLimit = int.MaxValue;
+                o.MultipartBodyLengthLimit = int.MaxValue;
+                o.MemoryBufferThreshold = int.MaxValue;
+            });
+
             services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
@@ -67,6 +75,7 @@ namespace EntregaIndividual
                     OnTokenValidated = context =>
                     {
                         List<Claim> cl = new List<Claim>(((ClaimsIdentity)context.Principal.Identity).Claims);
+                        // ver que pasa con varios usuarios simultaneos. probablemente se rompa
                         string strUsuario = cl.Where(c => c.Type == Constantes.JWT_CLAIM_USUARIO).First().Value;
 
                         if (string.IsNullOrWhiteSpace(strUsuario))

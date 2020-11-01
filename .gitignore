@@ -8,6 +8,7 @@ ServiceLayer/obj
 EntregaIndividual/obj
 EntregaIndividual/bin
 DataAccessLayer/obj
+.vs/
 .vs/UdelarOnline/DesignTimeBuild
 .vs/UdelarOnline/v16
 applicationhost.config
@@ -20,3 +21,4 @@ DataAccessLayer/Migrations/20201025195942_3.Designer.cs
 .vs/UdelarOnline/config/applicationhost.config
 EntregaIndividual/appsettings.Development.json
 *.cache
+*.db

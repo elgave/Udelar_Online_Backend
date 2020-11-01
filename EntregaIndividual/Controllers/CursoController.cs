@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BusinessLayer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Utilidades;
 using Utilidades.DTOs.Curso;
@@ -32,24 +33,28 @@ namespace EntregaIndividual.Controllers
             return Ok(await _cursoManager.get(id));
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddCursoDTO curso)
         {
             return Ok(await _cursoManager.add(curso));
         }
 
+        [Authorize(Roles = "usuario")]
         [HttpPost("matricularse")]
         public IActionResult Post([FromBody] DTMatricula matricula)
         {
             return Ok(_cursoManager.matricularse(matricula));
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] AddCursoDTO curso)
         {
             return Ok(await _cursoManager.edit(id, curso));
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

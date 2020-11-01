@@ -136,6 +136,10 @@ namespace BusinessLayer
             {
                 Usuario user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Cedula == usuario.Cedula && u.FacultadId == usuario.FacultadId);
 
+                if (user == null)
+                {
+                    throw new Exception("User not found");
+                }
                 bool isValidPassword = BCrypt.Net.BCrypt.Verify(usuario.Password, user.Contrasena);
 
                 if (isValidPassword)

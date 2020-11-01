@@ -1,14 +1,27 @@
 ﻿using LiteDB;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Amazon;
+using Amazon.S3;
+using Amazon.S3.Transfer;
+using System.IO;
+using System.Threading.Tasks;
+using Amazon.S3.Model;
+using Microsoft.AspNetCore.Http;
 
 namespace DataAccessLayer
 {
     public class MyContext : DbContext
     {
+        private const string S3Access = "AKIASPQ5ILFXYOAHDQPC";
+        private const string S3Secret = "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";
+        private const string S3Bucket = "dotnet-storage";
+        private static readonly RegionEndpoint region = RegionEndpoint.USEast1;
+        private static IAmazonS3 s3Client;
         public MyContext(): base() { }
         public DbSet<Facultad> Facultades { get; set; }
         public DbSet<Curso> Cursos { get; set; }
@@ -22,7 +35,6 @@ namespace DataAccessLayer
         public DbSet<Pregunta> Preguntas { get; set; }
         public DbSet<Archivo> Archivos { get; set; }
 
-        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
@@ -62,6 +74,23 @@ namespace DataAccessLayer
         public MyContext(DbContextOptions options) : base(options)
         {
             NoSql = new LiteDatabase("Filename=./nosql.db;Connection=shared");
+        }
+ 
+        public void UploadS3(IFormFile file, string folder, string name)
+        {
+            s3Client = new AmazonS3Client(S3Access, S3Secret, region);
+            var newMemoryStream = new MemoryStream();
+            file.CopyTo(newMemoryStream);
+            var uploadRequest = new TransferUtilityUploadRequest
+            {
+                InputStream = newMemoryStream,
+                Key = folder+"/"+name,
+                BucketName = S3Bucket,
+                CannedACL = S3CannedACL.PublicRead
+            };
+
+            var fileTransferUtility = new TransferUtility(s3Client);
+            fileTransferUtility.UploadAsync(uploadRequest);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BusinessLayer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Utilidades;
 using Utilidades.DTOs.Facultad;
@@ -42,21 +43,21 @@ namespace EntregaIndividual.Controllers
             return Ok(await _facultadManager.get(id));
         }
 
-        // POST api/<FacultadController>
+        [Authorize(Roles = "admin")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] AddFacultadDTO facultad)
+        public async Task<IActionResult> Post([FromForm] AddFacultadDTO facultad)
         {
-            return Ok(await _facultadManager.add(facultad));
+            return Ok(await _facultadManager.add(facultad, Request.Form.Files[0]));
         }
 
-        // PUT api/<FacultadController>/5
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] AddFacultadDTO facultad)
         {
             return Ok(await _facultadManager.edit(id, facultad));
         }
 
-        // DELETE api/<FacultadController>/5
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
