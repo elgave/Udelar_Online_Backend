@@ -13,6 +13,7 @@ namespace DataAccessLayer
         public int EncuestaId { get; set; }
         [ForeignKey("EncuestaId")]
         public virtual Encuesta Encuesta { get; set; }
+        public virtual ICollection<Respuesta> Respuestas { get; set; }
     }
 }
     

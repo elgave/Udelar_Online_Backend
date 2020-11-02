@@ -10,12 +10,15 @@ namespace DataAccessLayer
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Texto { get; set; }
-        public int EncuestaId { get; set; }
+        //public int EncuestaId { get; set; }
         public int PreguntaId { get; set; }
+        [ForeignKey("PreguntaId")]
 
-        
-        public virtual Encuesta Encuesta { get; set; }
+
+        //public virtual Encuesta Encuesta { get; set; }
         public virtual Pregunta Pregunta { get; set; }
 
+
+      
     }
 }

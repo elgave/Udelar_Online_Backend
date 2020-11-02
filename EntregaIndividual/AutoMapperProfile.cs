@@ -6,6 +6,7 @@ using Utilidades.DTOs.Usuario;
 using Utilidades.DTOs.Facultad;
 using Utilidades.DTOs;
 using Utilidades.DTOs.Archivo;
+using Utilidades.DTOs.Encuesta;
 
 namespace TSI
 {
@@ -30,6 +31,19 @@ namespace TSI
 
             CreateMap<Archivo, GetArchivoDTO>();
             CreateMap<AddArchivoDTO, Archivo>();
+
+            CreateMap<Encuesta, GetEncuestaDTO>();
+            CreateMap<AddEncuestaDTO, Encuesta>();
+
+            CreateMap<Pregunta, GetPreguntaDTO>();
+            CreateMap<AddPreguntaDTO, Pregunta>();
+
+            CreateMap<Respuesta, GetRespuestaDTO>();
+            CreateMap<AddRespuestaDTO, Respuesta>();
+
+            CreateMap<EncuestaCurso, GetEncuestaCursoDTO>();
+            CreateMap<AddEncuestaCursoDTO, EncuestaCurso>();
+
         }
     }
 }
