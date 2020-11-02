@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Utilidades;
 using Utilidades.DTOs.Curso;
+using Utilidades.DTOs.Usuario;
 
 namespace EntregaIndividual.Controllers
 {
@@ -38,6 +39,13 @@ namespace EntregaIndividual.Controllers
         public async Task<IActionResult> Post([FromBody] AddCursoDTO curso)
         {
             return Ok(await _cursoManager.add(curso));
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost("{id}")]
+        public async Task<IActionResult> AddDocente(int id, [FromBody] AddUsuarioDTO user)
+        {
+            return Ok(await _cursoManager.addDocente(id, user));
         }
 
         [Authorize(Roles = "usuario")]

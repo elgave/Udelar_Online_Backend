@@ -30,6 +30,7 @@ namespace DataAccessLayer
         public DbSet<Curso> Cursos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<UsuarioCurso> UsuarioCurso { get; set; }
+        public DbSet<CursoDocente> CursoDocente { get; set; }
         public DbSet<Rol> Roles { get; set; }
         public DbSet<UsuarioRol> UsuarioRol { get; set; }
         public DbSet<Encuesta> Encuestas { get; set; }
@@ -56,6 +57,9 @@ namespace DataAccessLayer
 
             modelBuilder.Entity<UsuarioCurso>()
                .HasKey(uc => new { uc.UsuarioId, uc.FacultadId, uc.CursoId });
+
+            modelBuilder.Entity<CursoDocente>()
+               .HasKey(cd => new { cd.UsuarioId, cd.FacultadId, cd.CursoId });
 
             modelBuilder.Entity<Respuesta>()
               .HasOne(e => e.Pregunta).WithMany().HasForeignKey(e => e.PreguntaId).OnDelete(DeleteBehavior.Cascade);

@@ -16,5 +16,6 @@ namespace Utilidades.DTOs.Usuario
         public DateTime FechaCreacion { get; set; }
         public List<GetRolDTO> Roles { get; set; }
         public List<GetCursoDTO> Cursos { get; set; }
+        public List<GetCursoDTO> DocenteEnCursos { get; set; }
     }
 }
