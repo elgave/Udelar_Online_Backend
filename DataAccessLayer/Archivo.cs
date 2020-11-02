@@ -10,16 +10,18 @@ namespace DataAccessLayer
     {
         [Key]
         public int Id { get; set; }
-
-        public int CursoId { get; set; }
-        public string Tipo { get; set; } //Video, Material educativo o entrega de trabajo
+        //public string Tipo { get; set; } //Video, Material educativo o entrega de trabajo
         public string Nombre { get; set; }
         public string Extension { get; set; }
         public string Ubicacion { get; set; }
 
-        public string UsuarioId { get; set; }
+        public int? ComponenteId { get; set; }
+        [ForeignKey("ComponenteId")]
+        public virtual Componente Componente { get; set; }
 
-        [ForeignKey("CursoId")]
-        public virtual Curso Curso { get; set; }
+
+        public int? EntregaTareaId { get; set; }
+        [ForeignKey("EntregaTareaId")]
+        public virtual EntregaTarea EntregaTarea { get; set; }
     }
 }

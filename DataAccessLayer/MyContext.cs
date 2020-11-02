@@ -40,6 +40,12 @@ namespace DataAccessLayer
         public DbSet<Archivo> Archivos { get; set; }
         public DbSet<EncuestaCurso> EncuestaCursos { get; set; }
 
+        public DbSet<Componente> Componentes { get; set; }
+        public DbSet<Comunicado> Comunicados { get; set; }
+
+        public DbSet<ContenedorTarea> ContenedoresTareas { get; set; }
+        public DbSet<SeccionCurso> SeccionesCursos { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
