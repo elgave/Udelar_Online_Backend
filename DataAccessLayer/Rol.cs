@@ -6,11 +6,10 @@ using System.Text;
 
 namespace DataAccessLayer
 {
-    public class Roles
+    public class Rol
     {
         [Key]
         public int Id { get; set; }
-
         public string Descripcion { get; set; }
     }
 }

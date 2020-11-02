@@ -4,52 +4,22 @@ using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20201028215245_facultad-propiedades")]
+    partial class facultadpropiedades
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("DataAccessLayer.Archivo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CursoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Extension")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nombre")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Tipo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Ubicacion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UsuarioId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CursoId");
-
-                    b.ToTable("Archivos");
-                });
 
             modelBuilder.Entity("DataAccessLayer.Curso", b =>
                 {
@@ -72,24 +42,6 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("FacultadId");
 
                     b.ToTable("Cursos");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.CursoDocente", b =>
-                {
-                    b.Property<string>("UsuarioId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("FacultadId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CursoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UsuarioId", "FacultadId", "CursoId");
-
-                    b.HasIndex("CursoId");
-
-                    b.ToTable("CursoDocente");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Encuesta", b =>
@@ -263,35 +215,11 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("UsuarioRol");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Archivo", b =>
-                {
-                    b.HasOne("DataAccessLayer.Curso", "Curso")
-                        .WithMany()
-                        .HasForeignKey("CursoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DataAccessLayer.Curso", b =>
                 {
                     b.HasOne("DataAccessLayer.Facultad", "Facultad")
                         .WithMany("Cursos")
                         .HasForeignKey("FacultadId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DataAccessLayer.CursoDocente", b =>
-                {
-                    b.HasOne("DataAccessLayer.Curso", "Curso")
-                        .WithMany("CursosDocentes")
-                        .HasForeignKey("CursoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DataAccessLayer.Usuario", "Usuario")
-                        .WithMany("CursosDocentes")
-                        .HasForeignKey("UsuarioId", "FacultadId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

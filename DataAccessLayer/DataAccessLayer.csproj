@@ -2,11 +2,49 @@
 
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<UserSecretsId>e1ce8949-fb6f-4552-b1e4-87a14cca2af6</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Migrations\20201018192115_primeramigracion.cs" />
+	  <Compile Remove="Migrations\20201018192115_primeramigracion.Designer.cs" />
+	  <Compile Remove="Migrations\20201018213003_2020-10-18-1-gonzalo.cs" />
+	  <Compile Remove="Migrations\20201018213003_2020-10-18-1-gonzalo.Designer.cs" />
+	  <Compile Remove="Migrations\20201024214018_encuestas.cs" />
+	  <Compile Remove="Migrations\20201024214018_encuestas.Designer.cs" />
+	  <Compile Remove="Migrations\20201028184855_roles.cs" />
+	  <Compile Remove="Migrations\20201028184855_roles.Designer.cs" />
+	  <Compile Remove="Migrations\20201028185432_roles2.cs" />
+	  <Compile Remove="Migrations\20201028185432_roles2.Designer.cs" />
+	  <Compile Remove="Migrations\20201028185646_roles3.cs" />
+	  <Compile Remove="Migrations\20201028185646_roles3.Designer.cs" />
+	  <Compile Remove="Migrations\20201028185912_roles4.cs" />
+	  <Compile Remove="Migrations\20201028185912_roles4.Designer.cs" />
+	  <Compile Remove="Migrations\20201028190717_roles5.cs" />
+	  <Compile Remove="Migrations\20201028190717_roles5.Designer.cs" />
+	  <Compile Remove="Migrations\20201028190809_roles5.cs" />
+	  <Compile Remove="Migrations\20201028190809_roles5.Designer.cs" />
+	  <Compile Remove="Migrations\20201028192743_eliminar-carreras.cs" />
+	  <Compile Remove="Migrations\20201028192743_eliminar-carreras.Designer.cs" />
+	  <Compile Remove="Migrations\20201028194026_migracion2.cs" />
+	  <Compile Remove="Migrations\20201028194026_migracion2.Designer.cs" />
+	  <Compile Remove="Migrations\20201028194204_primeramigracion.cs" />
+	  <Compile Remove="Migrations\20201028194204_primeramigracion.Designer.cs" />
+	  <Compile Remove="Migrations\20201028200922_cursos.cs" />
+	  <Compile Remove="Migrations\20201028200922_cursos.Designer.cs" />
+	  <Compile Remove="Migrations\20201028201104_cursos.cs" />
+	  <Compile Remove="Migrations\20201028201104_cursos.Designer.cs" />
+	  <Compile Remove="Migrations\20201028203109_roles.cs" />
+	  <Compile Remove="Migrations\20201028203109_roles.Designer.cs" />
+	  <Compile Remove="Migrations\20201028203542_roles.cs" />
+	  <Compile Remove="Migrations\20201028203542_roles.Designer.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+		<PackageReference Include="AWSSDK.S3" Version="3.5.3.10" />
 		<PackageReference Include="LiteDB" Version="4.1.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.9" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.9">
@@ -18,6 +56,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -9,7 +9,6 @@ namespace DataAccessLayer
 {
     public class Usuario
     {
-        
         public string Cedula { get; set; }
         public int FacultadId { get; set; }
         public string Nombre { get; set; }
@@ -19,8 +18,9 @@ namespace DataAccessLayer
         public DateTime FechaCreacion { get; set;}
         [ForeignKey("FacultadId")]
         public virtual Facultad Facultad { get; set; }
-        public virtual ICollection<UsuarioRol> Roles { get; set; }
+        public virtual ICollection<UsuarioRol> UsuariosRoles { get; set; }
         public virtual ICollection<UsuarioCurso> UsuariosCursos { get; set; }
+        public virtual ICollection<CursoDocente> CursosDocentes { get; set; }
         public Usuario() { }
         public Usuario(string cedula, int facultadId, string nombre, string apellido,string correo, string contrasena)
         {

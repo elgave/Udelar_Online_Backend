@@ -10,6 +10,8 @@ namespace Utilidades.DTOs.Facultad
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
+        public string Color { get; set; }
+        public string Url { get; set; }
         public List<GetCursoDTO> Cursos { get; set; }
         public List<GetUsuarioDTO> Usuarios { get; set; }
     }

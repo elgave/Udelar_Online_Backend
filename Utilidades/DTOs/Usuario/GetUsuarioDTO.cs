@@ -14,7 +14,8 @@ namespace Utilidades.DTOs.Usuario
         public string Apellido { get; set; }
         public string Correo { get; set; }
         public DateTime FechaCreacion { get; set; }
-        public List<GetUsuarioRolDTO> Roles { get; set; }
+        public List<GetRolDTO> Roles { get; set; }
         public List<GetCursoDTO> Cursos { get; set; }
+        public List<GetCursoDTO> DocenteEnCursos { get; set; }
     }
 }

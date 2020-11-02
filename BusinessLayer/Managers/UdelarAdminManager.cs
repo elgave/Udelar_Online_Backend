@@ -47,12 +47,9 @@ namespace BusinessLayer.Managers
                 Console.WriteLine(usuario.Id);
                 Console.WriteLine(usuario.Password);
                 LiteCollection<IdPassword> collection = _context.NoSql.GetCollection<IdPassword>("usuarios");
-                collection.Insert(new IdPassword(usuario.Id, usuario.Password));
-                Console.WriteLine("ESTOY AQUI2");
+                collection.Insert(new IdPassword(usuario.Id, BCrypt.Net.BCrypt.HashPassword(usuario.Password)));
                 collection.EnsureIndex(x => x.Id);
-                Console.WriteLine("ESTOY AQUI3");
                 response.Data = collection.FindAll().ToList();
-                Console.WriteLine("ESTOY AQUI4");
             }
             catch (Exception e)
             {
@@ -83,14 +80,25 @@ namespace BusinessLayer.Managers
             return response;
         }
 
-        public ApiResponse<bool> Check(IdPassword usuario)
+        public ApiResponse<bool> Login(IdPassword usuario)
         {
             ApiResponse<bool> response = new ApiResponse<bool>();
             try
             {
                 LiteCollection<IdPassword> collection = _context.NoSql.GetCollection<IdPassword>("usuarios");
                 IdPassword user = collection.FindOne(x => x.Id == usuario.Id);
-                response.Data = user.Password == usuario.Password;
+                if (user != null)
+                {
+                    response.Data = BCrypt.Net.BCrypt.Verify(usuario.Password, user.Password);
+                }
+                else
+                {
+                    response.Data = false;
+                    response.Status = 500;
+                    response.Success = false;
+                    response.Message = "Usuario no encontrado";
+                }
+                
             }
             catch (Exception e)
             {

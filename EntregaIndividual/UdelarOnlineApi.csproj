@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\Peter\Desktop\Udelar-Back3\EntregaIndividual\UdelarOnlineApi.xml</DocumentationFile>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <OutputPath></OutputPath>
   </PropertyGroup>

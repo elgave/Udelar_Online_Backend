@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Utilidades.DTOs
 {
-    public class GetUsuarioRolDTO
+    public class GetRolDTO
     {
-        //! TERMINAR CUANDO CHRISTIAN ACABE ROLES
+        public string Descripcion { get; set; }
     }
 }

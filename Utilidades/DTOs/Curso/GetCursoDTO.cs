@@ -9,9 +9,9 @@ namespace Utilidades.DTOs.Curso
     {
         public int Id { get; set; }
         public int FacultadId { get; set; }
-        public int CarreraId { get; set; }
         public string Nombre { get; set; }
         public int CantCreditos { get; set; }
         public List<GetUsuarioDTO> Usuarios { get; set; }
+        public List<GetUsuarioDTO> Docentes { get; set; }
     }
 }

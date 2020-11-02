@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Utilidades.DTOs.Usuario
 {
@@ -12,5 +10,6 @@ namespace Utilidades.DTOs.Usuario
         public string Apellido { get; set; }
         public string Correo { get; set; }
         public string Contrasena { get; set; }
+        public List<GetRolDTO> Roles { get; set; }
     }
 }

@@ -12,6 +12,6 @@ namespace BusinessLayer
         ApiResponse<List<IdPassword>> GetAll();
         ApiResponse<List<IdPassword>> AddKey(IdPassword usuario);
         ApiResponse<List<IdPassword>> DeleteKey(string id);
-        ApiResponse<bool> Check(IdPassword usuario);
+        ApiResponse<bool> Login(IdPassword usuario);
     }
 }
