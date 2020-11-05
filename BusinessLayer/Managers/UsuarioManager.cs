@@ -34,7 +34,7 @@ namespace BusinessLayer
             try
             {
                 response.Data = _context.Usuarios
-                    .Include(u => u.UsuariosCursos).ThenInclude(uc => uc.Curso)
+                   // .Include(u => u.UsuariosCursos).ThenInclude(uc => uc.Curso)
                     .Include(u => u.UsuariosRoles).ThenInclude(ur => ur.Rol)
                     .Select(u => _mapper.Map<GetUsuarioDTO>(u)).ToList();
             }
@@ -115,7 +115,7 @@ namespace BusinessLayer
             try
             {
                 response.Data = _mapper.Map<GetUsuarioDTO>(await _context.Usuarios
-                    .Include(u => u.UsuariosCursos).ThenInclude(uc => uc.Curso)
+                   // .Include(u => u.UsuariosCursos).ThenInclude(uc => uc.Curso)
                     .Include(u => u.UsuariosRoles).ThenInclude(ur => ur.Rol)
                     .FirstAsync(u => u.Cedula == cedula && u.FacultadId == idFacultad
                 ));

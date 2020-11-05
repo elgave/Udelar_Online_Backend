@@ -20,6 +20,7 @@ namespace DataAccessLayer
         public virtual Facultad Facultad { get; set; }
         public virtual ICollection<UsuarioRol> UsuariosRoles { get; set; }
         public virtual ICollection<UsuarioCurso> UsuariosCursos { get; set; }
+        public virtual ICollection<CursoDocente> CursosDocentes { get; set; }
         public Usuario() { }
         public Usuario(string cedula, int facultadId, string nombre, string apellido,string correo, string contrasena)
         {

@@ -16,12 +16,14 @@ namespace TSI
         {
             CreateMap<Rol, GetRolDTO>();
             CreateMap<Usuario, GetUsuarioDTO>()
-                .ForMember(dto => dto.Roles, u => u.MapFrom(u => u.UsuariosRoles.Select(r => r.Rol)))
-                .ForMember(dto => dto.Cursos, u => u.MapFrom(u => u.UsuariosCursos.Select(uc => uc.Curso)));
+                .ForMember(dto => dto.Roles, u => u.MapFrom(u => u.UsuariosRoles.Select(r => r.Rol)));
+                //.ForMember(dto => dto.Cursos, u => u.MapFrom(u => u.UsuariosCursos.Select(uc => uc.Curso)));
                 
             CreateMap<AddUsuarioDTO, Usuario>();
 
-            CreateMap<Curso, GetCursoDTO>();
+            CreateMap<Curso, GetCursoDTO>()
+                .ForMember(dto => dto.Usuarios, u => u.MapFrom(u => u.UsuariosCursos.Select(uc => uc.Usuario)))
+                .ForMember(dto => dto.Docentes, d => d.MapFrom(d => d.CursosDocentes.Select(cd => cd.Usuario)));
             CreateMap<AddCursoDTO, Curso>();
 
             CreateMap<Facultad, GetFacultadDTO>();

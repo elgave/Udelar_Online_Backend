@@ -28,7 +28,10 @@ namespace BusinessLayer
             ApiResponse<List<GetFacultadDTO>> response = new ApiResponse<List<GetFacultadDTO>>();
             try
             {
-                response.Data = _context.Facultades.Include(f => f.Cursos).Include(f => f.Usuarios).Select(f => _mapper.Map<GetFacultadDTO>(f)).ToList();
+                response.Data = _context.Facultades
+                    .Include(f => f.Cursos)
+                    .Include(f => f.Usuarios)
+                    .Select(f => _mapper.Map<GetFacultadDTO>(f)).ToList();
             }
             catch (Exception e)
             {
@@ -82,7 +85,13 @@ namespace BusinessLayer
             ApiResponse<GetFacultadDTO> response = new ApiResponse<GetFacultadDTO>();
             try
             {
-                response.Data = _mapper.Map<GetFacultadDTO>(await _context.Facultades.Include(f => f.Cursos).Include(f => f.Usuarios).FirstOrDefaultAsync(f => f.Id == id));
+                response.Data = _mapper.Map<GetFacultadDTO>(
+                    await _context.Facultades
+                    .Include(f => f.Cursos).ThenInclude(c => c.UsuariosCursos).ThenInclude(uc => uc.Usuario)
+                    .Include(f => f.Cursos).ThenInclude(c => c.CursosDocentes).ThenInclude(cd => cd.Usuario)
+                    .Include(f => f.Usuarios).ThenInclude(u => u.UsuariosRoles).ThenInclude(ur => ur.Rol)
+                    .FirstOrDefaultAsync(f => f.Id == id)
+                );
             }
             catch (Exception e)
             {

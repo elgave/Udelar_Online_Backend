@@ -30,6 +30,7 @@ namespace DataAccessLayer
         public DbSet<Curso> Cursos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<UsuarioCurso> UsuarioCurso { get; set; }
+        public DbSet<CursoDocente> CursoDocente { get; set; }
         public DbSet<Rol> Roles { get; set; }
         public DbSet<UsuarioRol> UsuarioRol { get; set; }
         public DbSet<Encuesta> Encuestas { get; set; }
@@ -39,6 +40,12 @@ namespace DataAccessLayer
         public DbSet<Archivo> Archivos { get; set; }
         public DbSet<EncuestaCurso> EncuestaCursos { get; set; }
         public DbSet<EncuestaUsuario> EncuestaUsuarios { get; set; }
+
+        public DbSet<Componente> Componentes { get; set; }
+        public DbSet<Comunicado> Comunicados { get; set; }
+
+        public DbSet<ContenedorTarea> ContenedoresTareas { get; set; }
+        public DbSet<SeccionCurso> SeccionesCursos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -58,6 +65,9 @@ namespace DataAccessLayer
 
             modelBuilder.Entity<UsuarioCurso>()
                .HasKey(uc => new { uc.UsuarioId, uc.FacultadId, uc.CursoId });
+
+            modelBuilder.Entity<CursoDocente>()
+               .HasKey(cd => new { cd.UsuarioId, cd.FacultadId, cd.CursoId });
 
             modelBuilder.Entity<EncuestaCurso>()
                 .HasKey(e => new { e.IdCurso, e.IdEncuesta });

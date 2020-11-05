@@ -13,6 +13,7 @@ namespace DataAccessLayer
         public string Nombre { get; set; }
         public int CantCreditos { get; set; }
         public virtual ICollection<UsuarioCurso> UsuariosCursos { get; set; }
+        public virtual ICollection<CursoDocente> CursosDocentes { get; set; }
         public virtual Facultad Facultad { get; set; }
         
         public Curso(string nombre, int cantCreditos)
