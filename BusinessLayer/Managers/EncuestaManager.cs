@@ -262,5 +262,55 @@ namespace BusinessLayer
         }
 
 
+
+        /*Encuesta-Usuario*/
+        public ApiResponse<List<GetEncuestaUsuarioDTO>> listAllEncuestaUsuario()
+        {
+            ApiResponse<List<GetEncuestaUsuarioDTO>> response = new ApiResponse<List<GetEncuestaUsuarioDTO>>();
+            try
+            {
+                response.Data = _context.EncuestaUsuarios.Select(f => _mapper.Map<GetEncuestaUsuarioDTO>(f)).ToList();
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 204;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+        public async Task<ApiResponse<List<GetEncuestaUsuarioDTO>>> addEncuestaUsuario(AddEncuestaUsuarioDTO encuestaUsuario)
+        {
+            ApiResponse<List<GetEncuestaUsuarioDTO>> response = new ApiResponse<List<GetEncuestaUsuarioDTO>>();
+            try
+            {
+                _context.EncuestaUsuarios.Add(_mapper.Map<EncuestaUsuario>(encuestaUsuario));
+                await _context.SaveChangesAsync();
+                response.Data = _context.EncuestaUsuarios.Select(f => _mapper.Map<GetEncuestaUsuarioDTO>(f)).ToList();
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 500;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+        public async Task<ApiResponse<GetEncuestaUsuarioDTO>> getEcuestaUsuario(string cedula)
+        {
+            ApiResponse<GetEncuestaUsuarioDTO> response = new ApiResponse<GetEncuestaUsuarioDTO>();
+            try
+            {
+                response.Data = _mapper.Map<GetEncuestaUsuarioDTO>(await _context.EncuestaUsuarios.FirstOrDefaultAsync(f => f.Cedula == cedula));
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
+
     }
 }

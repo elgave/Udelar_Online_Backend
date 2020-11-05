@@ -36,5 +36,10 @@ namespace BusinessLayer
         Task<ApiResponse<List<GetEncuestaCursoDTO>>> addEncuestaCurso(AddEncuestaCursoDTO encuestaCurso);
         Task<ApiResponse<GetEncuestaCursoDTO>> getEcuestaCurso(int idCurso);
 
+
+        //Encuesta-Usuario 
+        ApiResponse<List<GetEncuestaUsuarioDTO>> listAllEncuestaUsuario();
+        Task<ApiResponse<List<GetEncuestaUsuarioDTO>>> addEncuestaUsuario(AddEncuestaUsuarioDTO encuestaUsuario);
+        Task<ApiResponse<GetEncuestaUsuarioDTO>> getEcuestaUsuario(string cedula);
     }
 }

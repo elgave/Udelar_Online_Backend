@@ -108,10 +108,30 @@ namespace EntregaIndividual.Controllers
             return Ok(_encuestaManager.listAllEncuestaCurso());
         }
 
-        [HttpGet("ListEncuestaCurso{id}")]
+        [HttpGet("ListEncuestaCurso")]
         public async Task<IActionResult> GetEncuestaTocurso(int idCurso)
         {
             return Ok(await _encuestaManager.getEcuestaCurso(idCurso));
+        }
+
+
+        //EncuestaUsuario
+        [HttpPost("addEncuestaUsuario")]
+        public async Task<IActionResult> Post([FromBody] AddEncuestaUsuarioDTO encuestaUsuario)
+        {
+            return Ok(await _encuestaManager.addEncuestaUsuario(encuestaUsuario));
+        }
+
+        [HttpGet("ListAllEncuestaUsuario")]
+        public IActionResult ListEncuestaUsuario()
+        {
+            return Ok(_encuestaManager.listAllEncuestaUsuario());
+        }
+
+        [HttpGet("ListEncuestaUsuario")]
+        public async Task<IActionResult> GetEncuestaUsuario(string cedula)
+        {
+            return Ok(await _encuestaManager.getEcuestaUsuario(cedula));
         }
 
     }
