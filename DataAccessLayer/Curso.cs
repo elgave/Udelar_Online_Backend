@@ -12,6 +12,7 @@ namespace DataAccessLayer
         public int FacultadId { get; set; }
         public string Nombre { get; set; }
         public int CantCreditos { get; set; }
+        public bool ConfirmaBedelia { get; set; }
         public virtual ICollection<UsuarioCurso> UsuariosCursos { get; set; }
         public virtual ICollection<CursoDocente> CursosDocentes { get; set; }
         public virtual ICollection<SeccionCurso> SeccionesCurso { get; set; }

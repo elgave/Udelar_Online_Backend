@@ -128,8 +128,17 @@ namespace BusinessLayer
         public ApiResponse<bool> matricularse(DTMatricula matricula)
         {
             ApiResponse<bool> response = new ApiResponse<bool>();
-            IBedeliasApi _bedeliasApi = new BedeliasApi();
-            response.Data = _bedeliasApi.MatricularseACurso(matricula);
+
+            GetCursoDTO curso = _mapper.Map<GetCursoDTO>(_context.Cursos.FirstOrDefaultAsync(c => c.Id == matricula.IdCurso));
+
+            if (curso.ConfirmaBedelia)
+            {
+                IBedeliasApi _bedeliasApi = new BedeliasApi();
+                response.Data = _bedeliasApi.MatricularseACurso(matricula);
+            }
+            else
+                response.Data = true;
+
             return response;
         }
 
