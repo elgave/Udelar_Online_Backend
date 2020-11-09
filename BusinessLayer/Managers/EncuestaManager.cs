@@ -312,5 +312,58 @@ namespace BusinessLayer
         }
 
 
+        /*Encuestas-Facultad */
+        public ApiResponse<List<GetEncuestaFacultadDTO>> listAllEncuestaFacultad()
+        {
+            ApiResponse<List<GetEncuestaFacultadDTO>> response = new ApiResponse<List<GetEncuestaFacultadDTO>>();
+            try
+            {
+                response.Data = _context.encuestaFacultad.Include(f => f.Encuesta).ThenInclude(f => f.Preguntas).ThenInclude(f => f.Respuestas)
+                    .Select(f => _mapper.Map<GetEncuestaFacultadDTO>(f)).ToList();
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 204;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
+        public async Task<ApiResponse<List<GetEncuestaFacultadDTO>>> addEncuestaFacultad(AddEncuestaFacultadDTO encuestaFacultad)
+        {
+            ApiResponse<List<GetEncuestaFacultadDTO>> response = new ApiResponse<List<GetEncuestaFacultadDTO>>();
+            try
+            {
+                _context.encuestaFacultad.Add(_mapper.Map<EncuestaFacultad>(encuestaFacultad));
+                await _context.SaveChangesAsync();
+                response.Data = _context.encuestaFacultad.Select(f => _mapper.Map<GetEncuestaFacultadDTO>(f)).ToList();
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 500;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
+        public async Task<ApiResponse<GetEncuestaFacultadDTO>> getEcuestaFacultad(int idFacultad)
+        {
+            ApiResponse<GetEncuestaFacultadDTO> response = new ApiResponse<GetEncuestaFacultadDTO>();
+            try
+            {
+                response.Data = _mapper.Map<GetEncuestaFacultadDTO>(await _context.encuestaFacultad.Include(f => f.Encuesta).ThenInclude(f => f.Preguntas).ThenInclude(f => f.Respuestas).FirstOrDefaultAsync(f => f.IdFacultad == idFacultad));
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
+
+
     }
 }

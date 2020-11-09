@@ -47,6 +47,8 @@ namespace DataAccessLayer
         public DbSet<ContenedorTarea> ContenedoresTareas { get; set; }
         public DbSet<SeccionCurso> SeccionesCursos { get; set; }
 
+        public DbSet<EncuestaFacultad> encuestaFacultad { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
@@ -81,6 +83,9 @@ namespace DataAccessLayer
             modelBuilder.Entity<EncuestaUsuario>()
                .HasKey(e => new { e.IdEncuesta, e.Cedula });
 
+            modelBuilder.Entity<EncuestaFacultad>()
+                .HasKey(e => new { e.IdFacultad, e.IdEncuesta });
+
         }
         public override int SaveChanges()
         {
@@ -99,11 +104,11 @@ namespace DataAccessLayer
         public MyContext(IConfiguration configuration, DbContextOptions options) : base(options)
         {
             NoSql = new LiteDatabase("Filename=./nosql.db;Connection=shared");
-           /* _configuration = configuration;
+            _configuration = configuration;
             S3Access = _configuration["S3Keys:S3Access"];
             S3Secret = _configuration["S3Keys:S3Secret"];
             S3Bucket = _configuration["S3Keys:S3Bucket"];
-            Console.WriteLine(S3Access, S3Bucket, S3Secret);*/
+            Console.WriteLine(S3Access, S3Bucket, S3Secret);
         }
  
         public void UploadS3(IFormFile file, string folder, string name)
