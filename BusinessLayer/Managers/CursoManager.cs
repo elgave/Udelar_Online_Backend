@@ -92,7 +92,8 @@ namespace BusinessLayer
                     await _context.Cursos
                     .Include(c => c.CursosDocentes).ThenInclude(cd => cd.Usuario)
                     .Include(c => c.UsuariosCursos).ThenInclude(uc => uc.Usuario)
-                    .Include(c => c.SeccionesCurso).ThenInclude(co => co.Componentes)
+                    .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Comunicado)
+                    .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Archivo)
                     .FirstOrDefaultAsync(c => c.Id == id)
                 );
             }
@@ -124,7 +125,7 @@ namespace BusinessLayer
             return response;
         }
 
-        public ApiResponse<bool> matricularse(addseccionDTO matricula)
+        public ApiResponse<bool> matricularse(DTMatricula matricula)
         {
             ApiResponse<bool> response = new ApiResponse<bool>();
             IBedeliasApi _bedeliasApi = new BedeliasApi();

@@ -52,7 +52,7 @@ namespace EntregaIndividual.Controllers
 
         [Authorize(Roles = "usuario")]
         [HttpPost("matricularse")]
-        public IActionResult Post([FromBody] addseccionDTO matricula)
+        public IActionResult Post([FromBody] DTMatricula matricula)
         {
             return Ok(_cursoManager.matricularse(matricula));
         }
