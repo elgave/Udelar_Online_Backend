@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Utilidades.DTOs.SeccionCurso;
 using Utilidades.DTOs.Usuario;
 
 namespace Utilidades.DTOs.Curso
@@ -13,5 +14,6 @@ namespace Utilidades.DTOs.Curso
         public int CantCreditos { get; set; }
         public List<GetUsuarioDTO> Usuarios { get; set; }
         public List<GetUsuarioDTO> Docentes { get; set; }
+        public List<GetSeccionCursoDTO> Secciones { get; set; }
     }
 }

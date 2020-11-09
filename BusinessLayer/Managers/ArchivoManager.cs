@@ -37,10 +37,7 @@ namespace BusinessLayer.Managers
                 AddArchivoDTO archivo = new AddArchivoDTO();
                 archivo.Extension = Path.GetExtension(file.FileName).Substring(1);
                 archivo.Nombre = Path.GetFileNameWithoutExtension(file.FileName);
-                archivo.CursoId = cursoId;
                 archivo.Ubicacion = filepath;
-                archivo.Tipo = tipo;
-                archivo.UsuarioId = usuarioId;
 
                 _context.Archivos.Add(_mapper.Map<Archivo>(archivo));
                 _context.SaveChangesAsync();

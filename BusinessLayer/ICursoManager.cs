@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Utilidades;
+using Utilidades.DTOs.Componente;
 using Utilidades.DTOs.Curso;
+using Utilidades.DTOs.SeccionCurso;
 using Utilidades.DTOs.Usuario;
 
 namespace BusinessLayer
@@ -15,7 +17,13 @@ namespace BusinessLayer
         Task<ApiResponse<List<GetCursoDTO>>> delete(int id);
         Task<ApiResponse<GetCursoDTO>> get(int id);
         Task<ApiResponse<GetCursoDTO>> edit(int id, AddCursoDTO curso);
-        ApiResponse<bool> matricularse(DTMatricula matricula);
+        ApiResponse<bool> matricularse(addseccionDTO matricula);
         Task<ApiResponse<GetCursoDTO>> addDocente(int id, AddUsuarioDTO user);
+
+        Task<ApiResponse<AddSeccionCursoDTO>> addSeccion(AddSeccionCursoDTO seccion);
+        Task<ApiResponse<AddComponenteDTO>> addComponente(AddComponenteDTO componente);
+
+
+
     }
 }

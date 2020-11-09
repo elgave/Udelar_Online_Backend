@@ -8,7 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Utilidades;
+using Utilidades.DTOs.Componente;
 using Utilidades.DTOs.Curso;
+using Utilidades.DTOs.SeccionCurso;
 using Utilidades.DTOs.Usuario;
 
 namespace BusinessLayer
@@ -31,6 +33,9 @@ namespace BusinessLayer
                 response.Data = _context.Cursos
                     .Include(c => c.CursosDocentes).ThenInclude(cd => cd.Usuario)
                     .Include(c => c.UsuariosCursos).ThenInclude(uc => uc.Usuario)
+                    .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Comunicado)
+                    .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Archivo)
+
                     .Select(c => _mapper.Map<GetCursoDTO>(c)).ToList();
             }
             catch (Exception e)
@@ -87,6 +92,7 @@ namespace BusinessLayer
                     await _context.Cursos
                     .Include(c => c.CursosDocentes).ThenInclude(cd => cd.Usuario)
                     .Include(c => c.UsuariosCursos).ThenInclude(uc => uc.Usuario)
+                    .Include(c => c.SeccionesCurso).ThenInclude(co => co.Componentes)
                     .FirstOrDefaultAsync(c => c.Id == id)
                 );
             }
@@ -118,7 +124,7 @@ namespace BusinessLayer
             return response;
         }
 
-        public ApiResponse<bool> matricularse(DTMatricula matricula)
+        public ApiResponse<bool> matricularse(addseccionDTO matricula)
         {
             ApiResponse<bool> response = new ApiResponse<bool>();
             IBedeliasApi _bedeliasApi = new BedeliasApi();
@@ -138,6 +144,83 @@ namespace BusinessLayer
                 _context.CursoDocente.Add(cd);
                 await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<GetCursoDTO>(_context.Cursos.SingleOrDefault(c => c.Id == id));
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 500;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
+
+        public async Task<ApiResponse<AddSeccionCursoDTO>> addSeccion(AddSeccionCursoDTO seccion)
+        {
+            ApiResponse<AddSeccionCursoDTO> response = new ApiResponse<AddSeccionCursoDTO>();
+            try
+            {
+                SeccionCurso sc = new SeccionCurso();
+                sc.CursoId = seccion.CursoId;
+                sc.Indice = seccion.Indice;
+                sc.Titulo = seccion.Titulo;
+
+                _context.SeccionesCursos.Add(sc);
+                await _context.SaveChangesAsync();
+                response.Data = seccion;
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 500;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
+
+        public async Task<ApiResponse<AddComponenteDTO>> addComponente(AddComponenteDTO componente)
+        {
+            ApiResponse<AddComponenteDTO> response = new ApiResponse<AddComponenteDTO>();
+            try
+            {
+                Componente c = new Componente();
+
+                c.Indice = componente.Indice;
+                c.Nombre = componente.Nombre;
+                c.SeccionCursoId = componente.SeccionCursoId;
+                c.Tipo = componente.Tipo;
+                _context.Componentes.Add(c);
+                await _context.SaveChangesAsync();
+
+                int idComponente = c.Id;
+
+                if (c.Tipo.Equals("Archivo"))
+                {
+                    Archivo a = new Archivo();
+                    //a.ComponenteId = componente.Archivo.ComponenteId;
+                    a.ComponenteId = idComponente;
+                    a.Extension = componente.Archivo.Extension;
+                    a.Nombre = componente.Archivo.Nombre;
+                    a.Ubicacion = componente.Archivo.Ubicacion;
+
+                    _context.Archivos.Add(a);
+                    await _context.SaveChangesAsync();
+                }
+                else if (c.Tipo.Equals("Comunicado"))
+                {
+                    Comunicado comunicado = new Comunicado();
+
+                    //comunicado.ComponenteId = componente.Comunicado.ComponenteId;
+                    comunicado.ComponenteId = idComponente;
+                    comunicado.Descripcion = componente.Comunicado.Descripcion;
+                    comunicado.Titulo = componente.Comunicado.Titulo;
+
+                    _context.Comunicados.Add(comunicado);
+                    await _context.SaveChangesAsync();
+                }
+
+                response.Data = componente;
             }
             catch (Exception e)
             {

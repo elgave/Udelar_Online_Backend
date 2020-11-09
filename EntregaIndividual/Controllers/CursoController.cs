@@ -6,7 +6,9 @@ using BusinessLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Utilidades;
+using Utilidades.DTOs.Componente;
 using Utilidades.DTOs.Curso;
+using Utilidades.DTOs.SeccionCurso;
 using Utilidades.DTOs.Usuario;
 
 namespace EntregaIndividual.Controllers
@@ -50,7 +52,7 @@ namespace EntregaIndividual.Controllers
 
         [Authorize(Roles = "usuario")]
         [HttpPost("matricularse")]
-        public IActionResult Post([FromBody] DTMatricula matricula)
+        public IActionResult Post([FromBody] addseccionDTO matricula)
         {
             return Ok(_cursoManager.matricularse(matricula));
         }
@@ -68,5 +70,20 @@ namespace EntregaIndividual.Controllers
         {
             return Ok(await _cursoManager.delete(id));
         }
+
+        
+        [HttpPost("addSeccion")]
+        public async Task<IActionResult> Post([FromBody] AddSeccionCursoDTO seccion)
+        {
+            return Ok(await _cursoManager.addSeccion(seccion));
+        }
+
+        [HttpPost("addComponente")]
+        public async Task<IActionResult> Post([FromBody] AddComponenteDTO componente)
+        {
+            return Ok(await _cursoManager.addComponente(componente));
+        }
+
+
     }
 }

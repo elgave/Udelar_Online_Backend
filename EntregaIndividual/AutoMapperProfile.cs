@@ -7,6 +7,9 @@ using Utilidades.DTOs.Facultad;
 using Utilidades.DTOs;
 using Utilidades.DTOs.Archivo;
 using Utilidades.DTOs.Encuesta;
+using Utilidades.DTOs.SeccionCurso;
+using Utilidades.DTOs.Componente;
+using Utilidades.DTOs.Comunicado;
 
 namespace TSI
 {
@@ -23,8 +26,19 @@ namespace TSI
 
             CreateMap<Curso, GetCursoDTO>()
                 .ForMember(dto => dto.Usuarios, u => u.MapFrom(u => u.UsuariosCursos.Select(uc => uc.Usuario)))
-                .ForMember(dto => dto.Docentes, d => d.MapFrom(d => d.CursosDocentes.Select(cd => cd.Usuario)));
+                .ForMember(dto => dto.Docentes, d => d.MapFrom(d => d.CursosDocentes.Select(cd => cd.Usuario)))
+                .ForMember(dto => dto.Secciones, s => s.MapFrom(s => s.SeccionesCurso));
             CreateMap<AddCursoDTO, Curso>();
+
+            CreateMap<SeccionCurso, GetSeccionCursoDTO>()
+                .ForMember(dto => dto.Componentes, u => u.MapFrom(u => u.Componentes));   
+            CreateMap<AddSeccionCursoDTO, SeccionCurso>();
+
+            CreateMap<Componente, GetComponenteDTO>();
+            CreateMap<AddComponenteDTO, Componente>();
+
+            CreateMap<Comunicado, GetComunicadoDTO>();
+            CreateMap<AddComunicadoDTO, Comunicado>();
 
             CreateMap<Facultad, GetFacultadDTO>();
             CreateMap<AddFacultadDTO, Facultad>();
