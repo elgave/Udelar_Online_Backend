@@ -20,7 +20,6 @@ namespace TSI
             CreateMap<Rol, GetRolDTO>();
             CreateMap<Usuario, GetUsuarioDTO>()
                 .ForMember(dto => dto.Roles, u => u.MapFrom(u => u.UsuariosRoles.Select(r => r.Rol)));
-                //.ForMember(dto => dto.Cursos, u => u.MapFrom(u => u.UsuariosCursos.Select(uc => uc.Curso)));
                 
             CreateMap<AddUsuarioDTO, Usuario>();
 

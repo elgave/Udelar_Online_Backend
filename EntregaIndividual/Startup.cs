@@ -46,22 +46,27 @@ namespace EntregaIndividual
             services.AddScoped<IEncuestaManager, EncuestaManager>();
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
-            /*
-            // Para despliegue en la nube. Ignorar
-            string username = Configuration["RDS_USERNAME"];
-            string password = Configuration["RDS_PASSWORD"];
-            string dbname = Configuration["RDS_DB_NAME"];
-            string hostname = Configuration["RDS_HOSTNAME"];
-            string port = Configuration["RDS_PORT"];
 
-            string connection = "Data Source=" + hostname + ";Initial Catalog=" + dbname + ";User ID=" + username + ";Password=" + password + ";";
+            if (Configuration["USE_RDS"] == "true")
+            {
+                // Para despliegue en la nube. Ignorar
+                string username = Configuration["RDS_USERNAME"];
+                string password = Configuration["RDS_PASSWORD"];
+                string dbname = Configuration["RDS_DB_NAME"];
+                string hostname = Configuration["RDS_HOSTNAME"];
+                string port = Configuration["RDS_PORT"];
 
-            services.AddDbContext<MyContext>(opt =>
-               opt.UseSqlServer(Configuration.GetConnectionString("connection")));
-            */
+                string connection = "Data Source=" + hostname + ";Initial Catalog=" + dbname + ";User ID=" + username + ";Password=" + password + ";";
+            
+                services.AddDbContext<MyContext>(opt =>
+                   opt.UseSqlServer(connection));
+            } else
+            {
+                services.AddDbContext<MyContext>(opt =>
+                    opt.UseSqlServer(Configuration.GetConnectionString("TSIDB")));
+            }
 
-            services.AddDbContext<MyContext>(opt =>
-               opt.UseSqlServer(Configuration.GetConnectionString("TSIDB")));
+            
             //Swagger
             AddSwagger(services);
 

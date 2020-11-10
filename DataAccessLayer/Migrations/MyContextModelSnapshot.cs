@@ -202,6 +202,27 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("EncuestaCursos");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.EncuestaUsuario", b =>
+                {
+                    b.Property<int>("IdEncuesta")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Cedula")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("FacultadId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Fecha")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdEncuesta", "Cedula");
+
+                    b.HasIndex("Cedula", "FacultadId");
+
+                    b.ToTable("EncuestaUsuarios");
+                });
+
             modelBuilder.Entity("DataAccessLayer.EntregaTarea", b =>
                 {
                     b.Property<int>("Id")
@@ -480,6 +501,21 @@ namespace DataAccessLayer.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DataAccessLayer.EncuestaUsuario", b =>
+                {
+                    b.HasOne("DataAccessLayer.Encuesta", "Encuesta")
+                        .WithMany()
+                        .HasForeignKey("IdEncuesta")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("Cedula", "FacultadId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DataAccessLayer.EntregaTarea", b =>
                 {
                     b.HasOne("DataAccessLayer.ContenedorTarea", "ContenedorTarea")
@@ -514,7 +550,7 @@ namespace DataAccessLayer.Migrations
             modelBuilder.Entity("DataAccessLayer.SeccionCurso", b =>
                 {
                     b.HasOne("DataAccessLayer.Curso", "Curso")
-                        .WithMany()
+                        .WithMany("SeccionesCurso")
                         .HasForeignKey("CursoId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();

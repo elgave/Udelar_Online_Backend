@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20201102181921_migraciondepeter")]
-    partial class migraciondepeter
+    [Migration("20201110191410_inicial")]
+    partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,7 +28,10 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CursoId")
+                    b.Property<int?>("ComponenteId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EntregaTareaId")
                         .HasColumnType("int");
 
                     b.Property<string>("Extension")
@@ -37,20 +40,91 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Nombre")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Tipo")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Ubicacion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UsuarioId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CursoId");
+                    b.HasIndex("ComponenteId")
+                        .IsUnique()
+                        .HasFilter("[ComponenteId] IS NOT NULL");
+
+                    b.HasIndex("EntregaTareaId")
+                        .IsUnique()
+                        .HasFilter("[EntregaTareaId] IS NOT NULL");
 
                     b.ToTable("Archivos");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Componente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Indice")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SeccionCursoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Tipo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SeccionCursoId");
+
+                    b.ToTable("Componentes");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Comunicado", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ComponenteId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Titulo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ComponenteId")
+                        .IsUnique();
+
+                    b.ToTable("Comunicados");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.ContenedorTarea", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ComponenteId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaCierre")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ComponenteId")
+                        .IsUnique();
+
+                    b.ToTable("ContenedoresTareas");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Curso", b =>
@@ -130,6 +204,61 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("EncuestaCursos");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.EncuestaUsuario", b =>
+                {
+                    b.Property<int>("IdEncuesta")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Cedula")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("FacultadId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Fecha")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdEncuesta", "Cedula");
+
+                    b.HasIndex("Cedula", "FacultadId");
+
+                    b.ToTable("EncuestaUsuarios");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.EntregaTarea", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Calificacion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ContenedorTardeaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContenedorTareaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FacultadId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaEntrega")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UsuarioId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContenedorTardeaId");
+
+                    b.HasIndex("UsuarioId", "FacultadId");
+
+                    b.ToTable("EntregaTarea");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Facultad", b =>
                 {
                     b.Property<int>("Id")
@@ -206,6 +335,29 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Roles");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.SeccionCurso", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CursoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Indice")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Titulo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CursoId");
+
+                    b.ToTable("SeccionesCursos");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Usuario", b =>
                 {
                     b.Property<string>("Cedula")
@@ -274,9 +426,40 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Archivo", b =>
                 {
-                    b.HasOne("DataAccessLayer.Curso", "Curso")
-                        .WithMany()
-                        .HasForeignKey("CursoId")
+                    b.HasOne("DataAccessLayer.Componente", "Componente")
+                        .WithOne("Archivo")
+                        .HasForeignKey("DataAccessLayer.Archivo", "ComponenteId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DataAccessLayer.EntregaTarea", "EntregaTarea")
+                        .WithOne("ArchivoEntrega")
+                        .HasForeignKey("DataAccessLayer.Archivo", "EntregaTareaId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Componente", b =>
+                {
+                    b.HasOne("DataAccessLayer.SeccionCurso", "SeccionCurso")
+                        .WithMany("Componentes")
+                        .HasForeignKey("SeccionCursoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Comunicado", b =>
+                {
+                    b.HasOne("DataAccessLayer.Componente", "Componente")
+                        .WithOne("Comunicado")
+                        .HasForeignKey("DataAccessLayer.Comunicado", "ComponenteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataAccessLayer.ContenedorTarea", b =>
+                {
+                    b.HasOne("DataAccessLayer.Componente", "Componente")
+                        .WithOne("ContenedorTarea")
+                        .HasForeignKey("DataAccessLayer.ContenedorTarea", "ComponenteId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
@@ -320,6 +503,34 @@ namespace DataAccessLayer.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DataAccessLayer.EncuestaUsuario", b =>
+                {
+                    b.HasOne("DataAccessLayer.Encuesta", "Encuesta")
+                        .WithMany()
+                        .HasForeignKey("IdEncuesta")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("Cedula", "FacultadId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataAccessLayer.EntregaTarea", b =>
+                {
+                    b.HasOne("DataAccessLayer.ContenedorTarea", "ContenedorTarea")
+                        .WithMany("TareasEntregadas")
+                        .HasForeignKey("ContenedorTardeaId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DataAccessLayer.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId", "FacultadId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("DataAccessLayer.Pregunta", b =>
                 {
                     b.HasOne("DataAccessLayer.Encuesta", "Encuesta")
@@ -335,6 +546,15 @@ namespace DataAccessLayer.Migrations
                         .WithMany("Respuestas")
                         .HasForeignKey("PreguntaId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataAccessLayer.SeccionCurso", b =>
+                {
+                    b.HasOne("DataAccessLayer.Curso", "Curso")
+                        .WithMany("SeccionesCurso")
+                        .HasForeignKey("CursoId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
