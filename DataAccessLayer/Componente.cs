@@ -28,5 +28,7 @@ namespace DataAccessLayer
         public virtual ContenedorTarea ContenedorTarea { get; set; }
 
         public virtual Comunicado Comunicado { get; set; }
+
+        public virtual EncuestaCurso Encuesta { get; set; }
     }
 }

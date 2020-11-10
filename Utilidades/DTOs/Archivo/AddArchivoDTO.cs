@@ -8,9 +8,6 @@ namespace Utilidades.DTOs.Archivo
     {
         public string Nombre { get; set; }
         public string Extension { get; set; }
-        public string Ubicacion { get; set; }
-        //public int? ComponenteId { get; set; }
-        //public int? EntregaTareaId { get; set; }
-        
+        public string Ubicacion { get; set; }        
     }
 }
