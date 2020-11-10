@@ -51,7 +51,7 @@ namespace EntregaIndividual.Controllers
             return Ok(await _encuestaManager.edit(id, encuesta));
         }
 
-        // No se puede eliminar si tiene preguntas...
+        
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -132,6 +132,26 @@ namespace EntregaIndividual.Controllers
         public async Task<IActionResult> GetEncuestaUsuario(string cedula)
         {
             return Ok(await _encuestaManager.getEcuestaUsuario(cedula));
+        }
+
+
+        //Encuesta-Facultad
+        [HttpPost("addEncuestaFacultad")]
+        public async Task<IActionResult> Post([FromBody] AddEncuestaFacultadDTO encuestaFacultad)
+        {
+            return Ok(await _encuestaManager.addEncuestaFacultad(encuestaFacultad));
+        }
+
+        [HttpGet("ListAllEncuestaFAcultad")]
+        public IActionResult ListEncuestaFacultad()
+        {
+            return Ok(_encuestaManager.listAllEncuestaFacultad());
+        }
+
+        [HttpGet("ListEncuestaFacultad")]
+        public async Task<IActionResult> GetEncuestaFacultad(int idFacultad)
+        {
+            return Ok(await _encuestaManager.getEcuestaFacultad(idFacultad));
         }
 
     }

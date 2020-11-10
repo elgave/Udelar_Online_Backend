@@ -70,6 +70,9 @@ namespace TSI
             CreateMap<EncuestaUsuario, GetEncuestaUsuarioDTO>();
             CreateMap<AddEncuestaUsuarioDTO, EncuestaUsuario>();
 
+            CreateMap<EncuestaFacultad, GetEncuestaFacultadDTO>();
+            CreateMap<AddEncuestaFacultadDTO, EncuestaFacultad>();
+
         }
     }
 }
