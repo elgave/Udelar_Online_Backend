@@ -13,7 +13,7 @@ namespace DataAccessLayer
         public string UsuarioId { get; set; }
         public int FacultadId { get; set; }
         public int ContenedorTareaId { get; set; }
-        public string Calificacion { get; set; }
+        public int Calificacion { get; set; }
 
         public DateTime FechaEntrega { get; set; }
 
@@ -22,7 +22,7 @@ namespace DataAccessLayer
         [ForeignKey("UsuarioId, FacultadId")]
         public virtual Usuario Usuario { get; set; }
 
-        [ForeignKey("ContenedorTardeaId")]
+        [ForeignKey("ContenedorTareaId")]
         public virtual ContenedorTarea ContenedorTarea { get; set; }
 
 

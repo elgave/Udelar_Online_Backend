@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Utilidades.DTOs.Archivo;
 using Utilidades.DTOs.Comunicado;
+using Utilidades.DTOs.ContenedorTarea;
+using Utilidades.DTOs.Encuesta;
 
 namespace Utilidades.DTOs.Componente
 {
@@ -15,10 +17,12 @@ namespace Utilidades.DTOs.Componente
 
         public int Indice { get; set; }
 
-        public  AddArchivoDTO Archivo { get; set; }
+        //public  AddArchivoDTO Archivo { get; set; }
 
         public  AddComunicadoDTO Comunicado { get; set; }
 
-        //public virtual ContenedorTarea ContenedorTarea { get; set; }
+        public AddContenedorTareaDTO ContenedorTarea { get; set; }
+
+        public AddEncuestaCursoDTO Encuesta { get; set; }
     }
 }

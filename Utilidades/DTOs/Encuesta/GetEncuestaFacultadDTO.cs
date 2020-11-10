@@ -5,11 +5,11 @@ using Utilidades.DTOs.Curso;
 
 namespace Utilidades.DTOs.Encuesta
 {
-    public class GetEncuestaCursoDTO
+    public class GetEncuestaFacultadDTO
     {
         public int IdEncuesta { get; set; }
-        public int ComponenteId { get; set; }
-        public int IdCurso { get; set; }
+
+        public int IdFacultad { get; set; }
         public string Fecha { get; set; }
         public virtual GetEncuestaDTO Encuesta { get; set; }
 

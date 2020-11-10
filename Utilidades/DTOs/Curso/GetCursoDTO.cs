@@ -12,6 +12,8 @@ namespace Utilidades.DTOs.Curso
         public int FacultadId { get; set; }
         public string Nombre { get; set; }
         public int CantCreditos { get; set; }
+
+        public bool ConfirmaBedelia { get; set; }
         public List<GetUsuarioDTO> Usuarios { get; set; }
         public List<GetUsuarioDTO> Docentes { get; set; }
         public List<GetSeccionCursoDTO> Secciones { get; set; }

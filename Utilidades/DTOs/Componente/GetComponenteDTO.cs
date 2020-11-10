@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Utilidades.DTOs.Archivo;
 using Utilidades.DTOs.Comunicado;
+using Utilidades.DTOs.ContenedorTarea;
+using Utilidades.DTOs.Encuesta;
 
 namespace Utilidades.DTOs.Componente
 {
@@ -22,6 +24,8 @@ namespace Utilidades.DTOs.Componente
         public GetArchivoDTO Archivo { get; set; }
         public  GetComunicadoDTO Comunicado { get; set; }
 
-        //public virtual ContenedorTarea ContenedorTarea { get; set; }
+        public  GetContenedorTareaDTO ContenedorTarea { get; set; }
+
+        public GetEncuestaCursoDTO Encuesta { get; set; }
     }
 }

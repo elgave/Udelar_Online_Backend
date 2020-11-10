@@ -5,23 +5,18 @@ using System.Text;
 
 namespace DataAccessLayer
 {
-    public class EncuestaCurso
+    public class EncuestaFacultad
     {
         public int IdEncuesta { get; set; }
 
-        public int IdCurso { get; set; }
+        public int IdFacultad { get; set; }
         public string Fecha { get; set; }
-
-        public int ComponenteId { get; set; }
 
         [ForeignKey("IdEncuesta")]
         public virtual Encuesta Encuesta { get; set; }
 
-        [ForeignKey("IdCurso")]
-        public virtual Curso Curso { get; set; }
-
-        [ForeignKey("ComponenteId")]
-        public virtual Componente Componente { get; set; }
+        [ForeignKey("IdFacultad")]
+        public virtual Facultad Facultad { get; set; }
     }
 
 }

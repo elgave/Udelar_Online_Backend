@@ -10,5 +10,6 @@ namespace Utilidades.DTOs.Curso
         public int CantCreditos { get; set; }
         public int FacultadId { get; set; }
         public int CarreraId { get; set; }
+        public bool ConfirmaBedelia { get; set; }
     }
 }
