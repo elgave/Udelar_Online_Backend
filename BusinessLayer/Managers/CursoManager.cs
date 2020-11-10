@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using DataAccessLayer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,9 +35,7 @@ namespace BusinessLayer
                 response.Data = _context.Cursos
                     .Include(c => c.CursosDocentes).ThenInclude(cd => cd.Usuario)
                     .Include(c => c.UsuariosCursos).ThenInclude(uc => uc.Usuario)
-                    .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Comunicado)
-                    .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Archivo)
-
+                    
                     .Select(c => _mapper.Map<GetCursoDTO>(c)).ToList();
             }
             catch (Exception e)
@@ -94,6 +94,8 @@ namespace BusinessLayer
                     .Include(c => c.UsuariosCursos).ThenInclude(uc => uc.Usuario)
                     .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Comunicado)
                     .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Archivo)
+                    .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Encuesta)
+                    .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.ContenedorTarea)
                     .FirstOrDefaultAsync(c => c.Id == id)
                 );
             }
@@ -189,7 +191,7 @@ namespace BusinessLayer
             return response;
         }
 
-        public async Task<ApiResponse<AddComponenteDTO>> addComponente(AddComponenteDTO componente)
+        public async Task<ApiResponse<AddComponenteDTO>> addComponente(AddComponenteDTO componente, IFormFile archivo)
         {
             ApiResponse<AddComponenteDTO> response = new ApiResponse<AddComponenteDTO>();
             try
@@ -208,28 +210,46 @@ namespace BusinessLayer
                 if (c.Tipo.Equals("Archivo"))
                 {
                     Archivo a = new Archivo();
-                    //a.ComponenteId = componente.Archivo.ComponenteId;
+                    
                     a.ComponenteId = idComponente;
-                    a.Extension = componente.Archivo.Extension;
-                    a.Nombre = componente.Archivo.Nombre;
-                    a.Ubicacion = componente.Archivo.Ubicacion;
+                    a.Extension = Path.GetExtension(archivo.FileName).Substring(1);
+                    a.Nombre = Path.GetFileNameWithoutExtension(archivo.FileName);
+
+                    _context.UploadS3(archivo, "ComponenteArchivo", a.Nombre + a.Extension );
+                    a.Ubicacion = "https://dotnet-storage.s3.amazonaws.com/ComponenteArchivo/" + a.Nombre + a.Extension;
 
                     _context.Archivos.Add(a);
-                    await _context.SaveChangesAsync();
+                   
                 }
                 else if (c.Tipo.Equals("Comunicado"))
                 {
                     Comunicado comunicado = new Comunicado();
 
-                    //comunicado.ComponenteId = componente.Comunicado.ComponenteId;
                     comunicado.ComponenteId = idComponente;
                     comunicado.Descripcion = componente.Comunicado.Descripcion;
                     comunicado.Titulo = componente.Comunicado.Titulo;
 
                     _context.Comunicados.Add(comunicado);
-                    await _context.SaveChangesAsync();
+                   
+                }else if (c.Tipo.Equals("Encuesta"))
+                {
+                    EncuestaCurso encuesta = new EncuestaCurso();
+
+                    encuesta.ComponenteId = idComponente;
+                    encuesta.Fecha = componente.Encuesta.Fecha;
+                    encuesta.IdCurso = componente.Encuesta.IdCurso;
+                    encuesta.IdEncuesta = componente.Encuesta.IdEncuesta;
+
+                    _context.EncuestaCursos.Add(encuesta);
+                }else if (c.Tipo.Equals("ContenedorTarea"))
+                {
+                    ContenedorTarea contenedorTarea = new ContenedorTarea();
+
+                    contenedorTarea.ComponenteId = idComponente;
+                    contenedorTarea.FechaCierre = componente.ContenedorTarea.FechaCierre;
                 }
 
+                await _context.SaveChangesAsync();
                 response.Data = componente;
             }
             catch (Exception e)

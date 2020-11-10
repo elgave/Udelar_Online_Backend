@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace BusinessLayer
         Task<ApiResponse<GetCursoDTO>> addDocente(int id, AddUsuarioDTO user);
 
         Task<ApiResponse<AddSeccionCursoDTO>> addSeccion(AddSeccionCursoDTO seccion);
-        Task<ApiResponse<AddComponenteDTO>> addComponente(AddComponenteDTO componente);
+        Task<ApiResponse<AddComponenteDTO>> addComponente(AddComponenteDTO componente, IFormFile archivo);
 
 
 

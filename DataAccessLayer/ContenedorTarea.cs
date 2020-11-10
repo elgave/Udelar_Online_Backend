@@ -13,7 +13,7 @@ namespace DataAccessLayer
 
         public int ComponenteId { get; set; }
         public DateTime FechaCierre { get; set; }
-        public ICollection<EntregaTarea> TareasEntregadas { get; set; }
+        public virtual ICollection<EntregaTarea> TareasEntregadas { get; set; }
 
         [ForeignKey("ComponenteId")]
         public virtual Componente Componente { get; set; }

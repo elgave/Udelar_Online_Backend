@@ -79,9 +79,10 @@ namespace EntregaIndividual.Controllers
         }
 
         [HttpPost("addComponente")]
-        public async Task<IActionResult> Post([FromBody] AddComponenteDTO componente)
+        public async Task<IActionResult> Post([FromForm] AddComponenteDTO componente)
         {
-            return Ok(await _cursoManager.addComponente(componente));
+
+            return Ok(await _cursoManager.addComponente(componente, Request.Form.Files[0]));
         }
 
 
