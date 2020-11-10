@@ -157,7 +157,7 @@ namespace BusinessLayer
 
             try
             {
-                Usuario user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Cedula == usuario.Cedula && u.FacultadId == usuario.FacultadId);
+                Usuario user = await _context.Usuarios.FirstAsync(u => u.Cedula == usuario.Cedula && u.FacultadId == usuario.FacultadId);
 
                 if (user == null)
                 {
@@ -167,7 +167,7 @@ namespace BusinessLayer
 
                 if (isValidPassword)
                 {
-                    response.Data = _mapper.Map<GetUsuarioDTO>(await _context.Usuarios.Include(u => u.UsuariosCursos).ThenInclude(uc => uc.Curso).FirstOrDefaultAsync(u => u.Cedula == user.Cedula && u.FacultadId == user.FacultadId));
+                    response.Data = _mapper.Map<GetUsuarioDTO>(await _context.Usuarios.Include(u => u.UsuariosCursos).ThenInclude(uc => uc.Curso).FirstAsync(u => u.Cedula == user.Cedula && u.FacultadId == user.FacultadId));
                 }
                 else
                     response.Data = null;

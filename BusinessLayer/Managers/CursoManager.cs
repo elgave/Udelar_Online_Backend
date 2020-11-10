@@ -94,7 +94,7 @@ namespace BusinessLayer
                     .Include(c => c.UsuariosCursos).ThenInclude(uc => uc.Usuario)
                     .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Comunicado)
                     .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Archivo)
-                    .FirstOrDefaultAsync(c => c.Id == id)
+                    .FirstAsync(c => c.Id == id)
                 );
             }
             catch (Exception e)
