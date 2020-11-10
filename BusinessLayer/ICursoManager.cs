@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Utilidades;
 using Utilidades.DTOs.Componente;
 using Utilidades.DTOs.Curso;
+using Utilidades.DTOs.EntregaTarea;
 using Utilidades.DTOs.SeccionCurso;
 using Utilidades.DTOs.Usuario;
 
@@ -23,6 +24,10 @@ namespace BusinessLayer
 
         Task<ApiResponse<AddSeccionCursoDTO>> addSeccion(AddSeccionCursoDTO seccion);
         Task<ApiResponse<AddComponenteDTO>> addComponente(AddComponenteDTO componente, IFormFile archivo);
+
+        Task<ApiResponse<AddEntregaTareaDTO>> addEntregaTarea(AddEntregaTareaDTO entregaTarea, IFormFile archivoEntrega);
+
+
 
 
 

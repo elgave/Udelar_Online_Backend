@@ -49,6 +49,8 @@ namespace DataAccessLayer
 
         public DbSet<EncuestaFacultad> encuestaFacultad { get; set; }
 
+        public DbSet<EntregaTarea> EntregasTarea { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))

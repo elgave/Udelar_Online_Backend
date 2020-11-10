@@ -17,7 +17,7 @@ namespace Utilidades.DTOs.Componente
 
         public int Indice { get; set; }
 
-        public  AddArchivoDTO Archivo { get; set; }
+        //public  AddArchivoDTO Archivo { get; set; }
 
         public  AddComunicadoDTO Comunicado { get; set; }
 

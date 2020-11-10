@@ -13,7 +13,7 @@ namespace DataAccessLayer
         public string UsuarioId { get; set; }
         public int FacultadId { get; set; }
         public int ContenedorTareaId { get; set; }
-        public string Calificacion { get; set; }
+        public int Calificacion { get; set; }
 
         public DateTime FechaEntrega { get; set; }
 

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Utilidades;
 using Utilidades.DTOs.Componente;
 using Utilidades.DTOs.Curso;
+using Utilidades.DTOs.EntregaTarea;
 using Utilidades.DTOs.SeccionCurso;
 using Utilidades.DTOs.Usuario;
 
@@ -50,13 +51,6 @@ namespace EntregaIndividual.Controllers
             return Ok(await _cursoManager.addDocente(id, user));
         }
 
-        [Authorize(Roles = "usuario")]
-        [HttpPost("matricularse")]
-        public IActionResult Post([FromBody] DTMatricula matricula)
-        {
-            return Ok(_cursoManager.matricularse(matricula));
-        }
-
         [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] AddCursoDTO curso)
@@ -71,7 +65,13 @@ namespace EntregaIndividual.Controllers
             return Ok(await _cursoManager.delete(id));
         }
 
-        
+        [Authorize(Roles = "usuario")]
+        [HttpPost("matricularse")]
+        public IActionResult Post([FromBody] DTMatricula matricula)
+        {
+            return Ok(_cursoManager.matricularse(matricula));
+        }
+
         [HttpPost("addSeccion")]
         public async Task<IActionResult> Post([FromBody] AddSeccionCursoDTO seccion)
         {
@@ -81,8 +81,14 @@ namespace EntregaIndividual.Controllers
         [HttpPost("addComponente")]
         public async Task<IActionResult> Post([FromForm] AddComponenteDTO componente)
         {
-
             return Ok(await _cursoManager.addComponente(componente, Request.Form.Files[0]));
+        }
+
+        [HttpPost("addEntregaTarea")]
+        public async Task<IActionResult> Post([FromForm] AddEntregaTareaDTO entregaTarea)
+        {
+
+            return Ok(await _cursoManager.addEntregaTarea(entregaTarea, Request.Form.Files[0]));
         }
 
 
