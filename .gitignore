@@ -22,3 +22,7 @@ DataAccessLayer/Migrations/20201025195942_3.Designer.cs
 EntregaIndividual/appsettings.Development.json
 *.cache
 *.db
+/EntregaIndividual/aws-beanstalk-tools-defaults.json
+/UdelarOnline
+*.zip
+/dotnet-api

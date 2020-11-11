@@ -97,7 +97,7 @@ namespace BusinessLayer
                     .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Archivo)
                     .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Encuesta)
                     .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.ContenedorTarea)
-                    .FirstOrDefaultAsync(c => c.Id == id)
+                    .FirstAsync(c => c.Id == id)
                 );
             }
             catch (Exception e)

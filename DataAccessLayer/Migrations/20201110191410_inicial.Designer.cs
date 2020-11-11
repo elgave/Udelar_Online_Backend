@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20201109162604_addbooleanEnCurso")]
-    partial class addbooleanEnCurso
+    [Migration("20201110191410_inicial")]
+    partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -136,9 +136,6 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<int>("CantCreditos")
                         .HasColumnType("int");
-
-                    b.Property<bool>("ConfirmaBedelia")
-                        .HasColumnType("bit");
 
                     b.Property<int>("FacultadId")
                         .HasColumnType("int");

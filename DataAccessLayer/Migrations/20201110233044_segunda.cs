@@ -2,7 +2,7 @@
 
 namespace DataAccessLayer.Migrations
 {
-    public partial class migracionporlasdudas : Migration
+    public partial class segunda : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,7 +11,7 @@ namespace DataAccessLayer.Migrations
                 table: "Archivos");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_EntregaTarea_ContenedoresTareas_ContenedorTareaId",
+                name: "FK_EntregaTarea_ContenedoresTareas_ContenedorTardeaId",
                 table: "EntregaTarea");
 
             migrationBuilder.DropForeignKey(
@@ -20,6 +20,14 @@ namespace DataAccessLayer.Migrations
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_EntregaTarea",
+                table: "EntregaTarea");
+
+            migrationBuilder.DropIndex(
+                name: "IX_EntregaTarea_ContenedorTardeaId",
+                table: "EntregaTarea");
+
+            migrationBuilder.DropColumn(
+                name: "ContenedorTardeaId",
                 table: "EntregaTarea");
 
             migrationBuilder.RenameTable(
@@ -31,10 +39,17 @@ namespace DataAccessLayer.Migrations
                 table: "EntregasTarea",
                 newName: "IX_EntregasTarea_UsuarioId_FacultadId");
 
-            migrationBuilder.RenameIndex(
-                name: "IX_EntregaTarea_ContenedorTareaId",
-                table: "EntregasTarea",
-                newName: "IX_EntregasTarea_ContenedorTareaId");
+            migrationBuilder.AddColumn<int>(
+                name: "ComponenteId",
+                table: "EncuestaCursos",
+                nullable: false,
+                defaultValue: 0);
+
+            migrationBuilder.AddColumn<bool>(
+                name: "ConfirmaBedelia",
+                table: "Cursos",
+                nullable: false,
+                defaultValue: false);
 
             migrationBuilder.AlterColumn<int>(
                 name: "Calificacion",
@@ -75,6 +90,17 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_EncuestaCursos_ComponenteId",
+                table: "EncuestaCursos",
+                column: "ComponenteId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EntregasTarea_ContenedorTareaId",
+                table: "EntregasTarea",
+                column: "ContenedorTareaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_encuestaFacultad_IdEncuesta",
                 table: "encuestaFacultad",
                 column: "IdEncuesta");
@@ -84,6 +110,14 @@ namespace DataAccessLayer.Migrations
                 table: "Archivos",
                 column: "EntregaTareaId",
                 principalTable: "EntregasTarea",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_EncuestaCursos_Componentes_ComponenteId",
+                table: "EncuestaCursos",
+                column: "ComponenteId",
+                principalTable: "Componentes",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
@@ -111,6 +145,10 @@ namespace DataAccessLayer.Migrations
                 table: "Archivos");
 
             migrationBuilder.DropForeignKey(
+                name: "FK_EncuestaCursos_Componentes_ComponenteId",
+                table: "EncuestaCursos");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_EntregasTarea_ContenedoresTareas_ContenedorTareaId",
                 table: "EntregasTarea");
 
@@ -121,9 +159,25 @@ namespace DataAccessLayer.Migrations
             migrationBuilder.DropTable(
                 name: "encuestaFacultad");
 
+            migrationBuilder.DropIndex(
+                name: "IX_EncuestaCursos_ComponenteId",
+                table: "EncuestaCursos");
+
             migrationBuilder.DropPrimaryKey(
                 name: "PK_EntregasTarea",
                 table: "EntregasTarea");
+
+            migrationBuilder.DropIndex(
+                name: "IX_EntregasTarea_ContenedorTareaId",
+                table: "EntregasTarea");
+
+            migrationBuilder.DropColumn(
+                name: "ComponenteId",
+                table: "EncuestaCursos");
+
+            migrationBuilder.DropColumn(
+                name: "ConfirmaBedelia",
+                table: "Cursos");
 
             migrationBuilder.RenameTable(
                 name: "EntregasTarea",
@@ -134,11 +188,6 @@ namespace DataAccessLayer.Migrations
                 table: "EntregaTarea",
                 newName: "IX_EntregaTarea_UsuarioId_FacultadId");
 
-            migrationBuilder.RenameIndex(
-                name: "IX_EntregasTarea_ContenedorTareaId",
-                table: "EntregaTarea",
-                newName: "IX_EntregaTarea_ContenedorTareaId");
-
             migrationBuilder.AlterColumn<string>(
                 name: "Calificacion",
                 table: "EntregaTarea",
@@ -146,10 +195,21 @@ namespace DataAccessLayer.Migrations
                 nullable: true,
                 oldClrType: typeof(int));
 
+            migrationBuilder.AddColumn<int>(
+                name: "ContenedorTardeaId",
+                table: "EntregaTarea",
+                type: "int",
+                nullable: true);
+
             migrationBuilder.AddPrimaryKey(
                 name: "PK_EntregaTarea",
                 table: "EntregaTarea",
                 column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EntregaTarea_ContenedorTardeaId",
+                table: "EntregaTarea",
+                column: "ContenedorTardeaId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Archivos_EntregaTarea_EntregaTareaId",
@@ -160,9 +220,9 @@ namespace DataAccessLayer.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_EntregaTarea_ContenedoresTareas_ContenedorTareaId",
+                name: "FK_EntregaTarea_ContenedoresTareas_ContenedorTardeaId",
                 table: "EntregaTarea",
-                column: "ContenedorTareaId",
+                column: "ContenedorTardeaId",
                 principalTable: "ContenedoresTareas",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);

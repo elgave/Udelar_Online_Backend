@@ -125,7 +125,6 @@ namespace DataAccessLayer
             S3Access = _configuration["S3Keys:S3Access"];
             S3Secret = _configuration["S3Keys:S3Secret"];
             S3Bucket = _configuration["S3Keys:S3Bucket"];
-            Console.WriteLine(S3Access, S3Bucket, S3Secret);
         }
  
         public void UploadS3(IFormFile file, string folder, string name)

@@ -83,7 +83,7 @@ namespace BusinessLayer
             ApiResponse<GetEncuestaDTO> response = new ApiResponse<GetEncuestaDTO>();
             try
             {
-                response.Data = _mapper.Map<GetEncuestaDTO>(await _context.Encuestas.Include(f => f.Preguntas).ThenInclude(f => f.Respuestas).FirstOrDefaultAsync(f => f.Id == id));
+                response.Data = _mapper.Map<GetEncuestaDTO>(await _context.Encuestas.Include(f => f.Preguntas).ThenInclude(f => f.Respuestas).FirstAsync(f => f.Id == id));
             }
             catch (Exception e)
             {
@@ -251,7 +251,7 @@ namespace BusinessLayer
             ApiResponse<GetEncuestaCursoDTO> response = new ApiResponse<GetEncuestaCursoDTO>();
             try
             {
-                response.Data = _mapper.Map<GetEncuestaCursoDTO>(await _context.EncuestaCursos.Include(f => f.Encuesta).ThenInclude(f => f.Preguntas).ThenInclude(f => f.Respuestas).FirstOrDefaultAsync(f => f.IdCurso == idCurso));
+                response.Data = _mapper.Map<GetEncuestaCursoDTO>(await _context.EncuestaCursos.Include(f => f.Encuesta).ThenInclude(f => f.Preguntas).ThenInclude(f => f.Respuestas).FirstAsync(f => f.IdCurso == idCurso));
             }
             catch (Exception e)
             {
@@ -301,7 +301,7 @@ namespace BusinessLayer
             ApiResponse<GetEncuestaUsuarioDTO> response = new ApiResponse<GetEncuestaUsuarioDTO>();
             try
             {
-                response.Data = _mapper.Map<GetEncuestaUsuarioDTO>(await _context.EncuestaUsuarios.FirstOrDefaultAsync(f => f.Cedula == cedula));
+                response.Data = _mapper.Map<GetEncuestaUsuarioDTO>(await _context.EncuestaUsuarios.FirstAsync(f => f.Cedula == cedula));
             }
             catch (Exception e)
             {
