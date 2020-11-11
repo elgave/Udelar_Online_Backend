@@ -30,6 +30,9 @@ namespace BusinessLayer
 
         Task<ApiResponse<AddComponenteDTO>> addComponente(AddComponenteDTO componente, IFormFile archivo);
 
+        Task<ApiResponse<GetComponenteDTO>> editComponente(int idComponente, AddComponenteDTO componente);
+
+        Task<ApiResponse<List<GetComponenteDTO>>> deleteComponente(int idComponente);
         Task<ApiResponse<AddEntregaTareaDTO>> addEntregaTarea(AddEntregaTareaDTO entregaTarea, IFormFile archivoEntrega);
 
         

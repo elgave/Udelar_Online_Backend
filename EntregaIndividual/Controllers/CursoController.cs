@@ -84,10 +84,28 @@ namespace EntregaIndividual.Controllers
             return Ok(await _cursoManager.addSeccion(seccion));
         }
 
+        [HttpDelete("deleteSeccion")]
+        public async Task<IActionResult> DeleteSeccion(int id)
+        {
+            return Ok(await _cursoManager.deleteSeccion(id));
+        }
+
         [HttpPost("addComponente")]
         public async Task<IActionResult> Post([FromForm] AddComponenteDTO componente)
         {
             return Ok(await _cursoManager.addComponente(componente, Request.Form.Files[0]));
+        }
+
+        [HttpPut("editComponente")]
+        public async Task<IActionResult> Put(int id, [FromBody] AddComponenteDTO componente)
+        {
+            return Ok(await _cursoManager.editComponente(id,componente));
+        }
+
+        [HttpDelete("deleteComponente")]
+        public async Task<IActionResult> DeleteComponente(int id)
+        {
+            return Ok(await _cursoManager.deleteComponente(id));
         }
 
         [HttpPost("addEntregaTarea")]

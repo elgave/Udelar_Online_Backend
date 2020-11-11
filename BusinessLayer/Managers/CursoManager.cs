@@ -219,7 +219,7 @@ namespace BusinessLayer
                 SeccionCurso seccionCurso = _context.SeccionesCursos.First(sc => sc.Id == idSeccion);
                 _context.SeccionesCursos.Remove(seccionCurso);
                 await _context.SaveChangesAsync();
-                response.Data = _context.SeccionesCursos.Select(sc => _mapper.Map<GetSeccionCursoDTO>(sc)).ToList();
+                response.Data = _context.SeccionesCursos.Select(sc => _mapper.Map<GetSeccionCursoDTO>(sc)).Where(sc => sc.CursoId == seccionCurso.CursoId).ToList();
             }
             catch (Exception e)
             {
@@ -298,6 +298,91 @@ namespace BusinessLayer
                 response.Message = e.Message;
             }
 
+            return response;
+        }
+
+        public async Task<ApiResponse<GetComponenteDTO>> editComponente(int idComponente, AddComponenteDTO componente)
+        {
+            ApiResponse<GetComponenteDTO> response = new ApiResponse<GetComponenteDTO>();
+            try
+            {
+                Componente componenteUpdate = _context.Componentes.Include(c => c.Archivo)
+                                                                  .Include(c => c.Comunicado)
+                                                                  .Include(c => c.ContenedorTarea)
+                                                                  .Include(c => c.Encuesta)
+                                                                  .SingleOrDefault(c => c.Id == idComponente);
+                
+                componenteUpdate.Indice =  componente.Indice;
+                componenteUpdate.Nombre = componente.Nombre;
+
+                if (componente.Tipo.Equals("Archivo"))
+                {
+                   /* Archivo a = new Archivo();
+
+                    a.ComponenteId = idComponente;
+                    a.Extension = Path.GetExtension(archivo.FileName).Substring(1);
+                    a.Nombre = Path.GetFileNameWithoutExtension(archivo.FileName);
+
+                    _context.UploadS3(archivo, "ComponenteArchivo", a.Nombre + a.Extension);
+                    a.Ubicacion = "https://dotnet-storage.s3.amazonaws.com/ComponenteArchivo/" + a.Nombre + a.Extension;
+
+                    _context.Archivos.Add(a);
+                   */ 
+                }
+                else if (componente.Tipo.Equals("Comunicado"))
+                {
+                    //Comunicado comunicadoUpdate = _context.Comunicados.SingleOrDefault(comuni => comuni.ComponenteId == componenteUpdate.Id);
+
+                    //comunicadoUpdate.Descripcion = componente.Comunicado.Descripcion;
+                    //comunicadoUpdate.Titulo = componente.Comunicado.Titulo;
+                    componenteUpdate.Comunicado.Descripcion = componente.Comunicado.Descripcion;
+                    componenteUpdate.Comunicado.Titulo = componente.Comunicado.Titulo;
+
+                }
+                else if (componente.Tipo.Equals("Encuesta"))
+                {
+                    //EncuestaCurso encuestaUpdate = _context.EncuestaCursos.SingleOrDefault(e => e.ComponenteId == componenteUpdate.Id);
+
+                    //encuestaUpdate.Fecha = componente.Encuesta.Fecha;
+                    componenteUpdate.Encuesta.Fecha = componente.Encuesta.Fecha;
+                }
+                else if (componente.Tipo.Equals("ContenedorTarea"))
+                {
+                    //ContenedorTarea contenedorTareaUpdate = _context.ContenedoresTareas.SingleOrDefault(con => con.ComponenteId == componenteUpdate.Id);
+
+                    //contenedorTareaUpdate.FechaCierre = componente.ContenedorTarea.FechaCierre;
+
+                    componenteUpdate.ContenedorTarea.FechaCierre = componente.ContenedorTarea.FechaCierre;
+                }
+
+                await _context.SaveChangesAsync();
+                response.Data = _mapper.Map<GetComponenteDTO>(componenteUpdate);
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 500;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
+        public async Task<ApiResponse<List<GetComponenteDTO>>> deleteComponente(int idComponente)
+        {
+            ApiResponse<List<GetComponenteDTO>> response = new ApiResponse<List<GetComponenteDTO>>();
+            try
+            {
+                Componente componente = _context.Componentes.First(c => c.Id == idComponente);
+                _context.Componentes.Remove(componente);
+                await _context.SaveChangesAsync();
+                response.Data = _context.Componentes.Select(c => _mapper.Map<GetComponenteDTO>(c)).Where(c => c.SeccionCursoId == componente.SeccionCursoId).ToList();
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 404;
+                response.Message = e.Message;
+            }
             return response;
         }
 
