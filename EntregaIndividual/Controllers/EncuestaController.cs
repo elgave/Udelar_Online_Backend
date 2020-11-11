@@ -62,7 +62,7 @@ namespace EntregaIndividual.Controllers
 
 
         //Preguntas
-        [HttpPost("addPregunta")]
+        /*[HttpPost("addPregunta")]
         public async Task<IActionResult> Post([FromBody] AddPreguntaDTO pregunta)
         {
             return Ok(await _encuestaManager.addPregunta(pregunta));
@@ -79,21 +79,25 @@ namespace EntregaIndividual.Controllers
         public async Task<IActionResult> DeletePregunta(int id)
         {
             return Ok(await _encuestaManager.deletePregunta(id));
-        }
+        }*/
 
 
 
-        //Respuestas
+        /*//Respuestas
         [HttpPost("addRespuesta")]
         public async Task<IActionResult> Post([FromBody] AddRespuestaDTO respuesta)
         {
             return Ok(await _encuestaManager.addRespuesta(respuesta));
         
+        }*/
+
+        [HttpPost("responderEncuesta")]
+        public  IActionResult Post([FromBody] AddRespuestaEncuestaDTO respuestaEncuesta)
+        {
+            _encuestaManager.responderEncuesta(respuestaEncuesta);
+            return Ok();
+
         }
-
-       
-
-
 
         //EncuestaCurso
         [HttpPost("addEncuestaCurso")]
@@ -116,11 +120,11 @@ namespace EntregaIndividual.Controllers
 
 
         //EncuestaUsuario
-        [HttpPost("addEncuestaUsuario")]
+        /*[HttpPost("addEncuestaUsuario")]
         public async Task<IActionResult> Post([FromBody] AddEncuestaUsuarioDTO encuestaUsuario)
         {
             return Ok(await _encuestaManager.addEncuestaUsuario(encuestaUsuario));
-        }
+        }*/
 
         [HttpGet("ListAllEncuestaUsuario")]
         public IActionResult ListEncuestaUsuario()

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,8 +46,27 @@ namespace BusinessLayer
             ApiResponse<List<GetEncuestaDTO>> response = new ApiResponse<List<GetEncuestaDTO>>();
             try
             {
-                _context.Encuestas.Add(_mapper.Map<Encuesta>(encuesta));
+                Encuesta e = new Encuesta();
+                e.Fecha = encuesta.Fecha;
+                e.Titulo = encuesta.Titulo;
+
+                _context.Encuestas.Add(e);
                 await _context.SaveChangesAsync();
+
+                int idEncuesta = e.Id;
+
+                foreach(AddPreguntaDTO p in encuesta.Preguntas)
+                {
+                    Pregunta preg = new Pregunta();
+
+                    preg.EncuestaId = idEncuesta;
+                    preg.Texto = p.Texto;
+                    _context.Preguntas.Add(preg);
+                }
+
+                await _context.SaveChangesAsync();
+                //_context.Encuestas.Add(_mapper.Map<Encuesta>(encuesta));
+                //await _context.SaveChangesAsync();
                 response.Data = _context.Encuestas.Select(f => _mapper.Map<GetEncuestaDTO>(f)).ToList();
             }
             catch (Exception e)
@@ -113,12 +133,12 @@ namespace BusinessLayer
 
             return response;
         }
-    
 
-       
+
+
 
         /*Preguntas*/
-        public async Task<ApiResponse<List<GetPreguntaDTO>>> addPregunta(AddPreguntaDTO pregunta)
+        /*public async Task<ApiResponse<List<GetPreguntaDTO>>> addPregunta(AddPreguntaDTO pregunta)
         {
             ApiResponse<List<GetPreguntaDTO>> response = new ApiResponse<List<GetPreguntaDTO>>();
             try
@@ -174,39 +194,62 @@ namespace BusinessLayer
             }
 
             return response;
-        }
+        }*/
 
 
 
 
         /*Respuestas*/
 
-        public async Task<ApiResponse<List<GetRespuestaDTO>>> addRespuesta(AddRespuestaDTO respuesta)
-        {
-            ApiResponse<List<GetRespuestaDTO>> response = new ApiResponse<List<GetRespuestaDTO>>();
-            try
-            {
-                _context.Respuestas.Add(_mapper.Map<Respuesta>(respuesta));
-                await _context.SaveChangesAsync();
-                response.Data = _context.Respuestas.Select(f => _mapper.Map<GetRespuestaDTO>(f)).ToList();
-            }
-            catch (Exception e)
-            {
-                response.Success = false;
-                response.Status = 500;
-                response.Message = e.Message;
-            }
-            return response;
-        }
+        /* public async Task<ApiResponse<List<GetRespuestaDTO>>> addRespuesta(AddRespuestaDTO respuesta)
+         {
+             ApiResponse<List<GetRespuestaDTO>> response = new ApiResponse<List<GetRespuestaDTO>>();
+             try
+             {
+                 _context.Respuestas.Add(_mapper.Map<Respuesta>(respuesta));
+                 await _context.SaveChangesAsync();
+                 response.Data = _context.Respuestas.Select(f => _mapper.Map<GetRespuestaDTO>(f)).ToList();
+             }
+             catch (Exception e)
+             {
+                 response.Success = false;
+                 response.Status = 500;
+                 response.Message = e.Message;
+             }
+             return response;
+         }
 
-        public async Task<ApiResponse<List<GetRespuestaDTO>>> deleteRespuesta(int id)
-        {
-            throw new NotImplementedException();
-        }
+         public async Task<ApiResponse<List<GetRespuestaDTO>>> deleteRespuesta(int id)
+         {
+             throw new NotImplementedException();
+         }
 
-        public async Task<ApiResponse<GetRespuestaDTO>> editRespuesta(int id, AddRespuestaDTO respuesta)
+         public async Task<ApiResponse<GetRespuestaDTO>> editRespuesta(int id, AddRespuestaDTO respuesta)
+         {
+             throw new NotImplementedException();
+         }*/
+
+        public void responderEncuesta(AddRespuestaEncuestaDTO respuestaEncuesta)
         {
-            throw new NotImplementedException();
+            foreach(AddRespuestaDTO r in respuestaEncuesta.respuestas)
+            {
+                Respuesta respuesta = new Respuesta();
+                respuesta.PreguntaId = r.PreguntaId;
+                respuesta.Texto = r.Texto;
+
+                _context.Respuestas.Add(respuesta);
+            }
+
+            EncuestaUsuario encuestaUsuario = new EncuestaUsuario();
+
+            encuestaUsuario.Cedula = respuestaEncuesta.Cedula;
+            encuestaUsuario.FacultadId = respuestaEncuesta.FacultadId;
+            encuestaUsuario.Fecha = DateTime.Today.ToString();
+            encuestaUsuario.IdEncuesta = respuestaEncuesta.EncuestaId;
+
+            _context.EncuestaUsuarios.Add(encuestaUsuario);
+
+            _context.SaveChangesAsync();
         }
 
 
@@ -231,10 +274,47 @@ namespace BusinessLayer
         public async Task<ApiResponse<List<GetEncuestaCursoDTO>>> addEncuestaCurso(AddEncuestaCursoDTO encuestaCurso)
         {
             ApiResponse<List<GetEncuestaCursoDTO>> response = new ApiResponse<List<GetEncuestaCursoDTO>>();
+            
             try
             {
-                _context.EncuestaCursos.Add(_mapper.Map<EncuestaCurso>(encuestaCurso));
-                await _context.SaveChangesAsync();
+                foreach (int idCurso in encuestaCurso.IdCursos)
+                {
+                    SeccionCurso sc = _context.SeccionesCursos.Where(sc => sc.Titulo == "Encuestas").First();
+                    Encuesta e = _context.Encuestas.Find(encuestaCurso.IdEncuesta);
+
+                    if (sc == null)
+                    {
+                        sc.CursoId = idCurso;
+                        sc.Indice = 0;
+                        sc.Titulo = e.Titulo;
+
+                        _context.SeccionesCursos.Add(sc);
+                        await _context.SaveChangesAsync();
+                    }
+
+                    Componente comp = new Componente();
+                    comp.Indice = 0;
+                    comp.Nombre = e.Titulo;
+                    comp.SeccionCursoId = sc.Id;
+                    comp.Tipo = "Encuesta";
+
+                    _context.Componentes.Add(comp);
+
+                    await _context.SaveChangesAsync();
+
+                    int idComponenete = comp.Id;
+
+                    EncuestaCurso enc = new EncuestaCurso();
+
+                    enc.ComponenteId = idComponenete;
+                    enc.Fecha = encuestaCurso.Fecha;
+                    enc.IdCurso = idCurso;
+                    enc.IdEncuesta = encuestaCurso.IdEncuesta;
+
+                    _context.EncuestaCursos.Add(enc);
+
+                    await _context.SaveChangesAsync();
+                }
                 response.Data = _context.EncuestaCursos.Select(f => _mapper.Map<GetEncuestaCursoDTO>(f)).ToList();
             }
             catch (Exception e)
@@ -244,6 +324,22 @@ namespace BusinessLayer
                 response.Message = e.Message;
             }
             return response;
+            
+            //Lo q estaba antes
+            //try
+            //{
+
+            //    _context.EncuestaCursos.Add(_mapper.Map<EncuestaCurso>(encuestaCurso));
+            //    await _context.SaveChangesAsync();
+            //    response.Data = _context.EncuestaCursos.Select(f => _mapper.Map<GetEncuestaCursoDTO>(f)).ToList();
+            //}
+            //catch (Exception e)
+            //{
+            //    response.Success = false;
+            //    response.Status = 500;
+            //    response.Message = e.Message;
+            //}
+            //return response;
         }
 
         public async Task<ApiResponse<GetEncuestaCursoDTO>> getEcuestaCurso(int idCurso)
@@ -279,7 +375,8 @@ namespace BusinessLayer
             }
             return response;
         }
-        public async Task<ApiResponse<List<GetEncuestaUsuarioDTO>>> addEncuestaUsuario(AddEncuestaUsuarioDTO encuestaUsuario)
+
+        /*public async Task<ApiResponse<List<GetEncuestaUsuarioDTO>>> addEncuestaUsuario(AddEncuestaUsuarioDTO encuestaUsuario)
         {
             ApiResponse<List<GetEncuestaUsuarioDTO>> response = new ApiResponse<List<GetEncuestaUsuarioDTO>>();
             try
@@ -295,7 +392,8 @@ namespace BusinessLayer
                 response.Message = e.Message;
             }
             return response;
-        }
+        }*/
+
         public async Task<ApiResponse<GetEncuestaUsuarioDTO>> getEcuestaUsuario(string cedula)
         {
             ApiResponse<GetEncuestaUsuarioDTO> response = new ApiResponse<GetEncuestaUsuarioDTO>();

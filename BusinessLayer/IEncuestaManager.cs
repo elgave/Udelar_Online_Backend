@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Utilidades;
@@ -16,19 +17,21 @@ namespace BusinessLayer
         Task<ApiResponse<GetEncuestaDTO>> edit(int id, AddEncuestaDTO encuesta);
 
         //preguntas
-        Task<ApiResponse<List<GetPreguntaDTO>>> addPregunta(AddPreguntaDTO pregunta);
+        /*Task<ApiResponse<List<GetPreguntaDTO>>> addPregunta(AddPreguntaDTO pregunta);
             
         Task<ApiResponse<List<GetPreguntaDTO>>> deletePregunta(int id);//no tendria que poderse si hay respuestas
 
-        Task<ApiResponse<GetPreguntaDTO>> editPregunta(int id, AddPreguntaDTO pregunta);
-        
+        Task<ApiResponse<GetPreguntaDTO>> editPregunta(int id, AddPreguntaDTO pregunta);*/
+
 
 
         //respuestas
-        Task<ApiResponse<List<GetRespuestaDTO>>> addRespuesta(AddRespuestaDTO respuesta);
+        /*Task<ApiResponse<List<GetRespuestaDTO>>> addRespuesta(AddRespuestaDTO respuesta);
         Task<ApiResponse<List<GetRespuestaDTO>>> deleteRespuesta(int id);
 
-        Task<ApiResponse<GetRespuestaDTO>> editRespuesta(int id, AddRespuestaDTO respuesta);
+        Task<ApiResponse<GetRespuestaDTO>> editRespuesta(int id, AddRespuestaDTO respuesta);*/
+
+        void responderEncuesta(AddRespuestaEncuestaDTO respuestaEncuesta);
 
        
         //Publicar una encuesta en un curso
@@ -39,7 +42,7 @@ namespace BusinessLayer
 
         //Encuesta-Usuario 
         ApiResponse<List<GetEncuestaUsuarioDTO>> listAllEncuestaUsuario();
-        Task<ApiResponse<List<GetEncuestaUsuarioDTO>>> addEncuestaUsuario(AddEncuestaUsuarioDTO encuestaUsuario);
+        //Task<ApiResponse<List<GetEncuestaUsuarioDTO>>> addEncuestaUsuario(AddEncuestaUsuarioDTO encuestaUsuario);
         Task<ApiResponse<GetEncuestaUsuarioDTO>> getEcuestaUsuario(string cedula);
 
 
