@@ -128,19 +128,48 @@ namespace BusinessLayer
             return response;
         }
 
-        public ApiResponse<bool> matricularse(DTMatricula matricula)
+        public async Task<ApiResponse<bool>> matricularse(DTMatricula matricula)
         {
             ApiResponse<bool> response = new ApiResponse<bool>();
 
-            GetCursoDTO curso = _mapper.Map<GetCursoDTO>(_context.Cursos.FirstOrDefaultAsync(c => c.Id == matricula.IdCurso));
-
-            if (curso.ConfirmaBedelia)
+            try
             {
-                IBedeliasApi _bedeliasApi = new BedeliasApi();
-                response.Data = _bedeliasApi.MatricularseACurso(matricula);
+                GetCursoDTO curso = _mapper.Map<GetCursoDTO>(_context.Cursos.FirstOrDefaultAsync(c => c.Id == matricula.IdCurso));
+
+                if (curso.ConfirmaBedelia)
+                {
+                    IBedeliasApi _bedeliasApi = new BedeliasApi();
+                    response.Data = _bedeliasApi.MatricularseACurso(matricula);
+
+                    if (response.Data)
+                    {
+                        UsuarioCurso usuarioCurso = new UsuarioCurso();
+                        usuarioCurso.CursoId = matricula.IdCurso;
+                        usuarioCurso.FacultadId = matricula.IdFacultad;
+                        usuarioCurso.UsuarioId = matricula.Cedula;
+
+                        _context.UsuarioCurso.Add(usuarioCurso);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                else 
+                {
+                    response.Data = true;
+                    UsuarioCurso usuarioCurso = new UsuarioCurso();
+                    usuarioCurso.CursoId = matricula.IdCurso;
+                    usuarioCurso.FacultadId = matricula.IdFacultad;
+                    usuarioCurso.UsuarioId = matricula.Cedula;
+
+                    _context.UsuarioCurso.Add(usuarioCurso);
+                    await _context.SaveChangesAsync();
+                }
             }
-            else
-                response.Data = true;
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 500;
+                response.Message = e.Message;
+            }
 
             return response;
         }
