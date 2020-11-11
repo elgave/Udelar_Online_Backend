@@ -78,6 +78,12 @@ namespace EntregaIndividual.Controllers
             return Ok(await _cursoManager.addSeccion(seccion));
         }
 
+        [HttpPut("editSeccion")]
+        public async Task<IActionResult> Put(int id, [FromBody] AddSeccionCursoDTO seccion)
+        {
+            return Ok(await _cursoManager.addSeccion(seccion));
+        }
+
         [HttpPost("addComponente")]
         public async Task<IActionResult> Post([FromForm] AddComponenteDTO componente)
         {

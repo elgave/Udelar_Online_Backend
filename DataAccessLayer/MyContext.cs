@@ -81,7 +81,22 @@ namespace DataAccessLayer
 
             modelBuilder.Entity<Pregunta>()
                .HasMany(e => e.Respuestas).WithOne(e => e.Pregunta).OnDelete(DeleteBehavior.Cascade);
-            
+
+            modelBuilder.Entity<SeccionCurso>()
+               .HasMany(sc => sc.Componentes).WithOne(sc => sc.SeccionCurso).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Componente>()
+                .HasOne(c => c.Archivo).WithOne(c => c.Componente).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Componente>()
+                .HasOne(c => c.Comunicado).WithOne(c => c.Componente).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Componente>()
+                .HasOne(c => c.ContenedorTarea).WithOne(c => c.Componente).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Componente>()
+                .HasOne(c => c.Encuesta).WithOne(c => c.Componente).OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<EncuestaUsuario>()
                .HasKey(e => new { e.IdEncuesta, e.Cedula });
 

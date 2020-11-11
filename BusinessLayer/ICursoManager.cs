@@ -23,11 +23,16 @@ namespace BusinessLayer
         Task<ApiResponse<GetCursoDTO>> addDocente(int id, AddUsuarioDTO user);
 
         Task<ApiResponse<AddSeccionCursoDTO>> addSeccion(AddSeccionCursoDTO seccion);
+
+        Task<ApiResponse<GetSeccionCursoDTO>> editSeccion(int idSeccion, AddSeccionCursoDTO seccion);
+
+        Task<ApiResponse<List<GetSeccionCursoDTO>>> deleteSeccion(int idSeccion);
+
         Task<ApiResponse<AddComponenteDTO>> addComponente(AddComponenteDTO componente, IFormFile archivo);
 
         Task<ApiResponse<AddEntregaTareaDTO>> addEntregaTarea(AddEntregaTareaDTO entregaTarea, IFormFile archivoEntrega);
 
-
+        
 
 
 

@@ -191,6 +191,44 @@ namespace BusinessLayer
 
             return response;
         }
+        public async Task<ApiResponse<GetSeccionCursoDTO>> editSeccion(int idSeccion, AddSeccionCursoDTO seccion)
+        {
+            ApiResponse<GetSeccionCursoDTO> response = new ApiResponse<GetSeccionCursoDTO>();
+            try
+            {
+                SeccionCurso seccionUpdate = _context.SeccionesCursos.SingleOrDefault(sc => sc.Id == idSeccion);
+                seccionUpdate.Titulo = seccion.Titulo;
+                seccionUpdate.Indice = seccion.Indice;
+                await _context.SaveChangesAsync();
+                response.Data = _mapper.Map<GetSeccionCursoDTO>(seccionUpdate);
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 404;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
+        public async Task<ApiResponse<List<GetSeccionCursoDTO>>> deleteSeccion(int idSeccion)
+        {
+            ApiResponse<List<GetSeccionCursoDTO>> response = new ApiResponse<List<GetSeccionCursoDTO>>();
+            try
+            {
+                SeccionCurso seccionCurso = _context.SeccionesCursos.First(sc => sc.Id == idSeccion);
+                _context.SeccionesCursos.Remove(seccionCurso);
+                await _context.SaveChangesAsync();
+                response.Data = _context.SeccionesCursos.Select(sc => _mapper.Map<GetSeccionCursoDTO>(sc)).ToList();
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 404;
+                response.Message = e.Message;
+            }
+            return response;
+        }
 
         public async Task<ApiResponse<AddComponenteDTO>> addComponente(AddComponenteDTO componente, IFormFile archivo)
         {
