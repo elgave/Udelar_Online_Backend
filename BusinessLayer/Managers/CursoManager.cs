@@ -280,6 +280,7 @@ namespace BusinessLayer
                 {
                     case "texto":
                         c.Texto = componente.Texto;
+                        Console.WriteLine(c.Texto);
                         break;
                     case "imagen":
                         Archivo a = new Archivo
@@ -289,8 +290,8 @@ namespace BusinessLayer
                             Nombre = Path.GetFileNameWithoutExtension(archivo.FileName)
                         };
 
-                        _context.UploadS3(archivo, "componentFile", a.Nombre + a.Extension);
-                        a.Ubicacion = "componentFile/" + a.Nombre + a.Extension;
+                        _context.UploadS3(archivo, "componentFile", a.Nombre + "." + a.Extension);
+                        a.Ubicacion = "componentFile/" + a.Nombre + "." + a.Extension;
 
                         _context.Archivos.Add(a);
                         break;
@@ -302,8 +303,8 @@ namespace BusinessLayer
                             Nombre = Path.GetFileNameWithoutExtension(archivo.FileName)
                         };
 
-                        _context.UploadS3(archivo, "componentFile", i.Nombre + i.Extension);
-                        i.Ubicacion = "componentFile/" + i.Nombre + i.Extension;
+                        _context.UploadS3(archivo, "componentFile", i.Nombre + "." + i.Extension);
+                        i.Ubicacion = "componentFile/" + i.Nombre + "." + i.Extension;
 
                         _context.Archivos.Add(i);
                         break;
