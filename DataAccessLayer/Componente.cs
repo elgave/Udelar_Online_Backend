@@ -17,6 +17,9 @@ namespace DataAccessLayer
 
         public int Indice { get; set; }
 
+        public string Texto { get; set; }
+
+
         [ForeignKey("SeccionCursoId")]
         public virtual SeccionCurso SeccionCurso { get; set; }
 

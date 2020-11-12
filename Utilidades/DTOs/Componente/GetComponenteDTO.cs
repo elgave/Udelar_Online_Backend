@@ -18,6 +18,8 @@ namespace Utilidades.DTOs.Componente
 
         public int Indice { get; set; }
 
+        public string Texto { get; set; }
+
         /// <summary>
         /// Los atrubitos de abajo, solo uno sera el que contenga informacion
         /// </summary>
