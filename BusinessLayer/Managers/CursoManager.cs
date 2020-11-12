@@ -264,57 +264,76 @@ namespace BusinessLayer
             ApiResponse<AddComponenteDTO> response = new ApiResponse<AddComponenteDTO>();
             try
             {
-                Componente c = new Componente();
-
-                c.Indice = componente.Indice;
-                c.Nombre = componente.Nombre;
-                c.SeccionCursoId = componente.SeccionCursoId;
-                c.Tipo = componente.Tipo;
+                Componente c = new Componente
+                {
+                    Indice = componente.Indice,
+                    Nombre = componente.Nombre,
+                    SeccionCursoId = componente.SeccionCursoId,
+                    Tipo = componente.Tipo
+                };
                 _context.Componentes.Add(c);
                 await _context.SaveChangesAsync();
 
                 int idComponente = c.Id;
 
-                if (c.Tipo.Equals("Archivo"))
+                switch (c.Tipo)
                 {
-                    Archivo a = new Archivo();
-                    
-                    a.ComponenteId = idComponente;
-                    a.Extension = Path.GetExtension(archivo.FileName).Substring(1);
-                    a.Nombre = Path.GetFileNameWithoutExtension(archivo.FileName);
+                    case "texto":
+                        c.Texto = componente.Texto;
+                        break;
+                    case "imagen":
+                        Archivo a = new Archivo
+                        {
+                            ComponenteId = idComponente,
+                            Extension = Path.GetExtension(archivo.FileName).Substring(1),
+                            Nombre = Path.GetFileNameWithoutExtension(archivo.FileName)
+                        };
 
-                    _context.UploadS3(archivo, "ComponenteArchivo", a.Nombre + a.Extension );
-                    a.Ubicacion = "https://dotnet-storage.s3.amazonaws.com/ComponenteArchivo/" + a.Nombre + a.Extension;
+                        _context.UploadS3(archivo, "componentFile", a.Nombre + a.Extension);
+                        a.Ubicacion = "componentFile/" + a.Nombre + a.Extension;
 
-                    _context.Archivos.Add(a);
-                   
-                }
-                else if (c.Tipo.Equals("Comunicado"))
-                {
-                    Comunicado comunicado = new Comunicado();
+                        _context.Archivos.Add(a);
+                        break;
+                    case "archivo":
+                        Archivo i = new Archivo
+                        {
+                            ComponenteId = idComponente,
+                            Extension = Path.GetExtension(archivo.FileName).Substring(1),
+                            Nombre = Path.GetFileNameWithoutExtension(archivo.FileName)
+                        };
 
-                    comunicado.ComponenteId = idComponente;
-                    comunicado.Descripcion = componente.Comunicado.Descripcion;
-                    comunicado.Titulo = componente.Comunicado.Titulo;
+                        _context.UploadS3(archivo, "componentFile", i.Nombre + i.Extension);
+                        i.Ubicacion = "componentFile/" + i.Nombre + i.Extension;
 
-                    _context.Comunicados.Add(comunicado);
-                   
-                }else if (c.Tipo.Equals("Encuesta"))
-                {
-                    EncuestaCurso encuesta = new EncuestaCurso();
+                        _context.Archivos.Add(i);
+                        break;
+                    case "contenedor":
+                        ContenedorTarea contenedorTarea = new ContenedorTarea();
 
-                    encuesta.ComponenteId = idComponente;
-                    encuesta.Fecha = componente.Encuesta.Fecha;
-                    encuesta.IdCurso = componente.Encuesta.IdCursos.First();
-                    encuesta.IdEncuesta = componente.Encuesta.IdEncuesta;
+                        contenedorTarea.ComponenteId = idComponente;
+                        contenedorTarea.FechaCierre = componente.ContenedorTarea.FechaCierre;
+                        break;
+                    case "comunicado":
+                        Comunicado comunicado = new Comunicado
+                        {
+                            ComponenteId = idComponente,
+                            Descripcion = componente.Comunicado.Descripcion,
+                            Titulo = componente.Comunicado.Titulo
+                        };
 
-                    _context.EncuestaCursos.Add(encuesta);
-                }else if (c.Tipo.Equals("ContenedorTarea"))
-                {
-                    ContenedorTarea contenedorTarea = new ContenedorTarea();
+                        _context.Comunicados.Add(comunicado);
+                        break;
+                    case "encuesta":
+                        EncuestaCurso encuesta = new EncuestaCurso
+                        {
+                            ComponenteId = idComponente,
+                            Fecha = componente.Encuesta.Fecha,
+                            IdCurso = componente.Encuesta.IdCursos.First(),
+                            IdEncuesta = componente.Encuesta.IdEncuesta
+                        };
 
-                    contenedorTarea.ComponenteId = idComponente;
-                    contenedorTarea.FechaCierre = componente.ContenedorTarea.FechaCierre;
+                        _context.EncuestaCursos.Add(encuesta);
+                        break;
                 }
 
                 await _context.SaveChangesAsync();
