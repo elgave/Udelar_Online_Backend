@@ -72,37 +72,39 @@ namespace EntregaIndividual.Controllers
             return Ok(_cursoManager.matricularse(matricula));
         }
 
-        [HttpPost("addSeccion")]
+        [HttpPost("seccion")]
         public async Task<IActionResult> Post([FromBody] AddSeccionCursoDTO seccion)
         {
             return Ok(await _cursoManager.addSeccion(seccion));
         }
 
-        [HttpPut("editSeccion")]
+        //? Edit lleva a AddSeccion???
+
+        [HttpPut("seccion/{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] AddSeccionCursoDTO seccion)
         {
             return Ok(await _cursoManager.addSeccion(seccion));
         }
 
-        [HttpDelete("deleteSeccion")]
+        [HttpDelete("seccion/{id}")]
         public async Task<IActionResult> DeleteSeccion(int id)
         {
             return Ok(await _cursoManager.deleteSeccion(id));
         }
 
-        [HttpPost("addComponente")]
+        [HttpPost("componente")]
         public async Task<IActionResult> Post([FromForm] AddComponenteDTO componente)
         {
             return Ok(await _cursoManager.addComponente(componente, Request.Form.Files[0]));
         }
 
-        [HttpPut("editComponente")]
+        [HttpPut("componente/{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] AddComponenteDTO componente)
         {
             return Ok(await _cursoManager.editComponente(id,componente));
         }
 
-        [HttpDelete("deleteComponente")]
+        [HttpDelete("componente/{id}")]
         public async Task<IActionResult> DeleteComponente(int id)
         {
             return Ok(await _cursoManager.deleteComponente(id));
