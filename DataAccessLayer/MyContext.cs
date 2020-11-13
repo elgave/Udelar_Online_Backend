@@ -79,6 +79,9 @@ namespace DataAccessLayer
             modelBuilder.Entity<Encuesta>()
                 .HasMany(e => e.Preguntas).WithOne(e => e.Encuesta).OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Usuario>()
+                .HasMany(e => e.UsuariosRoles).WithOne(e => e.Usuario).OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<Pregunta>()
                .HasMany(e => e.Respuestas).WithOne(e => e.Pregunta).OnDelete(DeleteBehavior.Cascade);
 

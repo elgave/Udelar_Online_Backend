@@ -20,6 +20,9 @@ namespace BusinessLayer
         Task<ApiResponse<GetCursoDTO>> get(int id);
         Task<ApiResponse<GetCursoDTO>> edit(int id, AddCursoDTO curso);
         Task<ApiResponse<bool>> matricularse(DTMatricula matricula);
+
+        Task<ApiResponse<bool>> darBajaMatricula(DTMatricula matricula);
+
         Task<ApiResponse<GetCursoDTO>> addDocente(int id, AddUsuarioDTO user);
 
         Task<ApiResponse<AddSeccionCursoDTO>> addSeccion(AddSeccionCursoDTO seccion);

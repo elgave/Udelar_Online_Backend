@@ -14,5 +14,7 @@ namespace DataAccessLayer
         public Curso Curso { get; set; }
         [ForeignKey("UsuarioId, FacultadId")]
         public Usuario Usuario { get; set; }
+
+        public bool EsResponable { get; set; }
     }
 }
