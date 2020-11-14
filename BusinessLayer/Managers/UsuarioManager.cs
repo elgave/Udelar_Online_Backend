@@ -48,6 +48,26 @@ namespace BusinessLayer
             return response;
         }
 
+        public ApiResponse<List<GetUsuarioDTO>> listarAdministradores(int idFacultad)
+        {
+            ApiResponse<List<GetUsuarioDTO>> response = new ApiResponse<List<GetUsuarioDTO>>();
+            try
+            {
+                response.Data = _context.Usuarios
+                    .Include(u => u.UsuariosRoles).Where(u => u.UsuariosRoles.Any(r => r.RolId == 1))//.ThenInclude(ur => ur.Rol)
+                    .Include(u => u.UsuariosRoles).ThenInclude(ur => ur.Rol)
+                    .Select(u => _mapper.Map<GetUsuarioDTO>(u)).ToList();
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 204;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
+
         public async Task<ApiResponse<List<GetUsuarioDTO>>> add(AddUsuarioDTO usuario)
         {
             ApiResponse<List<GetUsuarioDTO>> response = new ApiResponse<List<GetUsuarioDTO>>();
@@ -94,7 +114,7 @@ namespace BusinessLayer
             ApiResponse<List<GetUsuarioDTO>> response = new ApiResponse<List<GetUsuarioDTO>>();
             try
             {
-                Usuario usuario = _context.Usuarios.SingleOrDefault(u => u.Cedula == cedula && u.FacultadId == idFacultad);
+                Usuario usuario = _context.Usuarios.Include(u => u.UsuariosRoles).ThenInclude(ur => ur.Rol).SingleOrDefault(u => u.Cedula == cedula && u.FacultadId == idFacultad);
                 _context.Usuarios.Remove(usuario);
                 await _context.SaveChangesAsync();
                 response.Data = _context.Usuarios.Select(u => _mapper.Map<GetUsuarioDTO>(u)).ToList();

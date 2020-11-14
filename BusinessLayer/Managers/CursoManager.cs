@@ -174,6 +174,27 @@ namespace BusinessLayer
             return response;
         }
 
+        public async Task<ApiResponse<bool>> darBajaMatricula(DTMatricula matricula)
+        {
+            ApiResponse<bool> response = new ApiResponse<bool>();
+
+            try
+            {
+                UsuarioCurso usuarioCurso = _context.UsuarioCurso.First(c => c.CursoId == matricula.IdCurso && c.FacultadId == matricula.IdFacultad && c.UsuarioId == matricula.Cedula);
+                _context.UsuarioCurso.Remove(usuarioCurso);
+                await _context.SaveChangesAsync();
+                response.Data = true;
+            }
+            catch (Exception e)
+            {
+                response.Data = false;
+                response.Success = false;
+                response.Status = 500;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
         public async Task<ApiResponse<GetCursoDTO>> addDocente(int id, AddUsuarioDTO user)
         {
             ApiResponse<GetCursoDTO> response = new ApiResponse<GetCursoDTO>();

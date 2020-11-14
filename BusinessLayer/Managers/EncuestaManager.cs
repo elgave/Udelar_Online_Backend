@@ -30,7 +30,8 @@ namespace BusinessLayer
             ApiResponse<List<GetEncuestaDTO>> response = new ApiResponse<List<GetEncuestaDTO>>();
             try
             {
-                response.Data =  _context.Encuestas.Include(f => f.Preguntas).ThenInclude(f => f.Respuestas).Select(f => _mapper.Map<GetEncuestaDTO>(f)).ToList();
+                //response.Data =  _context.Encuestas.Include(f => f.Preguntas).ThenInclude(f => f.Respuestas).Select(f => _mapper.Map<GetEncuestaDTO>(f)).ToList();
+                response.Data = _context.Encuestas.Select(f => _mapper.Map<GetEncuestaDTO>(f)).ToList();
             }
             catch (Exception e)
             {
@@ -49,6 +50,7 @@ namespace BusinessLayer
                 Encuesta e = new Encuesta();
                 e.Fecha = encuesta.Fecha;
                 e.Titulo = encuesta.Titulo;
+                e.CreadaPor = encuesta.CreadaPor;
 
                 _context.Encuestas.Add(e);
                 await _context.SaveChangesAsync();
@@ -409,7 +411,6 @@ namespace BusinessLayer
             return response;
         }
 
-
         /*Encuestas-Facultad */
         public ApiResponse<List<GetEncuestaFacultadDTO>> listAllEncuestaFacultad()
         {
@@ -431,6 +432,35 @@ namespace BusinessLayer
         public async Task<ApiResponse<List<GetEncuestaFacultadDTO>>> addEncuestaFacultad(AddEncuestaFacultadDTO encuestaFacultad)
         {
             ApiResponse<List<GetEncuestaFacultadDTO>> response = new ApiResponse<List<GetEncuestaFacultadDTO>>();
+
+            try
+            {
+                foreach (int idFacultad in encuestaFacultad.IdFacultad)
+                {
+                    Encuesta e = _context.Encuestas.Find(encuestaFacultad.IdEncuesta);           
+
+                    EncuestaFacultad enc = new EncuestaFacultad();
+
+                    enc.Fecha = encuestaFacultad.Fecha;
+                    enc.IdFacultad = idFacultad;
+                    enc.IdEncuesta = encuestaFacultad.IdEncuesta;
+
+                    _context.encuestaFacultad.Add(enc);
+
+                    await _context.SaveChangesAsync();
+                }
+                response.Data = _context.encuestaFacultad.Select(f => _mapper.Map<GetEncuestaFacultadDTO>(f)).ToList();
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 500;
+                response.Message = e.Message;
+            }
+            return response;
+            //Lo que estaba antes
+            /*
+            ApiResponse<List<GetEncuestaFacultadDTO>> response = new ApiResponse<List<GetEncuestaFacultadDTO>>();
             try
             {
                 _context.encuestaFacultad.Add(_mapper.Map<EncuestaFacultad>(encuestaFacultad));
@@ -443,7 +473,7 @@ namespace BusinessLayer
                 response.Status = 500;
                 response.Message = e.Message;
             }
-            return response;
+            return response;*/
         }
 
         public async Task<ApiResponse<GetEncuestaFacultadDTO>> getEcuestaFacultad(int idFacultad)
@@ -460,8 +490,5 @@ namespace BusinessLayer
             }
             return response;
         }
-
-
-
     }
 }

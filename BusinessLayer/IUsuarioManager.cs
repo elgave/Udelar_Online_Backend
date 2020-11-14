@@ -10,6 +10,8 @@ namespace BusinessLayer
     public interface IUsuarioManager
     {
         ApiResponse<List<GetUsuarioDTO>> lists();
+
+        ApiResponse<List<GetUsuarioDTO>> listarAdministradores(int idFacultad);
         Task<ApiResponse<List<GetUsuarioDTO>>> add(AddUsuarioDTO usuario);
         Task<ApiResponse<List<GetUsuarioDTO>>> delete(string cedula, int idFacultad);
         Task<ApiResponse<GetUsuarioDTO>> get(string cedula, int idFacultad);
