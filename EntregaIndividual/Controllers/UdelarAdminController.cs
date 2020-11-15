@@ -52,7 +52,6 @@ namespace UdelarOnlineApi.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult Post([FromBody] IdPassword usuario)
         {

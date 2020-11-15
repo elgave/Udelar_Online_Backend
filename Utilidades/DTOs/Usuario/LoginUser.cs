@@ -8,6 +8,8 @@ namespace Utilidades.DTOs.Usuario
     {
         public string Cedula { get; set; }
         public int FacultadId { get; set; }
+
+        public string Rol { get; set; }
         public string Password { get; set; }
     }
 }

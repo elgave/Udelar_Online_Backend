@@ -107,7 +107,7 @@ namespace EntregaIndividual.Controllers
             var claims = new[]
             {
                 new Claim(Constantes.JWT_CLAIM_USUARIO, login.Cedula),
-                new Claim(ClaimTypes.Role, "usuario")
+                new Claim(ClaimTypes.Role, login.Rol)
             };
 
             return new JwtSecurityToken

@@ -115,6 +115,7 @@ namespace BusinessLayer
             {
                 Curso cursoUpdate = _context.Cursos.SingleOrDefault(c => c.Id == id);
                 cursoUpdate.Nombre = curso.Nombre;
+                cursoUpdate.CantCreditos = curso.CantCreditos;
                 await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<GetCursoDTO>(cursoUpdate);
             }
@@ -128,6 +129,25 @@ namespace BusinessLayer
             return response;
         }
 
+        public async Task<ApiResponse<GetCursoDTO>> renombrar(int id, AddCursoDTO curso)
+        {
+            ApiResponse<GetCursoDTO> response = new ApiResponse<GetCursoDTO>();
+            try
+            {
+                Curso cursoUpdate = _context.Cursos.SingleOrDefault(c => c.Id == id);
+                cursoUpdate.Nombre = curso.Nombre;
+                await _context.SaveChangesAsync();
+                response.Data = _mapper.Map<GetCursoDTO>(cursoUpdate);
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 404;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
         public async Task<ApiResponse<bool>> matricularse(DTMatricula matricula)
         {
             ApiResponse<bool> response = new ApiResponse<bool>();
@@ -384,46 +404,6 @@ namespace BusinessLayer
                 
                 componenteUpdate.Indice =  componente.Indice;
                 componenteUpdate.Nombre = componente.Nombre;
-
-                if (componente.Tipo.Equals("Archivo"))
-                {
-                   /* Archivo a = new Archivo();
-
-                    a.ComponenteId = idComponente;
-                    a.Extension = Path.GetExtension(archivo.FileName).Substring(1);
-                    a.Nombre = Path.GetFileNameWithoutExtension(archivo.FileName);
-
-                    _context.UploadS3(archivo, "ComponenteArchivo", a.Nombre + a.Extension);
-                    a.Ubicacion = "https://dotnet-storage.s3.amazonaws.com/ComponenteArchivo/" + a.Nombre + a.Extension;
-
-                    _context.Archivos.Add(a);
-                   */ 
-                }
-                else if (componente.Tipo.Equals("Comunicado"))
-                {
-                    //Comunicado comunicadoUpdate = _context.Comunicados.SingleOrDefault(comuni => comuni.ComponenteId == componenteUpdate.Id);
-
-                    //comunicadoUpdate.Descripcion = componente.Comunicado.Descripcion;
-                    //comunicadoUpdate.Titulo = componente.Comunicado.Titulo;
-                    componenteUpdate.Comunicado.Descripcion = componente.Comunicado.Descripcion;
-                    componenteUpdate.Comunicado.Titulo = componente.Comunicado.Titulo;
-
-                }
-                else if (componente.Tipo.Equals("Encuesta"))
-                {
-                    //EncuestaCurso encuestaUpdate = _context.EncuestaCursos.SingleOrDefault(e => e.ComponenteId == componenteUpdate.Id);
-
-                    //encuestaUpdate.Fecha = componente.Encuesta.Fecha;
-                    componenteUpdate.Encuesta.Fecha = componente.Encuesta.Fecha;
-                }
-                else if (componente.Tipo.Equals("ContenedorTarea"))
-                {
-                    //ContenedorTarea contenedorTareaUpdate = _context.ContenedoresTareas.SingleOrDefault(con => con.ComponenteId == componenteUpdate.Id);
-
-                    //contenedorTareaUpdate.FechaCierre = componente.ContenedorTarea.FechaCierre;
-
-                    componenteUpdate.ContenedorTarea.FechaCierre = componente.ContenedorTarea.FechaCierre;
-                }
 
                 await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<GetComponenteDTO>(componenteUpdate);
