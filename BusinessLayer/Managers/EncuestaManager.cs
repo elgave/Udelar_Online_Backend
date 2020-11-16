@@ -42,13 +42,30 @@ namespace BusinessLayer
             return response;
         }
 
+        public ApiResponse<List<GetEncuestaDTO>> listarXRol(string rol)
+        {
+            ApiResponse<List<GetEncuestaDTO>> response = new ApiResponse<List<GetEncuestaDTO>>();
+            try
+            {
+                //response.Data =  _context.Encuestas.Include(f => f.Preguntas).ThenInclude(f => f.Respuestas).Select(f => _mapper.Map<GetEncuestaDTO>(f)).ToList();
+                response.Data = _context.Encuestas.Where(e => e.CreadaPor == rol).Select(f => _mapper.Map<GetEncuestaDTO>(f)).ToList();
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 204;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
         public async Task<ApiResponse<List<GetEncuestaDTO>>> add(AddEncuestaDTO encuesta)
         {
             ApiResponse<List<GetEncuestaDTO>> response = new ApiResponse<List<GetEncuestaDTO>>();
             try
             {
                 Encuesta e = new Encuesta();
-                e.Fecha = encuesta.Fecha;
+                //e.Fecha = encuesta.Fecha;
                 e.Titulo = encuesta.Titulo;
                 e.CreadaPor = encuesta.CreadaPor;
 
@@ -122,7 +139,7 @@ namespace BusinessLayer
             {
                 Encuesta encuestaUpdate = _context.Encuestas.First(f => f.Id == id);
                 encuestaUpdate.Titulo = encuesta.Titulo;
-                encuestaUpdate.Fecha = encuesta.Fecha; 
+                //encuestaUpdate.Fecha = encuesta.Fecha; 
                 await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<GetEncuestaDTO>(encuestaUpdate);
             }

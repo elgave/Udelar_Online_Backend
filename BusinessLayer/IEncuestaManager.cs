@@ -11,6 +11,8 @@ namespace BusinessLayer
     public interface IEncuestaManager
     {
         ApiResponse<List<GetEncuestaDTO>> lists();
+
+        ApiResponse<List<GetEncuestaDTO>> listarXRol(string rol);
         Task<ApiResponse<List<GetEncuestaDTO>>> add(AddEncuestaDTO encuesta);
         Task<ApiResponse<List<GetEncuestaDTO>>> delete(int id);
         Task<ApiResponse<GetEncuestaDTO>> get(int id);

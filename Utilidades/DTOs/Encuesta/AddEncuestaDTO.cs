@@ -8,7 +8,7 @@ namespace Utilidades.DTOs.Encuesta
     {
         //public int EncuestaId { get; set; }
         public string Titulo { get; set; }
-        public string Fecha { get; set; }
+        //public string Fecha { get; set; }
 
         public string CreadaPor { get; set; }
 

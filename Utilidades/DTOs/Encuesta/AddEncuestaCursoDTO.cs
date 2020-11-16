@@ -9,6 +9,6 @@ namespace Utilidades.DTOs.Encuesta
         public int IdEncuesta { get; set; }
 
         public List<int> IdCursos { get; set; }
-        public string Fecha { get; set; }
+        //public string Fecha { get; set; }
     }
 }

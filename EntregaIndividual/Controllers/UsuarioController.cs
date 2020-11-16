@@ -36,7 +36,7 @@ namespace EntregaIndividual.Controllers
             return Ok(_usuarioManager.lists());
         }
 
-        [HttpGet("usuariosAdmin")]
+        [HttpGet("{idFacultad}")]
         public IActionResult GetAdministradores(int idFacultad)
         {
             return Ok(_usuarioManager.listarAdministradores(idFacultad));

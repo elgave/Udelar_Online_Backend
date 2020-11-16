@@ -66,10 +66,16 @@ namespace EntregaIndividual.Controllers
         }
 
         [Authorize(Roles = "usuario")]
-        [HttpPost("matricularse")]
+        [HttpPost("matricula")]
         public IActionResult Post([FromBody] DTMatricula matricula)
         {
             return Ok(_cursoManager.matricularse(matricula));
+        }
+
+        [HttpDelete("matricula")]
+        public IActionResult Delete([FromBody] DTMatricula matricula)
+        {
+            return Ok(_cursoManager.darBajaMatricula(matricula));
         }
 
         [HttpPost("seccion")]
