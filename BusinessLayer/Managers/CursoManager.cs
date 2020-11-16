@@ -349,7 +349,7 @@ namespace BusinessLayer
                         EncuestaCurso encuesta = new EncuestaCurso
                         {
                             ComponenteId = idComponente,
-                            Fecha = componente.Encuesta.Fecha,
+                            //Fecha = componente.Encuesta.Fecha,
                             IdCurso = componente.Encuesta.IdCursos.First(),
                             IdEncuesta = componente.Encuesta.IdEncuesta
                         };
@@ -414,7 +414,7 @@ namespace BusinessLayer
                     //EncuestaCurso encuestaUpdate = _context.EncuestaCursos.SingleOrDefault(e => e.ComponenteId == componenteUpdate.Id);
 
                     //encuestaUpdate.Fecha = componente.Encuesta.Fecha;
-                    componenteUpdate.Encuesta.Fecha = componente.Encuesta.Fecha;
+                    //componenteUpdate.Encuesta.Fecha = componente.Encuesta.Fecha;
                 }
                 else if (componente.Tipo.Equals("ContenedorTarea"))
                 {
