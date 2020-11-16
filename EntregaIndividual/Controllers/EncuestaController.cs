@@ -37,7 +37,13 @@ namespace EntregaIndividual.Controllers
             return Ok(await _encuestaManager.get(id));
         }
 
-        
+        [HttpGet("encuestasXRol/{rol}")]
+        public IActionResult Get(string rol)
+        {
+            return Ok(_encuestaManager.listarXRol(rol));
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddEncuestaDTO encuesta)
         {

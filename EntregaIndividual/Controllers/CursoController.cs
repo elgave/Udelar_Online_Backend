@@ -72,6 +72,13 @@ namespace EntregaIndividual.Controllers
             return Ok(_cursoManager.matricularse(matricula));
         }
 
+        [Authorize(Roles = "administrador,docente")]
+        [HttpDelete("matricula")]
+        public IActionResult Delete([FromBody] DTMatricula matricula)
+        {
+            return Ok(_cursoManager.darBajaMatricula(matricula));
+        }
+
         [Authorize(Roles = "docente")]
         [HttpPost("seccion")]
         public async Task<IActionResult> Post([FromBody] AddSeccionCursoDTO seccion)
@@ -122,7 +129,5 @@ namespace EntregaIndividual.Controllers
 
             return Ok(await _cursoManager.addEntregaTarea(entregaTarea, Request.Form.Files[0]));
         }
-
-
     }
 }

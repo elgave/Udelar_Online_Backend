@@ -21,6 +21,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using Utilidades;
 
 namespace EntregaIndividual
@@ -65,7 +66,8 @@ namespace EntregaIndividual
                     opt.UseSqlServer(Configuration.GetConnectionString("TSIDB")));
             }
 
-            
+            services.AddControllers().AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
             //Swagger
             AddSwagger(services);
 
