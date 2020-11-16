@@ -116,26 +116,7 @@ namespace BusinessLayer
                 Curso cursoUpdate = _context.Cursos.SingleOrDefault(c => c.Id == id);
                 cursoUpdate.Nombre = curso.Nombre;
                 cursoUpdate.CantCreditos = curso.CantCreditos;
-                await _context.SaveChangesAsync();
-                response.Data = _mapper.Map<GetCursoDTO>(cursoUpdate);
-            }
-            catch (Exception e)
-            {
-                response.Success = false;
-                response.Status = 404;
-                response.Message = e.Message;
-            }
-
-            return response;
-        }
-
-        public async Task<ApiResponse<GetCursoDTO>> renombrar(int id, AddCursoDTO curso)
-        {
-            ApiResponse<GetCursoDTO> response = new ApiResponse<GetCursoDTO>();
-            try
-            {
-                Curso cursoUpdate = _context.Cursos.SingleOrDefault(c => c.Id == id);
-                cursoUpdate.Nombre = curso.Nombre;
+                cursoUpdate.ConfirmaBedelia = curso.ConfirmaBedelia;
                 await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<GetCursoDTO>(cursoUpdate);
             }
@@ -154,7 +135,8 @@ namespace BusinessLayer
 
             try
             {
-                GetCursoDTO curso = _mapper.Map<GetCursoDTO>(_context.Cursos.FirstOrDefaultAsync(c => c.Id == matricula.IdCurso));
+                int id = matricula.IdCurso;
+                Curso curso = _context.Cursos.SingleOrDefault(c => c.Id == id);
 
                 if (curso.ConfirmaBedelia)
                 {
@@ -171,6 +153,12 @@ namespace BusinessLayer
                         _context.UsuarioCurso.Add(usuarioCurso);
                         await _context.SaveChangesAsync();
                     }
+                    else
+                    {
+                        response.Message = "Bedelías no aprueba la matriculación";
+                    }
+                    response.Status = 200;
+                    response.Success = true;
                 }
                 else 
                 {

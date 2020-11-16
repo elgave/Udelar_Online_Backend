@@ -37,35 +37,28 @@ namespace EntregaIndividual.Controllers
             return Ok(await _cursoManager.get(id));
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,administrador")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddCursoDTO curso)
         {
             return Ok(await _cursoManager.add(curso));
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,administrador,docente")]
         [HttpPost("{id}")]
         public async Task<IActionResult> AddDocente(int id, [FromBody] AddUsuarioDTO user)
         {
             return Ok(await _cursoManager.addDocente(id, user));
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,administrador,docente")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] AddCursoDTO curso)
         {
             return Ok(await _cursoManager.edit(id, curso));
         }
 
-        [Authorize(Roles = "docente")]
-        [HttpPut("renombrar/{id}")]
-        public async Task<IActionResult> Renombrar(int id, [FromBody] AddCursoDTO curso)
-        {
-            return Ok(await _cursoManager.renombrar(id, curso));
-        }
-
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,administrador")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

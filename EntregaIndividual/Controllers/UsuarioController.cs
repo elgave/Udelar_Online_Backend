@@ -102,7 +102,6 @@ namespace EntregaIndividual.Controllers
             DateTime dtFechaExpiraToken;
             DateTime now = DateTime.Now;
             dtFechaExpiraToken = DateTime.UtcNow.AddHours(24);
-
             //Agregamos los claim nuestros
             var claims = new[]
             {
