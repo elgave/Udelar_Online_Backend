@@ -12,6 +12,7 @@ using Utilidades.DTOs.Componente;
 using Utilidades.DTOs.Comunicado;
 using Utilidades.DTOs.EntregaTarea;
 using Utilidades.DTOs.ContenedorTarea;
+using Utilidades;
 
 namespace TSI
 {
@@ -72,6 +73,8 @@ namespace TSI
             CreateMap<EncuestaFacultad, GetEncuestaFacultadDTO>();
             CreateMap<AddEncuestaFacultadDTO, EncuestaFacultad>();
 
+            CreateMap<IdPasswordModel, IdPassword>();
+            CreateMap<IdPassword, IdPasswordModel>();
         }
     }
 }

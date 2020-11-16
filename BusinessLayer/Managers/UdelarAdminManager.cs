@@ -26,8 +26,7 @@ namespace BusinessLayer.Managers
             ApiResponse<List<IdPassword>> response = new ApiResponse<List<IdPassword>>();
             try
             {
-                LiteCollection<IdPassword> collection = _context.NoSql.GetCollection<IdPassword>("usuarios");
-                response.Data = collection.FindAll().ToList();
+                response.Data = _context.UdelarAdmins.Select(u => _mapper.Map<IdPassword>(u)).ToList();
             }
             catch (Exception e)
             {
@@ -44,12 +43,11 @@ namespace BusinessLayer.Managers
             ApiResponse<List<IdPassword>> response = new ApiResponse<List<IdPassword>>();
             try
             {
-                Console.WriteLine(usuario.Id);
-                Console.WriteLine(usuario.Password);
-                LiteCollection<IdPassword> collection = _context.NoSql.GetCollection<IdPassword>("usuarios");
-                collection.Insert(new IdPassword(usuario.Id, BCrypt.Net.BCrypt.HashPassword(usuario.Password)));
-                collection.EnsureIndex(x => x.Id);
-                response.Data = collection.FindAll().ToList();
+                usuario.Password = BCrypt.Net.BCrypt.HashPassword(usuario.Password);
+                IdPasswordModel user = new IdPasswordModel(usuario.Id, usuario.Password);
+                _context.UdelarAdmins.Add(user);
+                _context.SaveChanges();
+                response.Data = _context.UdelarAdmins.Select(u => _mapper.Map<IdPassword>(u)).ToList();
             }
             catch (Exception e)
             {
@@ -66,9 +64,10 @@ namespace BusinessLayer.Managers
             ApiResponse<List<IdPassword>> response = new ApiResponse<List<IdPassword>>();
             try
             {
-                LiteCollection<IdPassword> collection = _context.NoSql.GetCollection<IdPassword>("usuarios");
-                collection.Delete(id);
-                response.Data = collection.FindAll().ToList();
+                IdPasswordModel usuario = _context.UdelarAdmins.SingleOrDefault(u => u.Id == id);
+                _context.UdelarAdmins.Remove(usuario);
+                _context.SaveChanges();
+                response.Data = _context.UdelarAdmins.Select(u => _mapper.Map<IdPassword>(u)).ToList();
             }
             catch (Exception e)
             {
@@ -85,8 +84,7 @@ namespace BusinessLayer.Managers
             ApiResponse<bool> response = new ApiResponse<bool>();
             try
             {
-                LiteCollection<IdPassword> collection = _context.NoSql.GetCollection<IdPassword>("usuarios");
-                IdPassword user = collection.FindOne(x => x.Id == usuario.Id);
+                IdPasswordModel user = _context.UdelarAdmins.SingleOrDefault(u => u.Id == usuario.Id);
                 if (user != null)
                 {
                     response.Data = BCrypt.Net.BCrypt.Verify(usuario.Password, user.Password);
