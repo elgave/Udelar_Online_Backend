@@ -326,7 +326,7 @@ namespace BusinessLayer
                     EncuestaCurso enc = new EncuestaCurso();
 
                     enc.ComponenteId = idComponenete;
-                    enc.Fecha = encuestaCurso.Fecha;
+                    //enc.Fecha = encuestaCurso.Fecha;
                     enc.IdCurso = idCurso;
                     enc.IdEncuesta = encuestaCurso.IdEncuesta;
 

@@ -357,7 +357,7 @@ namespace BusinessLayer
                         EncuestaCurso encuesta = new EncuestaCurso
                         {
                             ComponenteId = idComponente,
-                            Fecha = componente.Encuesta.Fecha,
+                            //Fecha = componente.Encuesta.Fecha,
                             IdCurso = componente.Encuesta.IdCursos.First(),
                             IdEncuesta = componente.Encuesta.IdEncuesta
                         };
