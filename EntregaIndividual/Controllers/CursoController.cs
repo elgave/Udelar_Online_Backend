@@ -10,6 +10,8 @@ using Utilidades.DTOs.Componente;
 using Utilidades.DTOs.Curso;
 using Utilidades.DTOs.EntregaTarea;
 using Utilidades.DTOs.SeccionCurso;
+using Utilidades.DTOs.Template;
+using Utilidades.DTOs.Template.SeccionTemplate;
 using Utilidades.DTOs.Usuario;
 
 namespace EntregaIndividual.Controllers
@@ -37,7 +39,7 @@ namespace EntregaIndividual.Controllers
             return Ok(await _cursoManager.get(id));
         }
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddCursoDTO curso)
         {
@@ -117,6 +119,54 @@ namespace EntregaIndividual.Controllers
             return Ok(await _cursoManager.deleteComponente(id));
         }
 
+
+        [HttpGet("template")]
+        public  IActionResult GetAllTemplate()
+        {
+            return Ok(_cursoManager.getAllTemplate());
+        }
+
+        [HttpGet("template/{id}")]
+        public async Task<IActionResult> GetTemplate(int id)
+        {
+            return Ok(await _cursoManager.getTemplate(id));
+        }
+
+        [HttpPost("template")]
+        public async Task<IActionResult> Post([FromBody] AddTemplateDTO template)
+        {
+            return Ok(await _cursoManager.addTemplate(template));
+        }
+
+        [HttpPut("template/{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody] AddTemplateDTO template)
+        {
+            return Ok(await _cursoManager.editTemplate(id, template));
+        }
+
+        [HttpDelete("template/{id}")]
+        public async Task<IActionResult> DeleteTemplate(int id)
+        {
+            return Ok(await _cursoManager.deleteTemplate(id));
+        }
+
+        [HttpPost("seccionTemplate")]
+        public async Task<IActionResult> Post([FromBody] AddSeccionTemplateDTO seccionTemplate)
+        {
+            return Ok(await _cursoManager.addSeccionTemplate(seccionTemplate));
+        }
+
+        [HttpPut("seccionTemplate/{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody] AddSeccionTemplateDTO seccionTemplate)
+        {
+            return Ok(await _cursoManager.editSeccionTemplate(id,seccionTemplate));
+        }
+
+        [HttpDelete("seccionTemplate/{id}")]
+        public async Task<IActionResult> DeleteSeccionTemplate(int id)
+        {
+            return Ok(await _cursoManager.deleteSeccionTemplate(id));
+        }
         [HttpPost("addEntregaTarea")]
         public async Task<IActionResult> Post([FromForm] AddEntregaTareaDTO entregaTarea)
         {

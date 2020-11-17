@@ -51,6 +51,10 @@ namespace DataAccessLayer
 
         public DbSet<EntregaTarea> EntregasTarea { get; set; }
 
+        public DbSet<Template>  Template { get; set; }
+
+        public DbSet<SeccionTemplate> SeccionesTemplate { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
@@ -105,6 +109,9 @@ namespace DataAccessLayer
 
             modelBuilder.Entity<EncuestaFacultad>()
                 .HasKey(e => new { e.IdFacultad, e.IdEncuesta });
+
+            modelBuilder.Entity<Template>()
+               .HasMany(t => t.SeccionesTemplate).WithOne(t => t.Template).OnDelete(DeleteBehavior.Cascade);
 
         }
         public override int SaveChanges()

@@ -12,6 +12,8 @@ using Utilidades.DTOs.Componente;
 using Utilidades.DTOs.Comunicado;
 using Utilidades.DTOs.EntregaTarea;
 using Utilidades.DTOs.ContenedorTarea;
+using Utilidades.DTOs.Template;
+using Utilidades.DTOs.Template.SeccionTemplate;
 
 namespace TSI
 {
@@ -34,6 +36,14 @@ namespace TSI
             CreateMap<SeccionCurso, GetSeccionCursoDTO>()
                 .ForMember(dto => dto.Componentes, u => u.MapFrom(u => u.Componentes));   
             CreateMap<AddSeccionCursoDTO, SeccionCurso>();
+
+            CreateMap<Template, GetTemplateDTO>()
+                .ForMember(dto => dto.Secciones, u => u.MapFrom(u => u.SeccionesTemplate));
+            CreateMap<AddTemplateDTO, Template>();
+
+            CreateMap<SeccionTemplate, GetSeccionTemplateDTO>();
+            CreateMap<AddSeccionTemplateDTO, SeccionTemplate>();
+
 
             CreateMap<ContenedorTarea, GetContenedorTareaDTO>()
                 .ForMember(dto => dto.TareasEntregadas, u => u.MapFrom(u => u.TareasEntregadas));

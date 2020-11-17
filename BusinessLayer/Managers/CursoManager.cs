@@ -14,6 +14,8 @@ using Utilidades.DTOs.Componente;
 using Utilidades.DTOs.Curso;
 using Utilidades.DTOs.EntregaTarea;
 using Utilidades.DTOs.SeccionCurso;
+using Utilidades.DTOs.Template;
+using Utilidades.DTOs.Template.SeccionTemplate;
 using Utilidades.DTOs.Usuario;
 
 namespace BusinessLayer
@@ -53,8 +55,30 @@ namespace BusinessLayer
             ApiResponse<List<GetCursoDTO>> response = new ApiResponse<List<GetCursoDTO>>();
             try
             {
-                _context.Cursos.Add(_mapper.Map<Curso>(curso));
+                Curso c = _mapper.Map<Curso>(curso);
+                _context.Cursos.Add(c);
                 await _context.SaveChangesAsync();
+
+                int idCurso = c.Id;
+
+                if (curso.TemplateId != 0)
+                {
+                    Template temp = await _context.Template.Include(st => st.SeccionesTemplate).FirstAsync(t => t.Id == curso.TemplateId);
+
+                    foreach(SeccionTemplate st in temp.SeccionesTemplate)
+                    {
+                        SeccionCurso sc = new SeccionCurso
+                        {
+                            Titulo = st.Titulo,
+                            CursoId = idCurso,
+                            Indice = st.Indice
+                            
+                        };
+                        _context.SeccionesCursos.Add(sc);
+                       
+                    }
+                    await _context.SaveChangesAsync();
+                }
                 response.Data = _context.Cursos.Select(c => _mapper.Map<GetCursoDTO>(c)).ToList();
             }
             catch (Exception e)
@@ -446,6 +470,161 @@ namespace BusinessLayer
                 _context.Componentes.Remove(componente);
                 await _context.SaveChangesAsync();
                 response.Data = _context.Componentes.Select(c => _mapper.Map<GetComponenteDTO>(c)).Where(c => c.SeccionCursoId == componente.SeccionCursoId).ToList();
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 404;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+        public ApiResponse<List<GetTemplateDTO>> getAllTemplate()
+        {
+            ApiResponse<List<GetTemplateDTO>> response = new ApiResponse<List<GetTemplateDTO>>();
+
+            try
+            {
+                response.Data = _context.Template.Include(t => t.SeccionesTemplate).Select(t => _mapper.Map<GetTemplateDTO>(t)).ToList();
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 204;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
+        public async Task<ApiResponse<GetTemplateDTO>> getTemplate(int id)
+        {
+            ApiResponse<GetTemplateDTO> response = new ApiResponse<GetTemplateDTO>();
+            try
+            {
+                response.Data = _mapper.Map<GetTemplateDTO>(
+                    await _context.Template
+                    .Include(t => t.SeccionesTemplate).FirstAsync(t => t.Id == id)
+                );
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 404;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+        public async Task<ApiResponse<AddTemplateDTO>> addTemplate(AddTemplateDTO template)
+        {
+            ApiResponse<AddTemplateDTO> response = new ApiResponse<AddTemplateDTO>();
+            try
+            {
+                Template t = new Template();
+                t.Nombre = template.Nombre;
+
+                _context.Template.Add(t);
+                await _context.SaveChangesAsync();
+                response.Data = template;
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 500;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
+        public async Task<ApiResponse<GetTemplateDTO>> editTemplate(int idTemplate, AddTemplateDTO template)
+        {
+            ApiResponse<GetTemplateDTO> response = new ApiResponse<GetTemplateDTO>();
+            try
+            {
+                Template templateUpdate = _context.Template.SingleOrDefault(t => t.Id == idTemplate);
+                templateUpdate.Nombre = template.Nombre;
+                await _context.SaveChangesAsync();
+                response.Data = _mapper.Map<GetTemplateDTO>(templateUpdate);
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 404;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
+        public async Task<ApiResponse<List<GetTemplateDTO>>> deleteTemplate(int idTemplate)
+        {
+            ApiResponse<List<GetTemplateDTO>> response = new ApiResponse<List<GetTemplateDTO>>();
+            try
+            {
+                Template template = _context.Template.First(t => t.Id == idTemplate);
+                _context.Template.Remove(template);
+                await _context.SaveChangesAsync();
+                response.Data = _context.Template.Select(t => _mapper.Map<GetTemplateDTO>(t)).ToList();
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 404;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
+        public async Task<ApiResponse<AddSeccionTemplateDTO>> addSeccionTemplate(AddSeccionTemplateDTO seccionTemplate)
+        {
+            ApiResponse<AddSeccionTemplateDTO> response = new ApiResponse<AddSeccionTemplateDTO>();
+            try
+            {
+                SeccionTemplate st = new SeccionTemplate();
+                st.TemplateId = seccionTemplate.TemplateId;
+                st.Indice = seccionTemplate.Indice;
+                st.Titulo = seccionTemplate.Titulo;
+
+                _context.SeccionesTemplate.Add(st);
+                await _context.SaveChangesAsync();
+                response.Data = seccionTemplate;
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 500;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
+        public async Task<ApiResponse<GetSeccionTemplateDTO>> editSeccionTemplate(int idSeccionTemplate, AddSeccionTemplateDTO seccionTemplate)
+        {
+            ApiResponse<GetSeccionTemplateDTO> response = new ApiResponse<GetSeccionTemplateDTO>();
+            try
+            {
+                SeccionTemplate seccionTemplateUpdate = _context.SeccionesTemplate.SingleOrDefault(st => st.Id == idSeccionTemplate);
+                seccionTemplateUpdate.Titulo = seccionTemplate.Titulo;
+                seccionTemplateUpdate.Indice = seccionTemplate.Indice;
+                await _context.SaveChangesAsync();
+                response.Data = _mapper.Map<GetSeccionTemplateDTO>(seccionTemplateUpdate);
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 404;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
+        public async Task<ApiResponse<List<GetSeccionTemplateDTO>>> deleteSeccionTemplate(int idSeccionTemplate)
+        {
+            ApiResponse<List<GetSeccionTemplateDTO>> response = new ApiResponse<List<GetSeccionTemplateDTO>>();
+            try
+            {
+                SeccionTemplate seccionTemplate = _context.SeccionesTemplate.First(st => st.Id == idSeccionTemplate);
+                _context.SeccionesTemplate.Remove(seccionTemplate);
+                await _context.SaveChangesAsync();
+                response.Data = _context.SeccionesTemplate.Where(st => st.TemplateId == seccionTemplate.TemplateId).Select(st => _mapper.Map<GetSeccionTemplateDTO>(st)).ToList();
             }
             catch (Exception e)
             {
