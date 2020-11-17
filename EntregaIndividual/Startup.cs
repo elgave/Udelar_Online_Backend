@@ -47,6 +47,8 @@ namespace EntregaIndividual
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
 
+            string connection;
+
             if (Configuration["USE_RDS"] == "true")
             {
                 // Para despliegue en la nube. Ignorar
@@ -56,15 +58,15 @@ namespace EntregaIndividual
                 string hostname = Configuration["RDS_HOSTNAME"];
                 string port = Configuration["RDS_PORT"];
 
-                string connection = "Data Source=" + hostname + ";Initial Catalog=" + dbname + ";User ID=" + username + ";Password=" + password + ";";
-            
-                services.AddDbContext<MyContext>(opt =>
-                   opt.UseSqlServer(connection));
-            } else
+                connection = "Data Source=" + hostname + ";Initial Catalog=" + dbname + ";User ID=" + username + ";Password=" + password + ";";    
+            } 
+            else
             {
-                services.AddDbContext<MyContext>(opt =>
-                    opt.UseSqlServer(Configuration.GetConnectionString("TSIDB")));
+                connection = Configuration.GetConnectionString("TSIDB");
             }
+
+            services.AddDbContext<MyContext>(opt =>
+                   opt.UseSqlServer(connection));
 
             services.AddControllers().AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 

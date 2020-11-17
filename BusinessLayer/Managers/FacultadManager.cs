@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
@@ -82,14 +83,20 @@ namespace BusinessLayer
 
         public async Task<ApiResponse<GetFacultadDTO>> get(int id)
         {
+            
             ApiResponse<GetFacultadDTO> response = new ApiResponse<GetFacultadDTO>();
             try
             {
                 var facultad2 = await _context.Facultades
                     .Include(f => f.Cursos).ThenInclude(c => c.UsuariosCursos).ThenInclude(uc => uc.Usuario)
                     .Include(f => f.Cursos).ThenInclude(c => c.CursosDocentes).ThenInclude(cd => cd.Usuario)
+                    .FirstAsync(f => f.Id == id);
+
+                var facultadusers = await _context.Facultades
                     .Include(f => f.Usuarios).ThenInclude(u => u.UsuariosRoles).ThenInclude(ur => ur.Rol)
                     .FirstAsync(f => f.Id == id);
+
+                facultad2.Usuarios = facultadusers.Usuarios;
 
                 response.Data = _mapper.Map<GetFacultadDTO>(
                     facultad2
@@ -100,6 +107,7 @@ namespace BusinessLayer
                 response.Success = false;
                 response.Message = e.Message;
             }
+
             return response;
         }
         public async Task<ApiResponse<GetFacultadDTO>> edit(int id, AddFacultadDTO facultad)
