@@ -490,7 +490,30 @@ namespace BusinessLayer
             }
 
             return response;
-        }
+        }/*   
+        {
+            
+                Componente componenteUpdate = _context.Componentes.Include(c => c.Archivo)
+                                                                  .Include(c => c.Comunicado)
+                                                                  .Include(c => c.ContenedorTarea)
+                                                                  .Include(c => c.Encuesta)
+                                                                  .SingleOrDefault(c => c.Id == idComponente);
+                
+                componenteUpdate.Indice =  componente.Indice;
+                componenteUpdate.Nombre = componente.Nombre;
+
+                await _context.SaveChangesAsync();
+                response.Data = _mapper.Map<GetComponenteDTO>(componenteUpdate);
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 500;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }*/
 
         public ApiResponse<List<GetUsuarioNotaDTO>> getUsuariosNota(int idCurso)
 
@@ -534,31 +557,3 @@ namespace BusinessLayer
 }
 
 
-                        //.Include(c => c.CursosDocentes).ThenInclude(cd => cd.Usuario)
-                        //.Include(c => c.UsuariosCursos).ThenInclude(uc => uc.Usuario)
-                        //.Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Comunicado)
-                        //.Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Archivo)
-                        //.Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Encuesta)
-                        //.Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.ContenedorTarea)
-                        //.FirstAsync(c => c.Id == idCurso)
-
-/*    var result    = await (from uTc in _udelarOnlineDBContext.UserToCourses
-               join c in _udelarOnlineDBContext.Courses on uTc.CourseId equals c.IdCourse
-               join u in _udelarOnlineDBContext.Users on uTc.Ci equals u.Ci
-               where c.IdCollege == idCollege 
-               select new  UserEntity /*distinct*/
-/*  {
-Ci = u.Ci,
-     Name = u.Name,
-     Email = u.Email,
-     Birthday = u.Birthday,
-     Active = u.Active
-
-
- }
-   ).Distinct().ToListAsync();
-
-
-return result;
-
-}*/
