@@ -9,6 +9,7 @@ using Utilidades.DTOs.Curso;
 using Utilidades.DTOs.EntregaTarea;
 using Utilidades.DTOs.SeccionCurso;
 using Utilidades.DTOs.Usuario;
+using Utilidades.DTOs.UsuarioCurso;
 
 namespace BusinessLayer
 {
@@ -38,7 +39,14 @@ namespace BusinessLayer
         Task<ApiResponse<List<GetComponenteDTO>>> deleteComponente(int idComponente);
         Task<ApiResponse<AddEntregaTareaDTO>> addEntregaTarea(AddEntregaTareaDTO entregaTarea, IFormFile archivoEntrega);
 
+        Task<ApiResponse<GetUsuarioNotaDTO>> addUsuarioNota(AddUsuarioNotaDTO usuarioNota);
+
+        ApiResponse<List<GetUsuarioNotaDTO>> getUsuariosNota(int idCurso);
+
         
+
+
+
 
 
 

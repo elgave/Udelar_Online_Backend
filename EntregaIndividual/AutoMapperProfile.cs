@@ -13,6 +13,7 @@ using Utilidades.DTOs.Comunicado;
 using Utilidades.DTOs.EntregaTarea;
 using Utilidades.DTOs.ContenedorTarea;
 using Utilidades;
+using Utilidades.DTOs.UsuarioCurso;
 
 namespace TSI
 {
@@ -23,7 +24,7 @@ namespace TSI
             CreateMap<Rol, GetRolDTO>();
             CreateMap<Usuario, GetUsuarioDTO>()
                 .ForMember(dto => dto.Roles, u => u.MapFrom(u => u.UsuariosRoles.Select(r => r.Rol)));
-                
+
             CreateMap<AddUsuarioDTO, Usuario>();
 
             CreateMap<Curso, GetCursoDTO>()
@@ -33,7 +34,7 @@ namespace TSI
             CreateMap<AddCursoDTO, Curso>();
 
             CreateMap<SeccionCurso, GetSeccionCursoDTO>()
-                .ForMember(dto => dto.Componentes, u => u.MapFrom(u => u.Componentes));   
+                .ForMember(dto => dto.Componentes, u => u.MapFrom(u => u.Componentes));
             CreateMap<AddSeccionCursoDTO, SeccionCurso>();
 
             CreateMap<ContenedorTarea, GetContenedorTareaDTO>()
@@ -75,6 +76,9 @@ namespace TSI
 
             CreateMap<IdPasswordModel, IdPassword>();
             CreateMap<IdPassword, IdPasswordModel>();
+
+            CreateMap<UsuarioCurso, GetUsuarioNotaDTO>();
+            CreateMap<AddUsuarioNotaDTO, UsuarioCurso>();
         }
     }
 }

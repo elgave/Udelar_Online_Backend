@@ -10,9 +10,13 @@ namespace DataAccessLayer
         public string UsuarioId { get; set; }
         public int FacultadId { get; set; }
         public int CursoId { get; set; }
+        public int? Nota { get; set; }
+        public string? comentario { get; set; }
         [ForeignKey("CursoId")]
         public Curso Curso { get; set; }
         [ForeignKey("UsuarioId, FacultadId")]
         public Usuario Usuario { get; set; }
+        
+
     }
 }

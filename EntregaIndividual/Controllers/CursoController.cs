@@ -11,6 +11,7 @@ using Utilidades.DTOs.Curso;
 using Utilidades.DTOs.EntregaTarea;
 using Utilidades.DTOs.SeccionCurso;
 using Utilidades.DTOs.Usuario;
+using Utilidades.DTOs.UsuarioCurso;
 
 namespace EntregaIndividual.Controllers
 {
@@ -128,6 +129,19 @@ namespace EntregaIndividual.Controllers
         {
 
             return Ok(await _cursoManager.addEntregaTarea(entregaTarea, Request.Form.Files[0]));
+        }
+
+       // [Authorize(Roles = "docente")]
+        [HttpPost("Calificacion")]
+        public async Task<IActionResult> Post([FromBody] AddUsuarioNotaDTO usuarioNota)
+        {
+            return Ok(await _cursoManager.addUsuarioNota(usuarioNota));
+        }
+
+        [HttpGet ("idCurso")]
+        public async Task<IActionResult> GetUsuarioNotas(int idCurso)
+        {
+            return Ok( _cursoManager.getUsuariosNota(idCurso));
         }
     }
 }

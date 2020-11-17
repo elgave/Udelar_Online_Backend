@@ -15,6 +15,7 @@ using Utilidades.DTOs.Curso;
 using Utilidades.DTOs.EntregaTarea;
 using Utilidades.DTOs.SeccionCurso;
 using Utilidades.DTOs.Usuario;
+using Utilidades.DTOs.UsuarioCurso;
 
 namespace BusinessLayer
 {
@@ -465,5 +466,99 @@ namespace BusinessLayer
 
             return response;
         }
+
+
+        public async Task<ApiResponse<GetUsuarioNotaDTO>> addUsuarioNota(AddUsuarioNotaDTO usuarioNota)
+        {
+            ApiResponse<GetUsuarioNotaDTO> response = new ApiResponse<GetUsuarioNotaDTO>();
+            try
+            {
+                UsuarioCurso UsuarioCursoUpdate = _context.UsuarioCurso.SingleOrDefault(c => c.UsuarioId == usuarioNota.Cedula
+                   && c.FacultadId == usuarioNota.FacultadId && c.CursoId == usuarioNota.CursoId);
+
+                UsuarioCursoUpdate.Nota = usuarioNota.Calificacion;
+                UsuarioCursoUpdate.comentario = usuarioNota.Comentario;
+
+                await _context.SaveChangesAsync();
+                response.Data = _mapper.Map<GetUsuarioNotaDTO>(UsuarioCursoUpdate);
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 500;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
+
+        public ApiResponse<List<GetUsuarioNotaDTO>> getUsuariosNota(int idCurso)
+
+ 
+         
+
+
+        {
+            ApiResponse<List<GetUsuarioNotaDTO>> response = new ApiResponse<List<GetUsuarioNotaDTO>>();
+            try
+            {
+                response.Data =
+                     (from uc in _context.UsuarioCurso
+                      join u in _context.Usuarios on uc.UsuarioId equals u.Cedula
+                      where uc.CursoId == idCurso
+                      
+                      select new GetUsuarioNotaDTO
+                      {
+                          Cedula = u.Cedula,
+                          Nombre = u.Nombre,
+                          Apellido = u.Apellido,
+                          Califcacion = (int)uc.Nota,
+                          Comentario = uc.comentario
+
+                      }).Distinct().ToList();
+                      
+
+
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 404;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
+        
     }
 }
+
+
+                        //.Include(c => c.CursosDocentes).ThenInclude(cd => cd.Usuario)
+                        //.Include(c => c.UsuariosCursos).ThenInclude(uc => uc.Usuario)
+                        //.Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Comunicado)
+                        //.Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Archivo)
+                        //.Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Encuesta)
+                        //.Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.ContenedorTarea)
+                        //.FirstAsync(c => c.Id == idCurso)
+
+/*    var result    = await (from uTc in _udelarOnlineDBContext.UserToCourses
+               join c in _udelarOnlineDBContext.Courses on uTc.CourseId equals c.IdCourse
+               join u in _udelarOnlineDBContext.Users on uTc.Ci equals u.Ci
+               where c.IdCollege == idCollege 
+               select new  UserEntity /*distinct*/
+/*  {
+Ci = u.Ci,
+     Name = u.Name,
+     Email = u.Email,
+     Birthday = u.Birthday,
+     Active = u.Active
+
+
+ }
+   ).Distinct().ToListAsync();
+
+
+return result;
+
+}*/
