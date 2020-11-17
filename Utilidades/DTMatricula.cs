@@ -18,7 +18,7 @@ namespace Utilidades
         {
             Cedula = cedula;
             IdFacultad = idFacultad;
-            IdCurso = IdCurso;
+            IdCurso = idCurso;
         }
         
     }

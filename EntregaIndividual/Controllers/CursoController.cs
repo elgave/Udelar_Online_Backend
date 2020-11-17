@@ -13,6 +13,7 @@ using Utilidades.DTOs.SeccionCurso;
 using Utilidades.DTOs.Template;
 using Utilidades.DTOs.Template.SeccionTemplate;
 using Utilidades.DTOs.Usuario;
+using Utilidades.DTOs.UsuarioCurso;
 
 namespace EntregaIndividual.Controllers
 {
@@ -39,67 +40,70 @@ namespace EntregaIndividual.Controllers
             return Ok(await _cursoManager.get(id));
         }
 
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,administrador")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddCursoDTO curso)
         {
             return Ok(await _cursoManager.add(curso));
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,administrador,docente")]
         [HttpPost("{id}")]
         public async Task<IActionResult> AddDocente(int id, [FromBody] AddUsuarioDTO user)
         {
             return Ok(await _cursoManager.addDocente(id, user));
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,administrador,docente")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] AddCursoDTO curso)
         {
             return Ok(await _cursoManager.edit(id, curso));
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,administrador")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             return Ok(await _cursoManager.delete(id));
         }
 
-        [Authorize(Roles = "usuario")]
-        [HttpPost("matricula")]
+        [Authorize(Roles = "estudiante")]
+        [HttpPost("matricularse")]
         public IActionResult Post([FromBody] DTMatricula matricula)
         {
             return Ok(_cursoManager.matricularse(matricula));
         }
 
+        [Authorize(Roles = "administrador,docente")]
         [HttpDelete("matricula")]
         public IActionResult Delete([FromBody] DTMatricula matricula)
         {
             return Ok(_cursoManager.darBajaMatricula(matricula));
         }
 
+        [Authorize(Roles = "docente")]
         [HttpPost("seccion")]
         public async Task<IActionResult> Post([FromBody] AddSeccionCursoDTO seccion)
         {
             return Ok(await _cursoManager.addSeccion(seccion));
         }
 
-        //? Edit lleva a AddSeccion???
-
+        [Authorize(Roles = "docente")]
         [HttpPut("seccion/{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] AddSeccionCursoDTO seccion)
         {
-            return Ok(await _cursoManager.addSeccion(seccion));
+            return Ok(await _cursoManager.editSeccion(id, seccion));
         }
 
+        [Authorize(Roles = "docente")]
         [HttpDelete("seccion/{id}")]
         public async Task<IActionResult> DeleteSeccion(int id)
         {
             return Ok(await _cursoManager.deleteSeccion(id));
         }
 
+        [Authorize(Roles = "docente")]
         [HttpPost("componente")]
         public async Task<IActionResult> Post([FromForm] AddComponenteDTO componente)
         {
@@ -107,66 +111,21 @@ namespace EntregaIndividual.Controllers
             else return Ok(await _cursoManager.addComponente(componente, null));
         }
 
+        [Authorize(Roles = "docente")]
         [HttpPut("componente/{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] AddComponenteDTO componente)
         {
             return Ok(await _cursoManager.editComponente(id,componente));
         }
 
+        [Authorize(Roles = "docente")]
         [HttpDelete("componente/{id}")]
         public async Task<IActionResult> DeleteComponente(int id)
         {
             return Ok(await _cursoManager.deleteComponente(id));
         }
 
-
-        [HttpGet("template")]
-        public  IActionResult GetAllTemplate()
-        {
-            return Ok(_cursoManager.getAllTemplate());
-        }
-
-        [HttpGet("template/{id}")]
-        public async Task<IActionResult> GetTemplate(int id)
-        {
-            return Ok(await _cursoManager.getTemplate(id));
-        }
-
-        [HttpPost("template")]
-        public async Task<IActionResult> Post([FromBody] AddTemplateDTO template)
-        {
-            return Ok(await _cursoManager.addTemplate(template));
-        }
-
-        [HttpPut("template/{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] AddTemplateDTO template)
-        {
-            return Ok(await _cursoManager.editTemplate(id, template));
-        }
-
-        [HttpDelete("template/{id}")]
-        public async Task<IActionResult> DeleteTemplate(int id)
-        {
-            return Ok(await _cursoManager.deleteTemplate(id));
-        }
-
-        [HttpPost("seccionTemplate")]
-        public async Task<IActionResult> Post([FromBody] AddSeccionTemplateDTO seccionTemplate)
-        {
-            return Ok(await _cursoManager.addSeccionTemplate(seccionTemplate));
-        }
-
-        [HttpPut("seccionTemplate/{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] AddSeccionTemplateDTO seccionTemplate)
-        {
-            return Ok(await _cursoManager.editSeccionTemplate(id,seccionTemplate));
-        }
-
-        [HttpDelete("seccionTemplate/{id}")]
-        public async Task<IActionResult> DeleteSeccionTemplate(int id)
-        {
-            return Ok(await _cursoManager.deleteSeccionTemplate(id));
-        }
+        [Authorize(Roles = "estudiante")]
         [HttpPost("addEntregaTarea")]
         public async Task<IActionResult> Post([FromForm] AddEntregaTareaDTO entregaTarea)
         {
@@ -174,6 +133,17 @@ namespace EntregaIndividual.Controllers
             return Ok(await _cursoManager.addEntregaTarea(entregaTarea, Request.Form.Files[0]));
         }
 
+       // [Authorize(Roles = "docente")]
+        [HttpPost("Calificacion")]
+        public async Task<IActionResult> Post([FromBody] AddUsuarioNotaDTO usuarioNota)
+        {
+            return Ok(await _cursoManager.addUsuarioNota(usuarioNota));
+        }
 
+        [HttpGet ("idCurso")]
+        public async Task<IActionResult> GetUsuarioNotas(int idCurso)
+        {
+            return Ok( _cursoManager.getUsuariosNota(idCurso));
+        }
     }
 }

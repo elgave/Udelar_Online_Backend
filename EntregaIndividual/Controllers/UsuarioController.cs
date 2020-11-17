@@ -102,12 +102,11 @@ namespace EntregaIndividual.Controllers
             DateTime dtFechaExpiraToken;
             DateTime now = DateTime.Now;
             dtFechaExpiraToken = DateTime.UtcNow.AddHours(24);
-
             //Agregamos los claim nuestros
             var claims = new[]
             {
                 new Claim(Constantes.JWT_CLAIM_USUARIO, login.Cedula),
-                new Claim(ClaimTypes.Role, "usuario")
+                new Claim(ClaimTypes.Role, login.Rol)
             };
 
             return new JwtSecurityToken

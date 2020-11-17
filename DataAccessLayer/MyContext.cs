@@ -29,6 +29,7 @@ namespace DataAccessLayer
         public DbSet<Facultad> Facultades { get; set; }
         public DbSet<Curso> Cursos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<IdPasswordModel> UdelarAdmins { get; set; }
         public DbSet<UsuarioCurso> UsuarioCurso { get; set; }
         public DbSet<CursoDocente> CursoDocente { get; set; }
         public DbSet<Rol> Roles { get; set; }
@@ -40,15 +41,11 @@ namespace DataAccessLayer
         public DbSet<Archivo> Archivos { get; set; }
         public DbSet<EncuestaCurso> EncuestaCursos { get; set; }
         public DbSet<EncuestaUsuario> EncuestaUsuarios { get; set; }
-
         public DbSet<Componente> Componentes { get; set; }
         public DbSet<Comunicado> Comunicados { get; set; }
-
         public DbSet<ContenedorTarea> ContenedoresTareas { get; set; }
         public DbSet<SeccionCurso> SeccionesCursos { get; set; }
-
         public DbSet<EncuestaFacultad> encuestaFacultad { get; set; }
-
         public DbSet<EntregaTarea> EntregasTarea { get; set; }
 
         public DbSet<Template>  Template { get; set; }
@@ -66,7 +63,10 @@ namespace DataAccessLayer
 
 
             modelBuilder.Entity<Usuario>()
-                .HasKey(e => new { e.Cedula, e.FacultadId});
+                .HasKey(e => new { e.Cedula, e.FacultadId });
+
+            modelBuilder.Entity<IdPasswordModel>()
+                .HasKey(e => new { e.Id });
 
             modelBuilder.Entity<UsuarioRol>()
                 .HasKey(e => new { e.UsuarioId, e.FacultadId, e.RolId });

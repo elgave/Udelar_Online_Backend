@@ -17,6 +17,7 @@ using Utilidades.DTOs.SeccionCurso;
 using Utilidades.DTOs.Template;
 using Utilidades.DTOs.Template.SeccionTemplate;
 using Utilidades.DTOs.Usuario;
+using Utilidades.DTOs.UsuarioCurso;
 
 namespace BusinessLayer
 {
@@ -139,6 +140,8 @@ namespace BusinessLayer
             {
                 Curso cursoUpdate = _context.Cursos.SingleOrDefault(c => c.Id == id);
                 cursoUpdate.Nombre = curso.Nombre;
+                cursoUpdate.CantCreditos = curso.CantCreditos;
+                cursoUpdate.ConfirmaBedelia = curso.ConfirmaBedelia;
                 await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<GetCursoDTO>(cursoUpdate);
             }
@@ -151,14 +154,14 @@ namespace BusinessLayer
 
             return response;
         }
-
         public async Task<ApiResponse<bool>> matricularse(DTMatricula matricula)
         {
             ApiResponse<bool> response = new ApiResponse<bool>();
 
             try
             {
-                GetCursoDTO curso = _mapper.Map<GetCursoDTO>(_context.Cursos.FirstOrDefaultAsync(c => c.Id == matricula.IdCurso));
+                int id = matricula.IdCurso;
+                Curso curso = _context.Cursos.SingleOrDefault(c => c.Id == id);
 
                 if (curso.ConfirmaBedelia)
                 {
@@ -175,6 +178,12 @@ namespace BusinessLayer
                         _context.UsuarioCurso.Add(usuarioCurso);
                         await _context.SaveChangesAsync();
                     }
+                    else
+                    {
+                        response.Message = "Bedelías no aprueba la matriculación";
+                    }
+                    response.Status = 200;
+                    response.Success = true;
                 }
                 else 
                 {
@@ -409,46 +418,6 @@ namespace BusinessLayer
                 componenteUpdate.Indice =  componente.Indice;
                 componenteUpdate.Nombre = componente.Nombre;
 
-                if (componente.Tipo.Equals("Archivo"))
-                {
-                   /* Archivo a = new Archivo();
-
-                    a.ComponenteId = idComponente;
-                    a.Extension = Path.GetExtension(archivo.FileName).Substring(1);
-                    a.Nombre = Path.GetFileNameWithoutExtension(archivo.FileName);
-
-                    _context.UploadS3(archivo, "ComponenteArchivo", a.Nombre + a.Extension);
-                    a.Ubicacion = "https://dotnet-storage.s3.amazonaws.com/ComponenteArchivo/" + a.Nombre + a.Extension;
-
-                    _context.Archivos.Add(a);
-                   */ 
-                }
-                else if (componente.Tipo.Equals("Comunicado"))
-                {
-                    //Comunicado comunicadoUpdate = _context.Comunicados.SingleOrDefault(comuni => comuni.ComponenteId == componenteUpdate.Id);
-
-                    //comunicadoUpdate.Descripcion = componente.Comunicado.Descripcion;
-                    //comunicadoUpdate.Titulo = componente.Comunicado.Titulo;
-                    componenteUpdate.Comunicado.Descripcion = componente.Comunicado.Descripcion;
-                    componenteUpdate.Comunicado.Titulo = componente.Comunicado.Titulo;
-
-                }
-                else if (componente.Tipo.Equals("Encuesta"))
-                {
-                    //EncuestaCurso encuestaUpdate = _context.EncuestaCursos.SingleOrDefault(e => e.ComponenteId == componenteUpdate.Id);
-
-                    //encuestaUpdate.Fecha = componente.Encuesta.Fecha;
-                    //componenteUpdate.Encuesta.Fecha = componente.Encuesta.Fecha;
-                }
-                else if (componente.Tipo.Equals("ContenedorTarea"))
-                {
-                    //ContenedorTarea contenedorTareaUpdate = _context.ContenedoresTareas.SingleOrDefault(con => con.ComponenteId == componenteUpdate.Id);
-
-                    //contenedorTareaUpdate.FechaCierre = componente.ContenedorTarea.FechaCierre;
-
-                    componenteUpdate.ContenedorTarea.FechaCierre = componente.ContenedorTarea.FechaCierre;
-                }
-
                 await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<GetComponenteDTO>(componenteUpdate);
             }
@@ -676,5 +645,94 @@ namespace BusinessLayer
 
             return response;
         }
+
+
+        public async Task<ApiResponse<GetUsuarioNotaDTO>> addUsuarioNota(AddUsuarioNotaDTO usuarioNota)
+        {
+            ApiResponse<GetUsuarioNotaDTO> response = new ApiResponse<GetUsuarioNotaDTO>();
+            try
+            {
+                UsuarioCurso UsuarioCursoUpdate = _context.UsuarioCurso.SingleOrDefault(c => c.UsuarioId == usuarioNota.Cedula
+                   && c.FacultadId == usuarioNota.FacultadId && c.CursoId == usuarioNota.CursoId);
+
+                UsuarioCursoUpdate.Nota = usuarioNota.Calificacion;
+                UsuarioCursoUpdate.comentario = usuarioNota.Comentario;
+
+                await _context.SaveChangesAsync();
+                response.Data = _mapper.Map<GetUsuarioNotaDTO>(UsuarioCursoUpdate);
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 500;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }/*   
+        {
+            
+                Componente componenteUpdate = _context.Componentes.Include(c => c.Archivo)
+                                                                  .Include(c => c.Comunicado)
+                                                                  .Include(c => c.ContenedorTarea)
+                                                                  .Include(c => c.Encuesta)
+                                                                  .SingleOrDefault(c => c.Id == idComponente);
+                
+                componenteUpdate.Indice =  componente.Indice;
+                componenteUpdate.Nombre = componente.Nombre;
+
+                await _context.SaveChangesAsync();
+                response.Data = _mapper.Map<GetComponenteDTO>(componenteUpdate);
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 500;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }*/
+
+        public ApiResponse<List<GetUsuarioNotaDTO>> getUsuariosNota(int idCurso)
+
+ 
+         
+
+
+        {
+            ApiResponse<List<GetUsuarioNotaDTO>> response = new ApiResponse<List<GetUsuarioNotaDTO>>();
+            try
+            {
+                response.Data =
+                     (from uc in _context.UsuarioCurso
+                      join u in _context.Usuarios on uc.UsuarioId equals u.Cedula
+                      where uc.CursoId == idCurso
+                      
+                      select new GetUsuarioNotaDTO
+                      {
+                          Cedula = u.Cedula,
+                          Nombre = u.Nombre,
+                          Apellido = u.Apellido,
+                          Califcacion = (int)uc.Nota,
+                          Comentario = uc.comentario
+
+                      }).Distinct().ToList();
+                      
+
+
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 404;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
+        
     }
 }
+
+

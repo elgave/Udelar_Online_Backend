@@ -11,6 +11,7 @@ using Utilidades.DTOs.SeccionCurso;
 using Utilidades.DTOs.Template;
 using Utilidades.DTOs.Template.SeccionTemplate;
 using Utilidades.DTOs.Usuario;
+using Utilidades.DTOs.UsuarioCurso;
 
 namespace BusinessLayer
 {
@@ -54,7 +55,14 @@ namespace BusinessLayer
         Task<ApiResponse<List<GetSeccionTemplateDTO>>> deleteSeccionTemplate(int idSeccionTemplate);
         Task<ApiResponse<AddEntregaTareaDTO>> addEntregaTarea(AddEntregaTareaDTO entregaTarea, IFormFile archivoEntrega);
 
+        Task<ApiResponse<GetUsuarioNotaDTO>> addUsuarioNota(AddUsuarioNotaDTO usuarioNota);
+
+        ApiResponse<List<GetUsuarioNotaDTO>> getUsuariosNota(int idCurso);
+
         
+
+
+
 
 
 

@@ -4,14 +4,16 @@ using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20201115223437_errordetipeo")]
+    partial class errordetipeo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -311,19 +313,6 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Facultades");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.IdPasswordModel", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UdelarAdmins");
-                });
-
             modelBuilder.Entity("DataAccessLayer.Pregunta", b =>
                 {
                     b.Property<int>("Id")
@@ -402,44 +391,6 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("SeccionesCursos");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.SeccionTemplate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Indice")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TemplateId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Titulo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TemplateId");
-
-                    b.ToTable("SeccionesTemplate");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Template", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Nombre")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Template");
-                });
-
             modelBuilder.Entity("DataAccessLayer.Usuario", b =>
                 {
                     b.Property<string>("Cedula")
@@ -480,12 +431,6 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<int>("CursoId")
                         .HasColumnType("int");
-
-                    b.Property<int?>("Nota")
-                        .HasColumnType("int");
-
-                    b.Property<string>("comentario")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UsuarioId", "FacultadId", "CursoId");
 
@@ -665,15 +610,6 @@ namespace DataAccessLayer.Migrations
                         .WithMany("SeccionesCurso")
                         .HasForeignKey("CursoId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DataAccessLayer.SeccionTemplate", b =>
-                {
-                    b.HasOne("DataAccessLayer.Template", "Template")
-                        .WithMany("SeccionesTemplate")
-                        .HasForeignKey("TemplateId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
