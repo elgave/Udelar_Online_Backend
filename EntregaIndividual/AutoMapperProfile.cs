@@ -14,6 +14,8 @@ using Utilidades.DTOs.EntregaTarea;
 using Utilidades.DTOs.ContenedorTarea;
 using Utilidades;
 using Utilidades.DTOs.UsuarioCurso;
+using Utilidades.DTOs.Template;
+using Utilidades.DTOs.Template.SeccionTemplate;
 
 namespace TSI
 {
