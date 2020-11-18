@@ -69,14 +69,14 @@ namespace EntregaIndividual.Controllers
         }
 
         [Authorize(Roles = "estudiante")]
-        [HttpPost("matricularse")]
+        [HttpPost("matricula")]
         public IActionResult Post([FromBody] DTMatricula matricula)
         {
             return Ok(_cursoManager.matricularse(matricula));
         }
 
         [Authorize(Roles = "administrador,docente")]
-        [HttpDelete("matricula")]
+        [HttpPut("matricula")]
         public IActionResult Delete([FromBody] DTMatricula matricula)
         {
             return Ok(_cursoManager.darBajaMatricula(matricula));
@@ -144,6 +144,12 @@ namespace EntregaIndividual.Controllers
         public async Task<IActionResult> GetUsuarioNotas(int idCurso)
         {
             return Ok( _cursoManager.getUsuariosNota(idCurso));
+        }
+
+        [HttpGet("template")]
+        public async Task<IActionResult> GetTemplates()
+        {
+            return Ok(_cursoManager.getAllTemplate());
         }
     }
 }

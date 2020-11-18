@@ -65,6 +65,12 @@ namespace DataAccessLayer
             modelBuilder.Entity<Usuario>()
                 .HasKey(e => new { e.Cedula, e.FacultadId });
 
+            modelBuilder.Entity<Facultad>()
+                .HasMany(f => f.Usuarios).WithOne(u => u.Facultad).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Facultad>()
+                .HasMany(f => f.Cursos).WithOne(c => c.Facultad).OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<IdPasswordModel>()
                 .HasKey(e => new { e.Id });
 
@@ -79,6 +85,9 @@ namespace DataAccessLayer
 
             modelBuilder.Entity<EncuestaCurso>()
                 .HasKey(e => new { e.IdCurso, e.IdEncuesta });
+
+            modelBuilder.Entity<Curso>()
+                .HasMany(c => c.SeccionesCurso).WithOne(s => s.Curso).OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Encuesta>()
                 .HasMany(e => e.Preguntas).WithOne(e => e.Encuesta).OnDelete(DeleteBehavior.Cascade);

@@ -62,7 +62,7 @@ namespace BusinessLayer
 
                 int idCurso = c.Id;
 
-                if (curso.TemplateId != 0)
+                if (curso.TemplateId != null && curso.TemplateId != 0)
                 {
                     Template temp = await _context.Template.Include(st => st.SeccionesTemplate).FirstAsync(t => t.Id == curso.TemplateId);
 
