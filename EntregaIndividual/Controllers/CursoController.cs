@@ -141,15 +141,43 @@ namespace EntregaIndividual.Controllers
         }
 
         [HttpGet ("idCurso")]
-        public async Task<IActionResult> GetUsuarioNotas(int idCurso)
+        public IActionResult GetUsuarioNotas(int idCurso)
         {
             return Ok( _cursoManager.getUsuariosNota(idCurso));
         }
 
         [HttpGet("template")]
-        public async Task<IActionResult> GetTemplates()
+        public IActionResult GetTemplates()
         {
             return Ok(_cursoManager.getAllTemplate());
+        }
+
+        [Authorize(Roles = "administrador")]
+        [HttpPost("template")]
+        public IActionResult AddTemplate([FromBody] AddTemplateDTO temp)
+        {
+            return Ok(_cursoManager.addTemplate(temp));
+        }
+
+        [Authorize(Roles = "administrador")]
+        [HttpPost("template/seccion")]
+        public IActionResult AddSeccionTemplate([FromBody] AddSeccionTemplateDTO secc)
+        {
+            return Ok(_cursoManager.addSeccionTemplate(secc));
+        }
+
+        [Authorize(Roles = "administrador")]
+        [HttpDelete("template/{id}")]
+        public IActionResult DeleteTemplate(int id)
+        {
+            return Ok(_cursoManager.deleteSeccion(id));
+        }
+
+        [Authorize(Roles = "administrador")]
+        [HttpDelete("template/seccion/{id}")]
+        public IActionResult DeleteSeccionTemplate(int id)
+        {
+            return Ok(_cursoManager.deleteSeccionTemplate(id));
         }
     }
 }
