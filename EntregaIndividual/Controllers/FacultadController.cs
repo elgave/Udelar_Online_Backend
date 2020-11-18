@@ -50,7 +50,7 @@ namespace EntregaIndividual.Controllers
             return Ok(await _facultadManager.add(facultad, Request.Form.Files[0]));
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, administrador")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] AddFacultadDTO facultad)
         {

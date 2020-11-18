@@ -69,21 +69,21 @@ namespace EntregaIndividual.Controllers
             return Ok(await _usuarioManager.get(cedula, idFacultad));
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, administrador")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddUsuarioDTO usuario)
         {
             return Ok(await _usuarioManager.add(usuario));
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, administrador")]
         [HttpPut("")]
         public async Task<IActionResult> Put([FromBody] AddUsuarioDTO usuario)
         {
             return Ok(await _usuarioManager.edit(usuario));
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, administrador")]
         [HttpDelete("{cedula}/{idFacultad}")]
         public async Task<IActionResult> Delete(string cedula, int idFacultad)
         {

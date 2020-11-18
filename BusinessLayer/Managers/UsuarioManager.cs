@@ -137,8 +137,8 @@ namespace BusinessLayer
                 response.Data = _mapper.Map<GetUsuarioDTO>(await _context.Usuarios
                    // .Include(u => u.UsuariosCursos).ThenInclude(uc => uc.Curso)
                     .Include(u => u.UsuariosRoles).ThenInclude(ur => ur.Rol)
-                    .FirstAsync(u => u.Cedula == cedula && u.FacultadId == idFacultad
-                ));
+                    .FirstAsync(u => u.Cedula == cedula && u.FacultadId == idFacultad)
+                );
             }
             catch (Exception e)
             {
@@ -155,10 +155,72 @@ namespace BusinessLayer
             try
             {
                 Usuario usuarioUpdate = _context.Usuarios.First(u => u.Cedula == usuario.Cedula && u.FacultadId == usuario.FacultadId);
+                List<int> uroles = _context.UsuarioRol.Select(ur => ur).Where(ur => ur.UsuarioId == usuario.Cedula && ur.FacultadId == usuario.FacultadId).Select(ur => ur.RolId).ToList();
                 usuarioUpdate.Nombre = usuario.Nombre;
                 usuarioUpdate.Apellido = usuario.Apellido;
-                usuarioUpdate.Contrasena = BCrypt.Net.BCrypt.HashPassword(usuario.Contrasena);
+                if (usuario.Contrasena != null) usuarioUpdate.Contrasena = BCrypt.Net.BCrypt.HashPassword(usuario.Contrasena);
                 usuarioUpdate.Correo = usuario.Correo;
+
+                foreach (GetRolDTO rol in usuario.Roles)
+                {
+                    int rolId;
+                    switch (rol.Descripcion)
+                    {
+                        case "administrador":
+                            rolId = 1;
+                            break;
+                        case "docente":
+                            rolId = 2;
+                            break;
+                        case "estudiante":
+                            rolId = 3;
+                            break;
+                        default:
+                            rolId = 0;
+                            break;
+                    }
+
+                    if (!uroles.Exists(r => r == rolId))
+                    {
+                        UsuarioRol ur = new UsuarioRol();
+                        ur.FacultadId = usuario.FacultadId;
+                        ur.UsuarioId = usuario.Cedula;
+                        ur.RolId = rolId;
+
+                        _context.UsuarioRol.Add(ur);
+                    }
+                }
+                foreach (int rol in uroles)
+                {
+                    UsuarioRol ur = new UsuarioRol();
+                    ur.FacultadId = usuario.FacultadId;
+                    ur.UsuarioId = usuario.Cedula;
+                    switch (rol)
+                    {
+                        case 1:
+                            if (!usuario.Roles.Exists(r => r.Descripcion == "administrador"))
+                            {
+                                ur.RolId = rol;
+                                _context.UsuarioRol.Remove(ur);
+                            }
+                            break;
+                        case 2:
+                            if (!usuario.Roles.Exists(r => r.Descripcion == "docente"))
+                            {
+                                ur.RolId = rol;
+                                _context.UsuarioRol.Remove(ur);
+                            }
+                            break;
+                        case 3:
+                            if (!usuario.Roles.Exists(r => r.Descripcion == "estudiante"))
+                            {
+                                ur.RolId = rol;
+                                _context.UsuarioRol.Remove(ur);
+                            }
+                            break;
+                    }
+                }
+
                 await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<GetUsuarioDTO>(usuarioUpdate);
             }

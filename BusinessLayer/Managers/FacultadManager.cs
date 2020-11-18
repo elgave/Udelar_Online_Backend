@@ -118,7 +118,6 @@ namespace BusinessLayer
                 Facultad facultadUpdate = _context.Facultades.First(f => f.Id == id);
                 facultadUpdate.Nombre = facultad.Nombre;
                 facultadUpdate.Color = facultad.Color;
-                facultadUpdate.Url = facultad.Url;
                 await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<GetFacultadDTO>(facultadUpdate);
             }
