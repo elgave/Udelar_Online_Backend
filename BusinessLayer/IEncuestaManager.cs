@@ -16,6 +16,8 @@ namespace BusinessLayer
         Task<ApiResponse<List<GetEncuestaDTO>>> add(AddEncuestaDTO encuesta);
         Task<ApiResponse<List<GetEncuestaDTO>>> delete(int id);
         Task<ApiResponse<GetEncuestaDTO>> get(int id);
+
+        Task<ApiResponse<GetEncuestaDTO>> getSinRespuestas(int id);
         Task<ApiResponse<GetEncuestaDTO>> edit(int id, AddEncuestaDTO encuesta);
 
         //preguntas

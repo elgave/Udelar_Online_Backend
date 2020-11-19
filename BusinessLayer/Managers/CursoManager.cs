@@ -383,8 +383,8 @@ namespace BusinessLayer
                         {
                             ComponenteId = idComponente,
                             //Fecha = componente.Encuesta.Fecha,
-                            IdCurso = componente.Encuesta.IdCursos.First(),
-                            IdEncuesta = componente.Encuesta.IdEncuesta
+                            IdCurso = componente.CursoId,
+                            IdEncuesta = componente.EncuestaId,
                         };
 
                         _context.EncuestaCursos.Add(encuesta);
