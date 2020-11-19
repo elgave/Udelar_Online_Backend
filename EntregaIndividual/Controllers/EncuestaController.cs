@@ -37,6 +37,12 @@ namespace EntregaIndividual.Controllers
             return Ok(await _encuestaManager.get(id));
         }
 
+        [HttpGet("encuestaSinRespuesta/{id}")]
+        public async Task<IActionResult> GetSinResouesta(int id)
+        {
+            return Ok(await _encuestaManager.getSinRespuestas(id));
+        }
+
         [HttpGet("encuestasXRol/{rol}")]
         public IActionResult Get(string rol)
         {

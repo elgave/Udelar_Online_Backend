@@ -25,6 +25,8 @@ namespace Utilidades.DTOs.Componente
 
         public AddContenedorTareaDTO ContenedorTarea { get; set; }
 
-        public AddEncuestaCursoDTO Encuesta { get; set; }
+        public int EncuestaId { get; set; }
+
+        public int CursoId { get; set; }
     }
 }

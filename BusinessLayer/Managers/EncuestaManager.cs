@@ -131,7 +131,22 @@ namespace BusinessLayer
             }
             return response;
         }
-    
+
+        public async Task<ApiResponse<GetEncuestaDTO>> getSinRespuestas(int id)
+        {
+            ApiResponse<GetEncuestaDTO> response = new ApiResponse<GetEncuestaDTO>();
+            try
+            {
+                response.Data = _mapper.Map<GetEncuestaDTO>(await _context.Encuestas.Include(f => f.Preguntas).FirstAsync(f => f.Id == id));
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
         public async Task<ApiResponse<GetEncuestaDTO>> edit(int id, AddEncuestaDTO encuesta)
         {
             ApiResponse<GetEncuestaDTO> response = new ApiResponse<GetEncuestaDTO>();
