@@ -179,5 +179,19 @@ namespace EntregaIndividual.Controllers
         {
             return Ok(_cursoManager.deleteSeccionTemplate(id));
         }
+
+        [Authorize(Roles = "administrador")]
+        [HttpPut("template/{id}")]
+        public IActionResult EditTemplate(int id, [FromBody] AddTemplateDTO temp)
+        {
+            return Ok(_cursoManager.editTemplate(id, temp));
+        }
+
+        [Authorize(Roles = "administrador")]
+        [HttpPut("template/seccion/{id}")]
+        public IActionResult EditSeccionTemplate(int id, [FromBody] AddSeccionTemplateDTO secc)
+        {
+            return Ok(_cursoManager.editSeccionTemplate(id, secc));
+        }
     }
 }
