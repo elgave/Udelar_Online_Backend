@@ -311,16 +311,16 @@ namespace BusinessLayer
             
             try
             {
-                foreach (int idCurso in encuestaCurso.IdCursos)
-                {
-                    SeccionCurso sc = _context.SeccionesCursos.Where(sc => sc.Titulo == "Encuestas").First();
+                
+                    SeccionCurso sc = await _context.SeccionesCursos.Where(sc => sc.Titulo == "Encuestas" && sc.CursoId == encuestaCurso.IdCurso).FirstOrDefaultAsync();
                     Encuesta e = _context.Encuestas.Find(encuestaCurso.IdEncuesta);
 
                     if (sc == null)
                     {
-                        sc.CursoId = idCurso;
+                        sc = new SeccionCurso();
+                        sc.CursoId = encuestaCurso.IdCurso;
                         sc.Indice = 0;
-                        sc.Titulo = e.Titulo;
+                        sc.Titulo = "Encuestas";
 
                         _context.SeccionesCursos.Add(sc);
                         await _context.SaveChangesAsync();
@@ -330,7 +330,7 @@ namespace BusinessLayer
                     comp.Indice = 0;
                     comp.Nombre = e.Titulo;
                     comp.SeccionCursoId = sc.Id;
-                    comp.Tipo = "Encuesta";
+                    comp.Tipo = "encuesta";
 
                     _context.Componentes.Add(comp);
 
@@ -342,13 +342,13 @@ namespace BusinessLayer
 
                     enc.ComponenteId = idComponenete;
                     //enc.Fecha = encuestaCurso.Fecha;
-                    enc.IdCurso = idCurso;
+                    enc.IdCurso = encuestaCurso.IdCurso;
                     enc.IdEncuesta = encuestaCurso.IdEncuesta;
 
                     _context.EncuestaCursos.Add(enc);
 
                     await _context.SaveChangesAsync();
-                }
+                
                 response.Data = _context.EncuestaCursos.Select(f => _mapper.Map<GetEncuestaCursoDTO>(f)).ToList();
             }
             catch (Exception e)

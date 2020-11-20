@@ -12,7 +12,7 @@ namespace Utilidades.DTOs.UsuarioCurso
         //public int CursoId { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
-        public int Califcacion { get; set; }
+        public int Nota { get; set; }
         public string Comentario { get; set; }
 
     }

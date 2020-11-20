@@ -671,7 +671,7 @@ namespace BusinessLayer
                 UsuarioCurso UsuarioCursoUpdate = _context.UsuarioCurso.SingleOrDefault(c => c.UsuarioId == usuarioNota.Cedula
                    && c.FacultadId == usuarioNota.FacultadId && c.CursoId == usuarioNota.CursoId);
 
-                UsuarioCursoUpdate.Nota = usuarioNota.Calificacion;
+                UsuarioCursoUpdate.Nota = usuarioNota.Nota;
                 UsuarioCursoUpdate.comentario = usuarioNota.Comentario;
 
                 await _context.SaveChangesAsync();
@@ -685,30 +685,7 @@ namespace BusinessLayer
             }
 
             return response;
-        }/*   
-        {
-            
-                Componente componenteUpdate = _context.Componentes.Include(c => c.Archivo)
-                                                                  .Include(c => c.Comunicado)
-                                                                  .Include(c => c.ContenedorTarea)
-                                                                  .Include(c => c.Encuesta)
-                                                                  .SingleOrDefault(c => c.Id == idComponente);
-                
-                componenteUpdate.Indice =  componente.Indice;
-                componenteUpdate.Nombre = componente.Nombre;
-
-                await _context.SaveChangesAsync();
-                response.Data = _mapper.Map<GetComponenteDTO>(componenteUpdate);
-            }
-            catch (Exception e)
-            {
-                response.Success = false;
-                response.Status = 500;
-                response.Message = e.Message;
-            }
-
-            return response;
-        }*/
+        }
 
         public ApiResponse<List<GetUsuarioNotaDTO>> getUsuariosNota(int idCurso)
 
@@ -730,7 +707,7 @@ namespace BusinessLayer
                           Cedula = u.Cedula,
                           Nombre = u.Nombre,
                           Apellido = u.Apellido,
-                          Califcacion = (int)uc.Nota,
+                          Nota = (int)uc.Nota,
                           Comentario = uc.comentario
 
                       }).Distinct().ToList();
