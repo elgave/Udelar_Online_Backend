@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Utilidades.DTOs.Encuesta;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -30,26 +31,28 @@ namespace EntregaIndividual.Controllers
             return Ok(_encuestaManager.lists());
         }
 
-        
+        [Authorize(Roles = "admin,administrador,docente")]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _encuestaManager.get(id));
         }
 
+        [Authorize(Roles = "admin,administrador,docente,estudiante")]
         [HttpGet("encuestaSinRespuesta/{id}")]
         public async Task<IActionResult> GetSinResouesta(int id)
         {
             return Ok(await _encuestaManager.getSinRespuestas(id));
         }
 
+        [Authorize(Roles = "admin,administrador,docente")]
         [HttpGet("encuestasXRol/{rol}")]
         public IActionResult Get(string rol)
         {
             return Ok(_encuestaManager.listarXRol(rol));
         }
 
-
+        [Authorize(Roles = "admin,administrador,docente")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddEncuestaDTO encuesta)
         {
@@ -102,7 +105,7 @@ namespace EntregaIndividual.Controllers
             return Ok(await _encuestaManager.addRespuesta(respuesta));
         
         }*/
-
+        [Authorize(Roles = "estudiante")]
         [HttpPost("responderEncuesta")]
         public  IActionResult Post([FromBody] AddRespuestaEncuestaDTO respuestaEncuesta)
         {
@@ -111,6 +114,7 @@ namespace EntregaIndividual.Controllers
 
         }
 
+        [Authorize(Roles = "admin,administrador,docente")]
         //EncuestaCurso
         [HttpPost("addEncuestaCurso")]
         public async Task<IActionResult> Post([FromBody] AddEncuestaCursoDTO encuestaCurso)
@@ -164,10 +168,10 @@ namespace EntregaIndividual.Controllers
             return Ok(_encuestaManager.listAllEncuestaFacultad());
         }
 
-        [HttpGet("ListEncuestaFacultad")]
-        public async Task<IActionResult> GetEncuestaFacultad(int idFacultad)
+        [HttpGet("listEncuestaFacultad/{id}")]
+        public  IActionResult GetEncuestaFacultad(int id)
         {
-            return Ok(await _encuestaManager.getEcuestaFacultad(idFacultad));
+            return Ok(_encuestaManager.getEcuestaFacultad(id));
         }
 
     }
