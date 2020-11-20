@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using BCrypt.Net;
+using BusinessLayer.Managers;
 using DataAccessLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,15 +21,15 @@ namespace BusinessLayer
     {
         private readonly IMapper _mapper;
         private readonly MyContext _context;
+        private readonly IConfiguration _config;
 
-        public UsuarioManager(IMapper mapper, MyContext context)
+        public UsuarioManager(IConfiguration config, IMapper mapper, MyContext context)
         {
             _mapper = mapper;
             _context = context;
+            _config = config;
         }
-
         
-
         public ApiResponse<List<GetUsuarioDTO>> lists()
         {
             ApiResponse<List<GetUsuarioDTO>> response = new ApiResponse<List<GetUsuarioDTO>>();
@@ -99,6 +101,8 @@ namespace BusinessLayer
                 await _context.SaveChangesAsync();
 
                 response.Data = _context.Usuarios.Select(u => _mapper.Map<GetUsuarioDTO>(u)).ToList();
+
+                EmailManager.SendMail(usuario.Nombre + ":\nUsted ha sido registrado como usuario de UdelarOnline.\n\nUdelar Online.", usuario.Correo, _config);
             }
             catch (Exception e)
             {
