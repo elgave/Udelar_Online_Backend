@@ -7,7 +7,7 @@ namespace Utilidades.DTOs.UsuarioCurso
         public string Cedula { get; set; }
         public int FacultadId { get; set; }
         public int CursoId { get; set; }
-        public int Calificacion { get; set; }
+        public int Nota { get; set; }
         public string Comentario { get; set; }
        
     }

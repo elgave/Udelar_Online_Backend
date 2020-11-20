@@ -140,10 +140,11 @@ namespace EntregaIndividual.Controllers
             return Ok(await _cursoManager.addUsuarioNota(usuarioNota));
         }
 
-        [HttpGet ("idCurso")]
-        public IActionResult GetUsuarioNotas(int idCurso)
+        [HttpGet("Calificacion/{idCurso}")]
+        public async Task<IActionResult> GetUsuarioNotas(int idCurso)
         {
-            return Ok( _cursoManager.getUsuariosNota(idCurso));
+            return Ok(_cursoManager.getUsuariosNota(idCurso));
+
         }
 
         [HttpGet("template")]
