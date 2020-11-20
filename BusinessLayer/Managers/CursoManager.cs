@@ -688,11 +688,6 @@ namespace BusinessLayer
         }
 
         public ApiResponse<List<GetUsuarioNotaDTO>> getUsuariosNota(int idCurso)
-
- 
-         
-
-
         {
             ApiResponse<List<GetUsuarioNotaDTO>> response = new ApiResponse<List<GetUsuarioNotaDTO>>();
             try
@@ -711,9 +706,6 @@ namespace BusinessLayer
                           Comentario = uc.comentario
 
                       }).Distinct().ToList();
-                      
-
-
             }
             catch (Exception e)
             {

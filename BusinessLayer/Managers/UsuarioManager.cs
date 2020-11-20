@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Utilidades;
 using Utilidades.DTOs;
 using Utilidades.DTOs.Usuario;
+using Utilidades.DTOs.UsuarioCurso;
 
 namespace BusinessLayer
 {
@@ -258,6 +259,33 @@ namespace BusinessLayer
                 else
                     response.Data = null;
 
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 404;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
+        public ApiResponse<List<GetUsuarioNotaDTO>> getNotas(int facultadId, string cedula)
+        {
+            ApiResponse<List<GetUsuarioNotaDTO>> response = new ApiResponse<List<GetUsuarioNotaDTO>>();
+            try
+            {
+                response.Data =
+                    (from uc in _context.UsuarioCurso
+                    join c in _context.Cursos on uc.CursoId equals c.Id
+                    where uc.UsuarioId == cedula && uc.FacultadId == facultadId
+
+                    select new GetUsuarioNotaDTO
+                    {
+                        Nota = (int)uc.Nota,
+                        Comentario = uc.comentario,
+                        CursoNombre = c.Nombre
+
+                    }).Distinct().ToList();
             }
             catch (Exception e)
             {

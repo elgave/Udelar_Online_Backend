@@ -92,6 +92,12 @@ namespace EntregaIndividual.Controllers
             return Ok(response);
         }
 
+        [HttpGet("Calificacion/{facultadId}/{cedula}")]
+        public IActionResult GetUsuarioNotas(int facultadId, string cedula)
+        {
+            return Ok(_usuarioManager.getNotas(facultadId, cedula));
+        }
+
         private JwtSecurityToken GenerarToken(LoginUser login)
         {
             string ValidIssuer = _configuration["ApiAuth:Issuer"];

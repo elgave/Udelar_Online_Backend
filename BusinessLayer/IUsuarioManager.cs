@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Utilidades;
 using Utilidades.DTOs.Usuario;
+using Utilidades.DTOs.UsuarioCurso;
 
 namespace BusinessLayer
 {
@@ -17,7 +18,6 @@ namespace BusinessLayer
         Task<ApiResponse<GetUsuarioDTO>> get(string cedula, int idFacultad);
         Task<ApiResponse<GetUsuarioDTO>> edit(AddUsuarioDTO usuario);
         Task<ApiResponse<GetUsuarioDTO>> login(LoginUser usuario);
-
-
+        ApiResponse<List<GetUsuarioNotaDTO>> getNotas(int facultadId, string cedula);
     }
 }
