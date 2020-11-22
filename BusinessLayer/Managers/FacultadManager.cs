@@ -43,6 +43,22 @@ namespace BusinessLayer
             return response;
         }
 
+        public ApiResponse<List<GetFacultadDTO>> listsSolofacultad()
+        {
+            ApiResponse<List<GetFacultadDTO>> response = new ApiResponse<List<GetFacultadDTO>>();
+            try
+            {
+                response.Data = _context.Facultades.Select(f => _mapper.Map<GetFacultadDTO>(f)).ToList();
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 204;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
         public async Task<ApiResponse<List<GetFacultadDTO>>> add(AddFacultadDTO facultad, IFormFile icono)
         {
             ApiResponse<List<GetFacultadDTO>> response = new ApiResponse<List<GetFacultadDTO>>();

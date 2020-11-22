@@ -11,6 +11,7 @@ namespace BusinessLayer
     public interface IFacultadManager
     {
         ApiResponse<List<GetFacultadDTO>> lists();
+        ApiResponse<List<GetFacultadDTO>> listsSolofacultad();
         Task<ApiResponse<List<GetFacultadDTO>>> add(AddFacultadDTO facultad, IFormFile icono);
         Task<ApiResponse<List<GetFacultadDTO>>> delete(int id);
         Task<ApiResponse<GetFacultadDTO>> get(int id);

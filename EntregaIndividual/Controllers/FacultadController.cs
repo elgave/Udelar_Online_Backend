@@ -30,6 +30,12 @@ namespace EntregaIndividual.Controllers
             return Ok(_facultadManager.lists());
         }
 
+        [HttpGet("soloFacultad")]
+        public IActionResult GetSolofacultad()
+        {
+            return Ok(_facultadManager.listsSolofacultad());
+        }
+
         [HttpGet("usuariosXfacultad")]
         public IActionResult GetUsuariosXFacultad()
         {

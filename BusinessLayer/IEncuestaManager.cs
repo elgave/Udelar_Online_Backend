@@ -53,6 +53,6 @@ namespace BusinessLayer
         //Publicar una encuesta en una facultad
         ApiResponse<List<GetEncuestaFacultadDTO>> listAllEncuestaFacultad();
         Task<ApiResponse<List<GetEncuestaFacultadDTO>>> addEncuestaFacultad(AddEncuestaFacultadDTO encuestaFacultad);
-        Task<ApiResponse<GetEncuestaFacultadDTO>> getEcuestaFacultad(int idFacultad);
+        ApiResponse<List<GetEncuestaFacultadDTO>> getEcuestaFacultad(int idFacultad);
     }
 }
