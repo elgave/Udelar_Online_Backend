@@ -158,5 +158,45 @@ namespace BusinessLayer
             response.Data = resultado;
             return response;
         }
+
+        public ApiResponse<GetNovedadDTO> novedad(AddNovedadDTO novedad)
+        {
+            ApiResponse<GetNovedadDTO> response = new ApiResponse<GetNovedadDTO>();
+            try
+            {
+                Novedad nov = new Novedad();
+                nov.FacultadId = novedad.FacultadId;
+                nov.Texto = novedad.Texto;
+                nov.Titulo = novedad.Titulo;
+                _context.Novedades.Add(nov);
+                _context.SaveChanges();
+                response.Data = _mapper.Map<GetNovedadDTO>(nov);
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 500;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
+        public ApiResponse<List<GetNovedadDTO>> novedades(int facultadId)
+        {
+            ApiResponse<List<GetNovedadDTO>> response = new ApiResponse<List<GetNovedadDTO>>();
+            try
+            {
+                _context.Novedades.Select(n => n.FacultadId == facultadId);
+                _context.SaveChanges();
+                response.Data = _context.Novedades.Where(n => n.FacultadId == facultadId).Select(n => _mapper.Map<GetNovedadDTO>(n)).ToList();
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 500;
+                response.Message = e.Message;
+            }
+            return response;
+        }
     }
 }

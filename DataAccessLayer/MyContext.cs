@@ -47,10 +47,9 @@ namespace DataAccessLayer
         public DbSet<SeccionCurso> SeccionesCursos { get; set; }
         public DbSet<EncuestaFacultad> encuestaFacultad { get; set; }
         public DbSet<EntregaTarea> EntregasTarea { get; set; }
-
         public DbSet<Template>  Template { get; set; }
-
         public DbSet<SeccionTemplate> SeccionesTemplate { get; set; }
+        public DbSet<Novedad> Novedades { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -70,6 +69,9 @@ namespace DataAccessLayer
 
             modelBuilder.Entity<Facultad>()
                 .HasMany(f => f.Cursos).WithOne(c => c.Facultad).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Facultad>()
+                .HasMany(f => f.Novedades).WithOne(n => n.Facultad).OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<IdPasswordModel>()
                 .HasKey(e => new { e.Id });

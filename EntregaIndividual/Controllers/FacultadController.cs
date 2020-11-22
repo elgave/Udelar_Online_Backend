@@ -63,5 +63,18 @@ namespace EntregaIndividual.Controllers
         {
             return Ok(await _facultadManager.delete(id));
         }
+
+        [Authorize(Roles = "admin, administrador")]
+        [HttpPost("novedad/")]
+        public IActionResult PublicarNovedad([FromBody] AddNovedadDTO novedad)
+        {
+            return Ok(_facultadManager.novedad(novedad));
+        }
+
+        [HttpGet("novedad/{id}")]
+        public IActionResult VerNovedades(int id)
+        {
+            return Ok(_facultadManager.novedades(id));
+        }
     }
 }

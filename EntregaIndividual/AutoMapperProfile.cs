@@ -89,6 +89,9 @@ namespace TSI
 
             CreateMap<UsuarioCurso, GetUsuarioNotaDTO>();
             CreateMap<AddUsuarioNotaDTO, UsuarioCurso>();
+
+            CreateMap<Novedad, GetNovedadDTO>();
+            CreateMap<AddNovedadDTO, Novedad>();
         }
     }
 }
