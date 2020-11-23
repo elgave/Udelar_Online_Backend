@@ -168,27 +168,43 @@ namespace BusinessLayer
             return response;
         }
 
-        public void responderEncuesta(AddRespuestaEncuestaDTO respuestaEncuesta)
+        public async Task<ApiResponse<AddRespuestaEncuestaDTO>> responderEncuesta(AddRespuestaEncuestaDTO respuestaEncuesta)
         {
-            foreach(AddRespuestaDTO r in respuestaEncuesta.respuestas)
+            ApiResponse<AddRespuestaEncuestaDTO> response = new ApiResponse<AddRespuestaEncuestaDTO>();
+
+            try
             {
-                Respuesta respuesta = new Respuesta();
-                respuesta.PreguntaId = r.PreguntaId;
-                respuesta.Texto = r.Texto;
+                foreach (AddRespuestaDTO r in respuestaEncuesta.respuestas)
+                {
+                    Respuesta respuesta = new Respuesta();
+                    respuesta.PreguntaId = r.PreguntaId;
+                    respuesta.Texto = r.Texto;
 
-                _context.Respuestas.Add(respuesta);
+                    _context.Respuestas.Add(respuesta);
+                }
+
+                EncuestaUsuario encuestaUsuario = new EncuestaUsuario();
+
+                encuestaUsuario.Cedula = respuestaEncuesta.Cedula;
+                encuestaUsuario.FacultadId = respuestaEncuesta.FacultadId;
+                encuestaUsuario.Fecha = DateTime.Today.ToString();
+                encuestaUsuario.IdEncuesta = respuestaEncuesta.EncuestaId;
+
+                _context.EncuestaUsuarios.Add(encuestaUsuario);
+
+                await _context.SaveChangesAsync();
+
+                response.Data = respuestaEncuesta;
+
             }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 404;
+                response.Message = e.Message;
 
-            EncuestaUsuario encuestaUsuario = new EncuestaUsuario();
-
-            encuestaUsuario.Cedula = respuestaEncuesta.Cedula;
-            encuestaUsuario.FacultadId = respuestaEncuesta.FacultadId;
-            encuestaUsuario.Fecha = DateTime.Today.ToString();
-            encuestaUsuario.IdEncuesta = respuestaEncuesta.EncuestaId;
-
-            _context.EncuestaUsuarios.Add(encuestaUsuario);
-
-            _context.SaveChangesAsync();
+            }
+            return response;
         }
 
 

@@ -74,44 +74,12 @@ namespace EntregaIndividual.Controllers
         }
 
 
-
-
-        //Preguntas
-        /*[HttpPost("addPregunta")]
-        public async Task<IActionResult> Post([FromBody] AddPreguntaDTO pregunta)
-        {
-            return Ok(await _encuestaManager.addPregunta(pregunta));
-        }
-
-        [HttpPut("editPregutna{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] AddPreguntaDTO pregunta)
-        {
-            return Ok(await _encuestaManager.editPregunta(id, pregunta));
-        }
-
-        // DELETE api/<FacultadController>/5
-        [HttpDelete("deletePregunta{id}")]
-        public async Task<IActionResult> DeletePregunta(int id)
-        {
-            return Ok(await _encuestaManager.deletePregunta(id));
-        }*/
-
-
-
-        /*//Respuestas
-        [HttpPost("addRespuesta")]
-        public async Task<IActionResult> Post([FromBody] AddRespuestaDTO respuesta)
-        {
-            return Ok(await _encuestaManager.addRespuesta(respuesta));
-        
-        }*/
         [Authorize(Roles = "estudiante")]
         [HttpPost("responderEncuesta")]
-        public  IActionResult Post([FromBody] AddRespuestaEncuestaDTO respuestaEncuesta)
+        public async  Task<IActionResult> Post([FromBody] AddRespuestaEncuestaDTO respuestaEncuesta)
         {
-            _encuestaManager.responderEncuesta(respuestaEncuesta);
-            return Ok();
-
+            return Ok(await _encuestaManager.responderEncuesta(respuestaEncuesta));
+            
         }
 
         [Authorize(Roles = "admin,administrador,docente")]
@@ -122,25 +90,11 @@ namespace EntregaIndividual.Controllers
             return Ok(await _encuestaManager.addEncuestaCurso(encuestaCurso));
         }
 
-        [HttpGet("ListAllEncuestaCurso")]
-        public IActionResult List()
-        {
-            return Ok(_encuestaManager.listAllEncuestaCurso());
-        }
-
         [HttpGet("ListEncuestaCurso")]
         public async Task<IActionResult> GetEncuestaTocurso(int idCurso)
         {
             return Ok(await _encuestaManager.getEcuestaCurso(idCurso));
         }
-
-
-        //EncuestaUsuario
-        /*[HttpPost("addEncuestaUsuario")]
-        public async Task<IActionResult> Post([FromBody] AddEncuestaUsuarioDTO encuestaUsuario)
-        {
-            return Ok(await _encuestaManager.addEncuestaUsuario(encuestaUsuario));
-        }*/
 
         [HttpGet("ListAllEncuestaUsuario")]
         public IActionResult ListEncuestaUsuario()
@@ -160,12 +114,6 @@ namespace EntregaIndividual.Controllers
         public async Task<IActionResult> Post([FromBody] AddEncuestaFacultadDTO encuestaFacultad)
         {
             return Ok(await _encuestaManager.addEncuestaFacultad(encuestaFacultad));
-        }
-
-        [HttpGet("ListAllEncuestaFAcultad")]
-        public IActionResult ListEncuestaFacultad()
-        {
-            return Ok(_encuestaManager.listAllEncuestaFacultad());
         }
 
         [HttpGet("listEncuestaFacultad/{id}")]

@@ -35,7 +35,7 @@ namespace BusinessLayer
 
         Task<ApiResponse<GetRespuestaDTO>> editRespuesta(int id, AddRespuestaDTO respuesta);*/
 
-        void responderEncuesta(AddRespuestaEncuestaDTO respuestaEncuesta);
+        Task<ApiResponse<AddRespuestaEncuestaDTO>> responderEncuesta(AddRespuestaEncuestaDTO respuestaEncuesta);
 
        
         //Publicar una encuesta en un curso
