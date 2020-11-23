@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using BusinessLayer.Managers;
 using DataAccessLayer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
@@ -23,12 +25,14 @@ namespace BusinessLayer
 {
     public class CursoManager : ICursoManager
     {
+        private readonly IConfiguration _config;
         private readonly IMapper _mapper;
         private readonly MyContext _context;
-        public CursoManager(IMapper mapper, MyContext context)
+        public CursoManager(IConfiguration config, IMapper mapper, MyContext context)
         {
             _mapper = mapper;
             _context = context;
+            _config = config;
         }
         public ApiResponse<List<GetCursoDTO>> lists()
         {
@@ -393,6 +397,18 @@ namespace BusinessLayer
 
                 await _context.SaveChangesAsync();
                 response.Data = componente;
+
+                GetCursoDTO curso = _mapper.Map<GetCursoDTO>(_context.Cursos
+                    .Include(c => c.UsuariosCursos).ThenInclude(uc => uc.Usuario)
+                    .Include(c => c.SeccionesCurso)
+                    .First(c => c.SeccionesCurso.Any(s => s.Id == componente.SeccionCursoId)));
+
+                const string q = "\"";
+
+                foreach (GetUsuarioDTO u in curso.Usuarios)
+                {
+                    EmailManager.SendMail(u.Nombre+":\nSe ha agregado nuevo material al curso "+curso.Nombre+"\n\nUdelar Online.", u.Correo, _config);
+                }  
             }
             catch (Exception e)
             {
@@ -672,11 +688,6 @@ namespace BusinessLayer
         }
 
         public ApiResponse<List<GetUsuarioNotaDTO>> getUsuariosNota(int idCurso)
-
- 
-         
-
-
         {
             ApiResponse<List<GetUsuarioNotaDTO>> response = new ApiResponse<List<GetUsuarioNotaDTO>>();
             try
@@ -695,9 +706,6 @@ namespace BusinessLayer
                           Comentario = uc.comentario
 
                       }).Distinct().ToList();
-                      
-
-
             }
             catch (Exception e)
             {

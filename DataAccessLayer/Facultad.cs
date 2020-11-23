@@ -14,6 +14,7 @@ namespace DataAccessLayer
         public string Url { get; set; }
         public virtual ICollection<Curso> Cursos { get; set; }
         public virtual ICollection<Usuario> Usuarios { get; set; }
+        public virtual ICollection<Novedad> Novedades { get; set; }
         public Facultad() { }
         public Facultad(string nombre)
         {

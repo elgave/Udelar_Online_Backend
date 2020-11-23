@@ -14,6 +14,6 @@ namespace Utilidades.DTOs.UsuarioCurso
         public string Apellido { get; set; }
         public int Nota { get; set; }
         public string Comentario { get; set; }
-
+        public string CursoNombre { get; set; }
     }
 }

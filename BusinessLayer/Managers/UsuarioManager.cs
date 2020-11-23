@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using BCrypt.Net;
+using BusinessLayer.Managers;
 using DataAccessLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,7 @@ using System.Threading.Tasks;
 using Utilidades;
 using Utilidades.DTOs;
 using Utilidades.DTOs.Usuario;
+using Utilidades.DTOs.UsuarioCurso;
 
 namespace BusinessLayer
 {
@@ -19,15 +22,15 @@ namespace BusinessLayer
     {
         private readonly IMapper _mapper;
         private readonly MyContext _context;
+        private readonly IConfiguration _config;
 
-        public UsuarioManager(IMapper mapper, MyContext context)
+        public UsuarioManager(IConfiguration config, IMapper mapper, MyContext context)
         {
             _mapper = mapper;
             _context = context;
+            _config = config;
         }
-
         
-
         public ApiResponse<List<GetUsuarioDTO>> lists()
         {
             ApiResponse<List<GetUsuarioDTO>> response = new ApiResponse<List<GetUsuarioDTO>>();
@@ -99,6 +102,8 @@ namespace BusinessLayer
                 await _context.SaveChangesAsync();
 
                 response.Data = _context.Usuarios.Select(u => _mapper.Map<GetUsuarioDTO>(u)).ToList();
+
+                EmailManager.SendMail(usuario.Nombre + ":\nUsted ha sido registrado como usuario de UdelarOnline.\n\nUdelar Online.", usuario.Correo, _config);
             }
             catch (Exception e)
             {
@@ -254,6 +259,33 @@ namespace BusinessLayer
                 else
                     response.Data = null;
 
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 404;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
+        public ApiResponse<List<GetUsuarioNotaDTO>> getNotas(int facultadId, string cedula)
+        {
+            ApiResponse<List<GetUsuarioNotaDTO>> response = new ApiResponse<List<GetUsuarioNotaDTO>>();
+            try
+            {
+                response.Data =
+                    (from uc in _context.UsuarioCurso
+                    join c in _context.Cursos on uc.CursoId equals c.Id
+                    where uc.UsuarioId == cedula && uc.FacultadId == facultadId
+
+                    select new GetUsuarioNotaDTO
+                    {
+                        Nota = (int)uc.Nota,
+                        Comentario = uc.comentario,
+                        CursoNombre = c.Nombre
+
+                    }).Distinct().ToList();
             }
             catch (Exception e)
             {

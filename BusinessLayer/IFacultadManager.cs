@@ -17,5 +17,7 @@ namespace BusinessLayer
         Task<ApiResponse<GetFacultadDTO>> get(int id);
         Task<ApiResponse<GetFacultadDTO>> edit(int id, AddFacultadDTO facultad);
         ApiResponse<List<DTUsuariosXFacultad>> UsuariosXFacultad();
+        ApiResponse<GetNovedadDTO> novedad(AddNovedadDTO novedad);
+        ApiResponse<List<GetNovedadDTO>> novedades(int facultadId);
     }
 }
