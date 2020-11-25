@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Utilidades;
+using Utilidades.DTOs.Calendario;
 using Utilidades.DTOs.Componente;
 using Utilidades.DTOs.Curso;
 using Utilidades.DTOs.EntregaTarea;
@@ -59,7 +60,8 @@ namespace BusinessLayer
 
         ApiResponse<List<GetUsuarioNotaDTO>> getUsuariosNota(int idCurso);
 
-        
+        Task<ApiResponse<AddFechaCalendarioDTO>> addFecha(AddFechaCalendarioDTO fechaCalendario);
+        Task<ApiResponse<GetCalendarioDTO>> getCalendario(int id);
 
 
 

@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Utilidades;
+using Utilidades.DTOs.Calendario;
 using Utilidades.DTOs.Componente;
 using Utilidades.DTOs.Curso;
 using Utilidades.DTOs.EntregaTarea;
@@ -126,6 +127,7 @@ namespace BusinessLayer
                     .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Archivo)
                     .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Encuesta)
                     .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.ContenedorTarea)
+                    .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Calendario)
                     .FirstAsync(c => c.Id == id)
                 );
             }
@@ -393,6 +395,16 @@ namespace BusinessLayer
 
                         _context.EncuestaCursos.Add(encuesta);
                         break;
+                    case "calendario":
+                        Calendario calendario = new Calendario
+                        {
+                            ComponenteId = idComponente,
+                            IdCurso = componente.CursoId,
+                            Titulo = componente.Nombre,
+                        };
+
+                        _context.Calendarios.Add(calendario);
+                        break;
                 }
 
                 await _context.SaveChangesAsync();
@@ -429,6 +441,7 @@ namespace BusinessLayer
                                                                   .Include(c => c.Comunicado)
                                                                   .Include(c => c.ContenedorTarea)
                                                                   .Include(c => c.Encuesta)
+                                                                  .Include(c => c.Calendario)
                                                                   .SingleOrDefault(c => c.Id == idComponente);
                 
                 componenteUpdate.Indice =  componente.Indice;
@@ -716,7 +729,51 @@ namespace BusinessLayer
             return response;
         }
 
-        
+        public async Task<ApiResponse<AddFechaCalendarioDTO>> addFecha(AddFechaCalendarioDTO fechaCalendario)
+        {
+            ApiResponse<AddFechaCalendarioDTO> response = new ApiResponse<AddFechaCalendarioDTO>();
+            try
+            {
+                FechaCalendario fc = new FechaCalendario();
+                fc.CalendarioId = fechaCalendario.CalendarioId;
+                fc.Fecha = fechaCalendario.Fecha;
+                fc.Texto = fechaCalendario.Texto;
+
+                _context.FechaCalendarios.Add(fc);
+                await _context.SaveChangesAsync();
+                response.Data = fechaCalendario;
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 500;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
+
+        public async Task<ApiResponse<GetCalendarioDTO>> getCalendario(int id)
+        {
+            ApiResponse<GetCalendarioDTO> response = new ApiResponse<GetCalendarioDTO>();
+
+            try
+            {
+                response.Data = _mapper.Map<GetCalendarioDTO>(
+                     await _context.Calendarios
+                    .Include(t => t.FechasCalendario).FirstOrDefaultAsync(t => t.Id == id)
+                );
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 204;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
+
     }
 }
 

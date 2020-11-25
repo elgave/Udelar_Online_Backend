@@ -50,6 +50,8 @@ namespace DataAccessLayer
         public DbSet<Template>  Template { get; set; }
         public DbSet<SeccionTemplate> SeccionesTemplate { get; set; }
         public DbSet<Novedad> Novedades { get; set; }
+        public DbSet<Calendario> Calendarios { get; set; }
+        public DbSet<FechaCalendario> FechaCalendarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -124,6 +126,11 @@ namespace DataAccessLayer
             modelBuilder.Entity<Template>()
                .HasMany(t => t.SeccionesTemplate).WithOne(t => t.Template).OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Componente>()
+               .HasOne(c => c.Calendario).WithOne(c => c.Componente).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Calendario>()
+                .HasMany(e => e.FechasCalendario).WithOne(e => e.Calendario).OnDelete(DeleteBehavior.Cascade);
         }
         public override int SaveChanges()
         {

@@ -16,6 +16,7 @@ using Utilidades;
 using Utilidades.DTOs.UsuarioCurso;
 using Utilidades.DTOs.Template;
 using Utilidades.DTOs.Template.SeccionTemplate;
+using Utilidades.DTOs.Calendario;
 
 namespace TSI
 {
@@ -92,6 +93,12 @@ namespace TSI
 
             CreateMap<Novedad, GetNovedadDTO>();
             CreateMap<AddNovedadDTO, Novedad>();
+
+            CreateMap<Calendario, GetCalendarioDTO>();
+            CreateMap<AddCalendarioDTO, Calendario>();
+
+            CreateMap<FechaCalendario, GetFechaCalendarioDTO>();
+            CreateMap<AddFechaCalendarioDTO, FechaCalendario>();
         }
     }
 }

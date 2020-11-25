@@ -33,5 +33,6 @@ namespace DataAccessLayer
         public virtual Comunicado Comunicado { get; set; }
 
         public virtual EncuestaCurso Encuesta { get; set; }
+        public virtual Calendario Calendario { get; set; }
     }
 }

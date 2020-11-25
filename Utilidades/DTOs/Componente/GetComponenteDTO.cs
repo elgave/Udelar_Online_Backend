@@ -5,6 +5,7 @@ using Utilidades.DTOs.Archivo;
 using Utilidades.DTOs.Comunicado;
 using Utilidades.DTOs.ContenedorTarea;
 using Utilidades.DTOs.Encuesta;
+using Utilidades.DTOs.Calendario;
 
 namespace Utilidades.DTOs.Componente
 {
@@ -29,5 +30,7 @@ namespace Utilidades.DTOs.Componente
         public  GetContenedorTareaDTO ContenedorTarea { get; set; }
 
         public GetEncuestaCursoDTO Encuesta { get; set; }
-    }
+        public GetCalendarioDTO Calendario { get; set; }
+    
+}
 }
