@@ -83,7 +83,7 @@ namespace EntregaIndividual.Controllers
             return Ok(_cursoManager.darBajaMatricula(matricula));
         }
 
-        [Authorize(Roles = "docente")]
+        [Authorize(Roles = "admin,administrador,docente")]
         [HttpPost("seccion")]
         public async Task<IActionResult> Post([FromBody] AddSeccionCursoDTO seccion)
         {
@@ -104,7 +104,7 @@ namespace EntregaIndividual.Controllers
             return Ok(await _cursoManager.deleteSeccion(id));
         }
 
-        [Authorize(Roles = "docente")]
+        [Authorize(Roles = "admin,administrador,docente")]
         [HttpPost("componente")]
         public async Task<IActionResult> Post([FromForm] AddComponenteDTO componente)
         {
