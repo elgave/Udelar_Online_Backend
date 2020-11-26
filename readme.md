@@ -43,6 +43,6 @@
 * `EMAIL` con su dirección de correo electrónico desde la cual se enviarán emails.
 > El servicio Simple Email Service (SES) de AWS sólo enviará emails desde y hacia direcciones de correo electrónico verificadas, gracias a la política anti-spam de AWS que se aplica a usuarios que usan SES por primera vez. Por esta razón, todas las direcciones que usted pretenda usar para probar el sistema deberán ser verificadas en su cuenta de AWS siguiendo el [siguiente proceso](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses.html).
 ### Construya la base de datos
-Ejecute el comando `update-database` en la consola del administrador de paquetes, sobre la librería de clases `DataAccessLayer`. Para esto debe haber ingresado correctamente su cadena de conexión en `appsettings.Development.json`.
+* Ejecute el comando `update-database` en la consola del administrador de paquetes, sobre la librería de clases `DataAccessLayer`. Para esto debe haber ingresado correctamente su cadena de conexión en `appsettings.Development.json`.
 
 ### Ejecute la solución.
