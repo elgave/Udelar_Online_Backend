@@ -1,14 +1,14 @@
 # Cómo ejecutar, usando IIS Express desde Visual Studio
 
 ### En el archivo `appsettings.Development.json`, incluya el siguiente JSON:
-```
+```JSON
 "ConnectionStrings": {
     "TSIDB": "CONNECTION STRING"
 }
 ```
 * Reemplace `CONNECTION STRING` con la cadena de conexión de su base de datos SQL Server local.
 ### Acceda a los secretos de usuario del proyecto `UdelarOnlineApi`, y agregue el siguiente JSON:
-```
+```JSON
 {
     "ApiAuth": {
       "Audience": "AUDIENCE",
