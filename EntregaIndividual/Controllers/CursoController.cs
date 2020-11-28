@@ -125,12 +125,21 @@ namespace EntregaIndividual.Controllers
             return Ok(await _cursoManager.deleteComponente(id));
         }
 
+
         [Authorize(Roles = "estudiante")]
-        [HttpPost("addEntregaTarea")]
+        [HttpPost("entregaTarea")]
         public async Task<IActionResult> Post([FromForm] AddEntregaTareaDTO entregaTarea)
         {
+            if (Request.Form.Files.Count > 0) return Ok(await _cursoManager.addEntregaTarea(entregaTarea, Request.Form.Files[0]));
+            else return Ok(await _cursoManager.addEntregaTarea(entregaTarea, null));
+        }
+        
+        [Authorize(Roles = "estudiante")]
+        [HttpGet("EntregaTarea/{cedula}/{facultadId}/{contenedorId}")]
+        public async Task<IActionResult> Get(string cedula,int facultadId,int contenedorId)
+        {
 
-            return Ok(await _cursoManager.addEntregaTarea(entregaTarea, Request.Form.Files[0]));
+            return Ok(await _cursoManager.getEntregaTarea(cedula,facultadId, contenedorId));
         }
 
         [Authorize(Roles = "docente")]

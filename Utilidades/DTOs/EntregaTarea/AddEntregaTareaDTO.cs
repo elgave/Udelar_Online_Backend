@@ -10,9 +10,10 @@ namespace Utilidades.DTOs.EntregaTarea
         public string UsuarioId { get; set; }
         public int FacultadId { get; set; }
         public int ContenedorTareaId { get; set; }
-        public string Calificacion { get; set; }
-        public DateTime FechaEntrega { get; set; }
+        //public string Calificacion { get; set; }
+        public string FechaEntrega { get; set; }
 
-        public AddArchivoDTO ArchivoEntrega { get; set; }
+        public int ArchivoId { get; set; }
+        //public AddArchivoDTO ArchivoEntrega { get; set; }
     }
 }

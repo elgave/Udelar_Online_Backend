@@ -54,7 +54,7 @@ namespace BusinessLayer
 
         Task<ApiResponse<List<GetSeccionTemplateDTO>>> deleteSeccionTemplate(int idSeccionTemplate);
         Task<ApiResponse<AddEntregaTareaDTO>> addEntregaTarea(AddEntregaTareaDTO entregaTarea, IFormFile archivoEntrega);
-
+        Task<ApiResponse<GetEntregaTareaDTO>> getEntregaTarea(string cedula, int facultadId, int contendorId);
         Task<ApiResponse<GetUsuarioNotaDTO>> addUsuarioNota(AddUsuarioNotaDTO usuarioNota);
 
         ApiResponse<List<GetUsuarioNotaDTO>> getUsuariosNota(int idCurso);

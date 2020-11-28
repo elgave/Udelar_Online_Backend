@@ -8,6 +8,6 @@ namespace Utilidades.DTOs.ContenedorTarea
     public class AddContenedorTareaDTO
     {
         public int ComponenteId { get; set; }
-        public DateTime FechaCierre { get; set; }
+        public string FechaCierre { get; set; }
     }
 }

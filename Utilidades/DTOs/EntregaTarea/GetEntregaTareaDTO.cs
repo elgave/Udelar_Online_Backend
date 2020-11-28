@@ -7,13 +7,13 @@ namespace Utilidades.DTOs.EntregaTarea
 {
     public class GetEntregaTareaDTO
     {
-        public int Id { get; set; }
-        public string UsuarioId { get; set; }
-        public int FacultadId { get; set; }
-        public int ContenedorTareaId { get; set; }
-        public string Calificacion { get; set; }
-
-        public DateTime FechaEntrega { get; set; }
-        public GetArchivoDTO ArchivoEntrega { get; set; }
+        public int Id { get; set;}
+        public string UsuarioId { get; set;}
+        public int FacultadId { get; set;}
+        public int ContenedorTareaId { get; set;}
+        public string Calificacion { get; set;}
+        public string Estado { get; set;}
+        public DateTime FechaEntrega { get; set;}
+        public GetArchivoDTO ArchivoEntrega { get; set;}
     }
 }

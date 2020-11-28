@@ -28,6 +28,8 @@ namespace BusinessLayer
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
         private readonly MyContext _context;
+        private object reader;
+
         public CursoManager(IConfiguration config, IMapper mapper, MyContext context)
         {
             _mapper = mapper;
@@ -125,7 +127,7 @@ namespace BusinessLayer
                     .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Comunicado)
                     .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Archivo)
                     .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.Encuesta)
-                    .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.ContenedorTarea)
+                    .Include(c => c.SeccionesCurso).ThenInclude(sc => sc.Componentes).ThenInclude(co => co.ContenedorTarea).ThenInclude(co =>co.TareasEntregadas)
                     .FirstAsync(c => c.Id == id)
                 );
             }
@@ -370,7 +372,8 @@ namespace BusinessLayer
                         ContenedorTarea contenedorTarea = new ContenedorTarea();
 
                         contenedorTarea.ComponenteId = idComponente;
-                        contenedorTarea.FechaCierre = componente.ContenedorTarea.FechaCierre;
+                        contenedorTarea.FechaCierre = Convert.ToDateTime(componente.FechaCierre);
+                        _context.ContenedoresTareas.Add(contenedorTarea);
                         break;
                     case "comunicado":
                         Comunicado comunicado = new Comunicado
@@ -619,38 +622,80 @@ namespace BusinessLayer
             }
             return response;
         }
+        public async Task<ApiResponse<GetEntregaTareaDTO>> getEntregaTarea(string cedula, int facultadId, int contendorId)
+        {
+            ApiResponse<GetEntregaTareaDTO> response = new ApiResponse<GetEntregaTareaDTO>();
 
+            try
+            {
+                EntregaTarea tarea = await _context.EntregasTarea.Include(a => a.ArchivoEntrega).FirstOrDefaultAsync(et => et.UsuarioId == cedula && et.FacultadId == facultadId && et.ContenedorTareaId == contendorId);
+
+                response.Data = _mapper.Map<GetEntregaTareaDTO>(tarea);
+                
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 404;
+                response.Message = e.Message;
+            }
+            return response;
+        }
         public async Task<ApiResponse<AddEntregaTareaDTO>> addEntregaTarea(AddEntregaTareaDTO entregaTarea, IFormFile archivoEntrega)
         {
             ApiResponse<AddEntregaTareaDTO> response = new ApiResponse<AddEntregaTareaDTO>();
             try
             {
-                EntregaTarea entrega = new EntregaTarea();
+                EntregaTarea entregaUpdate = _context.EntregasTarea.SingleOrDefault(et => et.UsuarioId == entregaTarea.UsuarioId && et.FacultadId == entregaTarea.FacultadId && et.ContenedorTareaId == entregaTarea.ContenedorTareaId);
+                if (entregaUpdate != null)
+                {
+                    entregaUpdate.FechaEntrega = Convert.ToDateTime(entregaTarea.FechaEntrega);
 
-                entrega.Calificacion = 0;
-                entrega.ContenedorTareaId = entregaTarea.ContenedorTareaId;
-                entrega.UsuarioId = entregaTarea.UsuarioId;
-                entrega.FacultadId = entregaTarea.FacultadId;
-                entrega.FechaEntrega = entregaTarea.FechaEntrega;
+                    Archivo archivoUpdate = await _context.Archivos.FirstAsync(a => a.Id == entregaTarea.ArchivoId);
 
-                _context.EntregasTarea.Add(entrega);
-                await _context.SaveChangesAsync();
+                    archivoUpdate.Extension = Path.GetExtension(archivoEntrega.FileName).Substring(1);
+                    archivoUpdate.Nombre = Path.GetFileNameWithoutExtension(archivoEntrega.FileName);
 
-                int idEntregaTarea = entrega.Id;
+                    _context.UploadS3(archivoEntrega, "componentFile", archivoUpdate.Nombre + "." + archivoUpdate.Extension);
+                    archivoUpdate.Ubicacion = "componentFile/" + archivoUpdate.Nombre + "." + archivoUpdate.Extension;
 
-                Archivo a = new Archivo();
+                    await _context.SaveChangesAsync();
+                    response.Data = entregaTarea;
+                }
+                else
+                {
 
-                a.EntregaTareaId = idEntregaTarea;
-                a.Extension = Path.GetExtension(archivoEntrega.FileName).Substring(1);
-                a.Nombre = Path.GetFileNameWithoutExtension(archivoEntrega.FileName);
 
-                _context.UploadS3(archivoEntrega, "EntregasTarea", a.Nombre + a.Extension);
-                a.Ubicacion = "https://dotnet-storage.s3.amazonaws.com/EntregasTarea/" + a.Nombre + a.Extension;
+                    EntregaTarea entrega = new EntregaTarea();
 
-                _context.Archivos.Add(a);
+                    entrega.Calificacion = 0;
+                    entrega.ContenedorTareaId = entregaTarea.ContenedorTareaId;
+                    entrega.UsuarioId = entregaTarea.UsuarioId;
+                    entrega.FacultadId = entregaTarea.FacultadId;
+                    entrega.Calificacion = 0;
+                    entrega.FechaEntrega = Convert.ToDateTime(entregaTarea.FechaEntrega);
+                    entrega.Estado = "Entregado";
 
-                await _context.SaveChangesAsync();
-                response.Data = entregaTarea;
+
+                    _context.EntregasTarea.Add(entrega);
+                    await _context.SaveChangesAsync();
+
+                    int idEntregaTarea = entrega.Id;
+
+                    Archivo a = new Archivo();
+
+                    a.EntregaTareaId = idEntregaTarea;
+                    a.Extension = Path.GetExtension(archivoEntrega.FileName).Substring(1);
+                    a.Nombre = Path.GetFileNameWithoutExtension(archivoEntrega.FileName);
+
+                    _context.UploadS3(archivoEntrega, "componentFile", a.Nombre + "." + a.Extension);
+                    a.Ubicacion = "componentFile/" + a.Nombre + "." + a.Extension;
+
+                    _context.Archivos.Add(a);
+
+                    await _context.SaveChangesAsync();
+                    response.Data = entregaTarea;
+                }
             }
             catch (Exception e)
             {

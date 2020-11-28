@@ -28,5 +28,7 @@ namespace Utilidades.DTOs.Componente
         public int EncuestaId { get; set; }
 
         public int CursoId { get; set; }
+
+        public string FechaCierre { get; set; }
     }
 }
