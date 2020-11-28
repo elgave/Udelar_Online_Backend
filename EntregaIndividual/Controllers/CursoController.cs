@@ -126,6 +126,21 @@ namespace EntregaIndividual.Controllers
             return Ok(await _cursoManager.deleteComponente(id));
         }
 
+        [Authorize(Roles = "docente")]
+        [HttpGet("EntregaTarea/{contenedorTareaId}")]
+        public IActionResult GetTareasUsuario(int contenedorTareaId)
+        {
+            return Ok(_cursoManager.getTareasUsuario(contenedorTareaId));
+
+        }
+
+        //[Authorize(Roles = "docente")]
+        [HttpPut("EntregaTarea/{entregaTareaId}/{nota}")]
+        public async Task<IActionResult> Put(int entregaTareaId, int nota)
+        {
+            return Ok(await _cursoManager.calificarTarea(entregaTareaId, nota));
+
+        }
 
         [Authorize(Roles = "estudiante")]
         [HttpPost("entregaTarea")]

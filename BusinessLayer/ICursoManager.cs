@@ -60,6 +60,9 @@ namespace BusinessLayer
 
         ApiResponse<List<GetUsuarioNotaDTO>> getUsuariosNota(int idCurso);
 
+        Task<ApiResponse<AddEntregaTareaDTO>> calificarTarea(int entregaTareaId, int nota);
+        ApiResponse<List<GetEntregaTareaDTO>> getTareasUsuario(int contenedorTareaId);
+
         Task<ApiResponse<AddFechaCalendarioDTO>> addFecha(AddFechaCalendarioDTO fechaCalendario);
         Task<ApiResponse<GetCalendarioDTO>> getCalendario(int id);
 

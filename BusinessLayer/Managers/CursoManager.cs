@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Utilidades;
+using Utilidades.DTOs.Archivo;
 using Utilidades.DTOs.Calendario;
 using Utilidades.DTOs.Componente;
 using Utilidades.DTOs.Curso;
@@ -720,6 +721,29 @@ namespace BusinessLayer
             return response;
         }
 
+        public async Task<ApiResponse<AddEntregaTareaDTO>> calificarTarea(int entregaTareaId, int nota)
+        {
+            ApiResponse<AddEntregaTareaDTO> response = new ApiResponse<AddEntregaTareaDTO>();
+            try
+            {
+                EntregaTarea entregaUpdate = await _context.EntregasTarea.FirstAsync(et => et.Id == entregaTareaId);
+
+                entregaUpdate.Calificacion = nota;
+                entregaUpdate.Estado = "Calificado";
+                await _context.SaveChangesAsync();
+                response.Data = new AddEntregaTareaDTO();
+                
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 500;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
+
 
         public async Task<ApiResponse<GetUsuarioNotaDTO>> addUsuarioNota(AddUsuarioNotaDTO usuarioNota)
         {
@@ -813,6 +837,40 @@ namespace BusinessLayer
             {
                 response.Success = false;
                 response.Status = 204;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
+        public ApiResponse<List<GetEntregaTareaDTO>> getTareasUsuario(int contenedorTareaId)
+        {
+            ApiResponse<List<GetEntregaTareaDTO>> response = new ApiResponse<List<GetEntregaTareaDTO>>();
+            try
+            {
+                response.Data =
+                     (from et in _context.EntregasTarea
+                      join u in _context.Usuarios on new { a = et.UsuarioId, et.FacultadId } equals new { a = u.Cedula, u.FacultadId }
+                      join a in _context.Archivos on et.Id equals a.EntregaTareaId
+                      where et.ContenedorTareaId == contenedorTareaId
+
+                      select new GetEntregaTareaDTO
+                      {
+                          Id = et.Id,
+                          UsuarioId = et.UsuarioId,
+                          NombreUsuario = u.Nombre,
+                          ApellidoUsuario = u.Apellido,
+                          Calificacion = et.Calificacion.ToString(),
+                          FechaEntrega = et.FechaEntrega,
+                          NombreArchivo = a.Nombre,
+                          ExtensionArchivo = a.Extension,
+                          UbicacionArchivo = a.Ubicacion
+                          
+                       }).Distinct().ToList();
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Status = 404;
                 response.Message = e.Message;
             }
             return response;
