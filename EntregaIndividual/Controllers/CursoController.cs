@@ -6,6 +6,7 @@ using BusinessLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Utilidades;
+using Utilidades.DTOs.Calendario;
 using Utilidades.DTOs.Componente;
 using Utilidades.DTOs.Curso;
 using Utilidades.DTOs.EntregaTarea;
@@ -82,7 +83,7 @@ namespace EntregaIndividual.Controllers
             return Ok(_cursoManager.darBajaMatricula(matricula));
         }
 
-        [Authorize(Roles = "docente")]
+        [Authorize(Roles = "admin,administrador,docente")]
         [HttpPost("seccion")]
         public async Task<IActionResult> Post([FromBody] AddSeccionCursoDTO seccion)
         {
@@ -103,7 +104,7 @@ namespace EntregaIndividual.Controllers
             return Ok(await _cursoManager.deleteSeccion(id));
         }
 
-        [Authorize(Roles = "docente")]
+        [Authorize(Roles = "admin,administrador,docente")]
         [HttpPost("componente")]
         public async Task<IActionResult> Post([FromForm] AddComponenteDTO componente)
         {
@@ -202,6 +203,27 @@ namespace EntregaIndividual.Controllers
         public IActionResult EditSeccionTemplate(int id, [FromBody] AddSeccionTemplateDTO secc)
         {
             return Ok(_cursoManager.editSeccionTemplate(id, secc));
+        }
+
+        [Authorize(Roles = "docente")]
+        [HttpPost("Calendario")]
+        public IActionResult AddFechaCalendario([FromBody] AddFechaCalendarioDTO fc)
+        {
+            return Ok(_cursoManager.addFecha(fc));
+        }
+
+
+       
+        [HttpGet("Calendario/{id}")]
+        public IActionResult GetCalendario(int id)
+        {
+            var calendario = _cursoManager.getCalendario(id);
+            return Ok(calendario.Result);
+
+
+            /* var experiences = _experienceAppService.GetExperiences();
+        return Ok(experiences.Result);*/
+
         }
     }
 }
